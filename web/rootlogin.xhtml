@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title> root_login </title>
+        <script data-ad-client="ca-pub-9824241097560337" async='async' src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js">
+        </script>
+    </h:head>
+
+    <h:body style="font-size: small; ">
+
+        <b:container  fluid="false" >
+
+            <div>
+                <b:form>
+                    <ui:include src="header.xhtml"/>
+                </b:form>
+            </div>
+
+
+            <div>
+                <p:spacer height="100px" /> <!-- this is a space  -->
+            </div>
+
+            <div class="col-sm-2">
+                <!--Jus a space -->
+            </div>
+            <div class="col-sm-8">
+                <b:messages  showIcon="true"/>
+
+                <h:form style="background: whitesmoke">
+                    <b:panel  style=" background: #e6e0e8;font-size: large">
+
+                        <h2 align="center" style="background: #bdb8e2"> Root Login </h2>
+                        <p:separator style="background: black"/>
+
+
+
+                        <div align="left">
+                            <b:panel >
+                                <b:growl id="msg" />
+                                <b:inputText id="username" label="Username" value="#{rootUserLoginBEAN.username}" required="true"/>
+
+
+                                <b:inputSecret id="password" label="Password:" value="#{rootUserLoginBEAN.password}" required="true"  />
+
+                                <f:facet name="footer">
+                                    <p:commandButton value="login" style="font-size: medium"  action="#{rootUserLoginBEAN.rootLoginMethod()}" ajax="false" update="msg"/>
+
+                                </f:facet>  
+
+                            </b:panel>
+                        </div>
+
+
+                        <p:separator />
+
+
+                    </b:panel>
+                </h:form>
+            </div>
+
+            <div class="col-sm-2">
+                <!--Jus a space -->
+            </div>
+
+        </b:container>
+    </h:body>
+</html>
+

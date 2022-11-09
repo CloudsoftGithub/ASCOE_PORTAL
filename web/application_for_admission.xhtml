@@ -1,0 +1,242 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>application</title>
+    </h:head>
+    <h:body style="background: #FCFFF0">
+
+        <div>
+            <b:form>
+                <ui:include src="header.xhtml"/>
+            </b:form>
+        </div>
+
+        <!--Sign up Begins here-->
+        <b:container  >
+
+            <div>
+                <p:spacer height="100px" /> <!-- this is a space  -->
+            </div>
+
+            <b:form id="studentRegForm" enctype="multipart/form-data" style="background: #E8F1D4">
+
+                <b:messages id="msg" />
+
+                <b:panel   style=" font-size: small; background: white" >
+                    <b:panel id="studentRegFormPanel" title="APPLICATION FOR ADMISSION - Step I ( Course-Choice Info &amp; Bio Data)" style="font-family: 'Kanit', sans-serif; color: black; background: white " look="primary" >
+
+                        <div class="col-xs-12">
+                            <b:row>
+                                <b:column small-screen="4">
+                                    <b:selectOneMenu  label="Application Type:" required="true" value="#{application_for_admissionBEAN.applicationTpe}" class="form-control" style="font-size: medium; "  requiredMessage="Pls, supply application type">
+                                        <f:selectItem itemLabel="Select Application Type" itemValue=""  />
+                                        <f:selectItem itemLabel="NCE" itemValue="NCE" /> 
+                                        <f:selectItem itemLabel="Pre-NCE" itemValue="PRE-NCE" /> 
+                                        <p:ajax  update="@this, course_choice"  />
+                                    </b:selectOneMenu>                             
+                                </b:column>
+                                <b:column small-screen="4">
+                                    <!-- Just a space -->
+                                </b:column>
+
+                            </b:row>
+                            <b:row>
+                                <b:column small-screen="4"> 
+                                    
+                                    <b:selectOneMenu id="course_choice"  label="Course Choice:"  class="form-control" style="font-size: medium; " value="#{application_for_admissionBEAN.course_choise}"   required="true" requiredMessage="Pls, supply course-choice">
+                                        <f:selectItem itemLabel="Select Course-Choice" itemValue=""  />
+                                        <f:selectItems value="#{application_for_admissionBEAN.get_Course_ChoiceMthd()}"/>
+                                    </b:selectOneMenu> 
+                                </b:column>
+                            </b:row>
+                            <b:row>
+                                <b:column small-screen="4">
+                                    <b:inputText label="Surname:" class="form-control" style="font-size: medium; " value="#{application_for_admissionBEAN.surname}" placeholder="Surname"  required="true" requiredMessage="Pls, supply first name"/>
+                                </b:column>
+                                <b:column small-screen="4">
+                                    <b:inputText label="Other Name:" class="form-control" style="font-size: medium; " value="#{application_for_admissionBEAN.othername}" placeholder="Other Name  " required="true" requiredMessage="Pls, supply other name" />
+                                </b:column>
+                                <b:column small-screen="4" >
+                                    <b:selectOneMenu label="Gender:" value="#{application_for_admissionBEAN.gender}" class="form-control" style="font-size: medium; " required="true" requiredMessage="Pls, supply gender">
+                                        <f:selectItem itemLabel="Select gender" itemValue=""  />
+                                        <f:selectItem itemLabel="Male" itemValue="Male" ></f:selectItem>
+                                        <f:selectItem itemLabel="Female" itemValue="Female" ></f:selectItem>
+                                    </b:selectOneMenu>                           
+                                </b:column>
+                            </b:row>
+                        </div>
+
+                        <div class="col-xs-12">
+                            <b:row>
+                                <b:column small-screen="4">
+
+                                    <b:dateTimePicker id="DateofBirth"   class="form-control" show-time="false" style="font-size: medium; " value="#{application_for_admissionBEAN.DOB}" p:placeholder="Select DOB"   required="true" label="Date of Birth:" required-message="Pls, supply Date of Birth"/>
+
+                                </b:column>
+                                <b:column small-screen="4">
+                                    <b:inputText id="PlaceofBirth"   class="form-control" style="font-size: medium; " value="#{application_for_admissionBEAN.placeOfBirth}" p:placeholder="Select Place of Birth"   required="true" label="Place of Birth:" required-message="Pls, supply Place of Birth"/>
+
+                                </b:column>
+                                <b:column small-screen="4">
+                                    <b:selectOneMenu  label="Nationality:" required="true" class="form-control" style="font-size: medium; "  value="#{application_for_admissionBEAN.nationality}" requiredMessage="Pls, supply nationality">
+                                        <f:selectItem itemLabel="Select Nationality" itemValue=""  />
+                                        <f:selectItem itemLabel="Nigerian" itemValue="Nigerian" /> 
+                                        <f:selectItem itemLabel="Non-Nigerian" itemValue="Non-Nigerian" /> 
+                                        <p:ajax  update="@this, statesMenu"  />
+                                    </b:selectOneMenu>                             
+                                </b:column>
+
+                            </b:row>
+                        </div>
+
+                        <div class="col-xs-12">
+                            <b:row>
+
+
+                                <b:column small-screen="4">
+                                    <h:outputLabel for="statesMenu" value="State of Origin:*"/> <br/>
+                                    <h:selectOneMenu id="statesMenu" label="State of Origin:" required="true" class="form-control" style="font-size: medium; "  value="#{application_for_admissionBEAN.state}" requiredMessage="Pls, supply state of origin">
+                                        <f:selectItem itemLabel="Select state of origin" itemValue=""  />
+                                        <f:selectItems value="#{application_for_admissionBEAN.get_statesMthd()}"/>
+                                        <p:ajax  update="@this, lgasMenu"  />
+                                    </h:selectOneMenu>                              
+                                </b:column>
+                                <b:column small-screen="4" >
+                                    <h:outputLabel  value="Local Government Area(LGA):"/> <br/>
+                                    <h:selectOneMenu id="lgasMenu"  label="Local Government Area(LGA):"  class="form-control" style="font-size: medium; " value="#{application_for_admissionBEAN.lga}"   required="true" requiredMessage="Pls, supply LGA">
+                                        <f:selectItem itemLabel="Select LGA" itemValue=""  />
+                                        <f:selectItems value="#{application_for_admissionBEAN.get_LGAsMthd()}"/>
+                                    </h:selectOneMenu>                            
+                                </b:column>
+                                <b:column small-screen="4" >
+                                    <b:inputText label="House Address:" class="form-control" style="font-size: medium; " value="#{application_for_admissionBEAN.houseAddress}" placeholder="House Address"  required="true" requiredMessage="Pls, supply house address!"/>
+                                </b:column>
+                            </b:row>
+                        </div>
+
+
+                        <div class="col-xs-12">
+                            <b:row>
+                                <b:column small-screen="4">
+                                    <b:inputText label="Permanent Home Address:" value="#{application_for_admissionBEAN.permanentAddress}" class="form-control" style="font-size: medium; " placeholder="Permanent home address" required="true" requiredMessage="Pls, supply permanent home address"/>
+                                </b:column>
+                                <b:column small-screen="4">
+                                    <b:inputText label="Phone Number:" value="#{application_for_admissionBEAN.phoneno}" class="form-control" style="font-size: medium; " maxlength="11" placeholder="e.g: 080XXXXXXXX" required="true" requiredMessage="Pls, supply phone"/>
+                                </b:column>
+                                <b:column small-screen="4">
+                                    <b:inputText label="Email Address:" class="form-control" style="font-size: medium; " value="#{application_for_admissionBEAN.email}" placeholder="Email Address"  required="true" requiredMessage="Pls, supply email address!"/>
+                                </b:column>
+
+                            </b:row>
+                        </div>
+                        <div class="col-xs-12">
+                            <b:row>
+                                <b:column small-screen="4">
+                                    <b:inputText label="Occupation:" value="#{application_for_admissionBEAN.occupation}" class="form-control" style="font-size: medium; " placeholder="Occupation" required="true" requiredMessage="Pls, supply Occupation"/>
+                                </b:column>
+                                <b:column small-screen="4">
+                                    <b:inputText label="Next of Kin:" value="#{application_for_admissionBEAN.nextofkin}" class="form-control" style="font-size: medium; "   placeholder="Next of Kin name" required="true" requiredMessage="Pls, supply Next of Kin name"/>
+                                </b:column>
+                                <b:column small-screen="4">
+                                    <b:inputText label="Relationship:" class="form-control" style="font-size: medium; " value="#{application_for_admissionBEAN.relationship}" placeholder="Email Address"  required="true" requiredMessage="Pls, supply Relationship!"/>
+                                </b:column>
+
+                            </b:row>
+                        </div>
+                        <div class="col-xs-12">
+                            <b:row>
+                                <b:column small-screen="4">
+                                    <b:inputText label="Sponsorship" value="#{application_for_admissionBEAN.sponsorship}" class="form-control" style="font-size: medium; " placeholder="Sponsorship" required="true" requiredMessage="Pls, supply Sponsorship"/>
+                                </b:column>
+
+                            </b:row>
+                        </div>
+
+                        <b:panel style="font-family: 'Kanit', sans-serif; color: black; background: white "   title="APPLICATION FOR ADMISSION | Step II (Photo Upload) " look="primary" class="col-xs-12">
+
+                            <div class="col-xs-12">
+                                <b:column small-screen="12">
+                                    <p:fileUpload id="fileupload"    value="#{application_for_admissionBEAN.applicantPhoto}"  mode="simple"  dragDropSupport="true"
+                                                  update="msg" sizeLimit="1726174" fileLimit="1"  allowTypes="/(\.|\/)(png|jpeg|JPEG|JPG|jpg|pdf)$/i" fileLimitMessage="Maximum number of images exceeded"  invalidSizeMessage="The maximum file size allowed is: 1726174kb" 
+                                                  invalidFileMessage="You can only upload these files types: PDF" required="true" requiredMessage="Pls, upload the applicant photo" />
+                                </b:column>
+                                
+                                
+
+                            </div>
+
+                        </b:panel>
+
+
+                        <b:panel style="font-family: 'Kanit', sans-serif; color: black;background: white "   title="APPLICATION FOR ADMISSION | Step II (Login &amp; Scratch Card Details)" look="primary" class="col-xs-12">
+
+                            <div class="col-xs-12">
+                                <b:row>
+                                    <b:column medium-screen="5">
+                                        <b:inputText   label="Username:" class="form-control" style="font-size: medium; " value="#{application_for_admissionBEAN.username}" placeholder="the username you will use for login" required="true" requiredMessage="Pls, supply username" />
+                                    </b:column>
+                                    <b:column medium-screen="5" offset="1">
+
+                                    </b:column>
+                                </b:row>
+                            </div>
+
+
+                            <div class="col-xs-12">
+                                <b:row>
+                                    <b:column small-screen="5">
+                                        <h:outputLabel for="pwd1" value="Password: "/> <br/>
+                                        <p:password id="pwd1" value="#{application_for_admissionBEAN.password}"  class="form-control" style="font-size: medium; " required="true" feedback="true" match="pwd2" label="Password maching error. Pls, supply matching password"  requiredMessage="pls, supply password" />
+                                    </b:column>
+                                    <b:column small-screen="5" offset="1">
+                                        <h:outputLabel for="pwd2" value="Confirm Password:"/> <br/>
+                                        <p:password id="pwd2"  value="#{application_for_admissionBEAN.confirmpassword}" required="true" class="form-control"  style="font-size: medium; " feedback="false"  label="Password maching error. Pls, supply matching password"  requiredMessage="pls, supply confirm password" />
+                                    </b:column>
+                                </b:row>
+                            </div>
+
+                            <div class="col-xs-12">
+                                <b:row>
+                                    <b:column small-screen="5">
+                                        <b:inputSecret id="pinno" label="Pin No:" class="form-control" style="font-size: medium; " value="#{application_for_admissionBEAN.pinno}" placeholder="Supply PIN no" required="true" requiredMessage="Pls, supply PIN no!"/>
+                                    </b:column>
+                                    <b:column small-screen="5" offset="1">
+                                        <b:inputText id="serialno" label="Serial No:" class="form-control" style="font-size: medium; " value="#{application_for_admissionBEAN.serialno}" placeholder="Supply serialno" required="true" requiredMessage="Pls, supply serialno!"/>
+                                    </b:column>
+                                </b:row>
+                            </div>
+
+                            <b:form>
+                                <div style="color: white; background: white; background-color: white">
+                                    <p:spacer height="2px" />         
+                                </div>
+                            </b:form>
+
+
+
+                            <div class=" col-xs-12">
+                                <b:row>
+                                    <b:column medium-screen="5">
+                                        <b:commandButton   class="btn btn-lg" look="primary" action="#{application_for_admissionBEAN.submitApplication()}" value="Submit " style="border-radius: 10px; margin-right: 10px;" update="msg,studentRegForm" />
+
+                                    </b:column>
+
+                                </b:row>
+                            </div>
+
+                        </b:panel>
+                    </b:panel>
+                </b:panel>
+            </b:form>
+
+
+        </b:container>   
+    </h:body>
+</html>
+

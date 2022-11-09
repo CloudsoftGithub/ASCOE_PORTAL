@@ -1,0 +1,154 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>department-enrollment</title>
+         
+    </h:head>
+
+    <h:body style="background: #5f7ff7">
+     
+         <div>
+             <b:form>
+                 <ui:include src="headerAdminDashboard.xhtml"/>
+             </b:form>
+         </div>
+ 
+      
+        <b:container  fluid="false" >
+
+            <div>
+                <p:spacer height="150px" /> <!-- this is a space  -->
+            </div>
+
+
+            <b:growl  id="msg"   show-detail="true" delay="4500"  />
+
+            <div class="col-sm-12"   style="font-size:  large">
+
+                <b:form id="Dept-enrollmentForm" class="col-sm-12" style="background: none" >
+                    <b:messages  id="msg2" showDetail="true"  />
+
+                    <b:panel   style=";height: 950px; font-size: smaller; background: #dfddf7">
+
+                        <b:panel id="subpanel2">
+                            <b:panel id="Dept-enrollmentPanel" title="Department_Enrollment Form" style="height: 850px; background: #adc4be; ">
+                                <h1 align="center" style="font-family: sans-serif; color: black"> Department Enrollment </h1>
+
+                                <br />
+                                <p:separator />
+
+                                <div class="col-sm-12">
+                                    <b:row>
+                                        <b:column medium-screen="5">
+                                            <b:inputText tooltip="Supply your Dept. Name" type="text" value="#{departmentEnrollmentBEAN.dpartment.title}" class="form-control" label="Department Name:" placeholder="Department Name" required="true" requiredMessage="Pls, supply Department name."  />
+                                        </b:column>
+
+                                        <b:column medium-screen="5" offset="1">
+                                            <b:inputText id="DepartmentCode" tooltip="supply the faculty 3-letter code i.e CSC for computer science" type="text" value="#{departmentEnrollmentBEAN.dpartment.code}" class="form-control"  label="Department Code:" placeholder="Department 3-letter code" required="true" requiredMessage="Supply the Department code"/>
+                                        </b:column>
+                                    </b:row>
+
+                                </div>
+ 
+                                <div class="col-sm-12">
+                                    <b:row>
+                                        <b:column medium-screen="5">
+                                            <b:inputText id="Faculty-School" tooltip="supply your Faculty/School name" type="text" value="#{departmentEnrollmentBEAN.dpartment.faculty}" class="form-control" label="Faculty/School Name:" placeholder="Faculty/School Name" required="true" requiredMessage="Pls, supply Faculty/School." />      
+                                        </b:column>
+
+                                    </b:row>
+
+                                </div>
+                              
+ 
+                                <div class="col-sm-12">
+                                    <b:row>
+                                        <b:column medium-screen="5">
+                                            <b:commandButton  style="font-family: sans-serif; font-size: large" value="Enroll Department" look="primary" action="#{departmentEnrollmentBEAN.departmentEnrolmentMthd()}" ajax="false" update="msg,msg2,Dept-enrollmentForm"/>
+                                        </b:column>
+
+                                        <b:column medium-screen="5" offset="1">
+
+                                        </b:column>
+                                    </b:row>
+
+                                </div>
+
+                                <p:spacer height="30px" />
+                                <p:separator />
+
+                                <div  style="background: #d6e4e0">
+                                    <b:dataTable   id="Enrolled-departments" style="background: #b89cf3; font-size: small" value="#{viewDepartmentTable.enrolledDpartment}" var="item">
+                                        <f:facet name="header">
+                                            <h:outputText value="Registered Department" />
+                                        </f:facet>
+
+                                        <b:column >
+                                            <f:facet name="header">
+                                                <h:outputText value="Dept. ID" ></h:outputText>
+                                            </f:facet>
+                                            <h:outputText escape="false" value="#{item.id}"></h:outputText>
+                                        </b:column>
+
+                                        <b:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="Title" ></h:outputText>
+                                            </f:facet>
+                                            <h:outputText escape="false" value="#{item.title}"></h:outputText>
+                                        </b:column>
+                                        <b:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="Code" ></h:outputText>
+                                            </f:facet>
+                                            <h:outputText escape="false" value="#{item.code}"></h:outputText>
+                                        </b:column>
+                                        
+
+                                        <b:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="Done By" ></h:outputText>
+                                            </f:facet>
+                                            <h:outputText escape="false" value="#{item.doneBy}"></h:outputText>
+                                        </b:column>
+
+                                        <b:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="Registration_Date" ></h:outputText>
+                                            </f:facet>
+                                            <h:outputText escape="false" value="#{item.dateregistered}"></h:outputText>
+                                        </b:column>
+
+                                    </b:dataTable>
+                                </div>
+
+
+
+                            </b:panel>
+
+                        </b:panel> <!-- SubPanel2-->
+
+                    </b:panel>
+                </b:form>
+            </div>
+
+
+
+        </b:container>
+
+        <!-- 
+        
+         <div>
+             <b:form>
+                 <ui:include src="footera.xhtml"/>
+             </b:form>
+         </div>
+        -->
+    </h:body>
+</html>
+

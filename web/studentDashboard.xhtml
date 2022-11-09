@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>student Dashboard</title>
+    </h:head>
+    <h:body style="background: white">
+
+        <div align="center">
+            <h:form >
+                <ui:include src="headerStudents.xhtml"/>
+            </h:form>
+        </div>
+        <p:spacer height="90px" />
+
+        <b:container fluid="false">
+
+            <div class="col-sm-4" style="background: slateblue" >
+                <b:form>
+                    <b:panel style="height: 850px; background: slateblue">
+
+                        <b:flyOutMenu style="font-size:large; background: lightpink">
+                            <b:navLink value="Dashboard" outcome="studentDashboard.xhtml" style="background: white; color: black" ></b:navLink>
+
+                             <b:dropMenu value="Course Registration">
+                                <b:navLink value="First Semester-Course Registration" outcome="first_semester_student_course_registration.xhtml" style="background: #d0e7e8; color: brown" ></b:navLink>
+                                <b:navLink value="Second Semester-Course Registration" outcome="second_semester_student_course_registration.xhtml" style="background: #d0e7e8; color: brown" ></b:navLink>
+
+                            </b:dropMenu>
+ 
+                        </b:flyOutMenu> 
+                    </b:panel>
+                </b:form>
+            </div>
+
+            <div class="col-sm-8" >
+                <b:form>  
+                    <b:panel style="background: lightpink; height: 850px; background: slateblue">                               
+
+                        <h3 style="background: white; " align="center"> STUDENT DASHBOARD</h3>
+                        <p:separator />
+                        <h3 style="background: lightgreen; font-family: cursive"> Welcome: #{studentLoginBEAN.fullName}</h3>
+                        <div align="justify" style="background: lightcyan" >
+                            <ol>
+                                <li> <p  style="font-size: large" align="justify"> This dashboard is for the student who have enrolled into a particular program. 
+                                    </p> </li>
+                                <li> <p style="font-size: large; font-family: sans-serif"> Students should carefully select the required function to execute by clicking on the left side pane.
+                                    </p></li>
+                            </ol>
+                        </div>
+
+
+                    </b:panel>
+                </b:form>
+            </div>
+
+        </b:container>
+
+    </h:body>
+</html>
+

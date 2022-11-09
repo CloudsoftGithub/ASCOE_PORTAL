@@ -1,0 +1,27 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : Oct 17, 2022, 4:40:26 PM
+    Author     : Ashiru Abdullahi
+*/
+
+.employeeTable{
+    border-collapse: collapse;
+    border: 1px solid #000000;
+}
+.employeeTableHeader{
+    text-align: center;
+    background: none repeat scroll 0 0 #B5B5B5;
+    border-bottom: 1px solid #000000;
+    padding: 2px;
+}
+.employeeTableOddRow{
+    text-align: center;
+    background: none repeat repeat scroll 0 0 #FFFFFF;
+}
+.employeeTableEvenRow{
+    text-align: center;
+    background: none repeat scroll 0 0 #D3D3D3;
+}

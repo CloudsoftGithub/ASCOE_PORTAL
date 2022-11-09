@@ -1,0 +1,186 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>reset_student_course_reg</title>
+        <script>
+            function printContent(el) {
+                var restorepage = document.body.innerHTML;
+                var princontent = document.getElementById(el).innerHTML;
+                document.body.innerHTML = princontent;
+                window.print();
+                document.body.innerHTML = restorepage;
+            }
+        </script>
+        <style type="text/css">
+            @page{
+                size: auto;
+                margin: 3mm;
+            }
+        </style>
+    </h:head>
+    <h:body style="background: lightsteelblue">
+        <div>
+            <b:form>
+                <ui:include src="headerTeachingStaffDashboard.xhtml"/>
+            </b:form>
+        </div>
+
+        <b:container  fluid="false" >
+            <div>
+                <p:spacer height="130px" /> <!-- this is a space  -->
+            </div>
+
+
+            <h2 style="text-align: center; font-family: sans-serif">Reset Course Registration </h2>
+            <b:growl id="growlMessage"  />
+            <p:messages  id="msg2" showDetail="false" closable="true" />
+
+            <div id="courseRegInfoDiv" class="col-xs-12"   style="font-size:  large">
+
+                <b:form id="StudentCourseRegVerificationForm" class="col-xs-12" style="background: white" >
+
+                    <b:panel   title="Reset-Student-Course-Registration"  style=" align-self: center; font-size: smaller; background: #ccccff">
+                        <div class="col-xs-12" style="font-size: large">
+                            <b:row>
+                                <b:column medium-screen="5" >
+                                    <b:inputText class="col-xs-12 form-control text-left" id="mymatricNo" label="Matric No:" value="#{verify_course_registration.matricno}" style="font-size: x-large" required="true" requiredMessage="Pls, supply Matric No"/>  
+                                </b:column>
+                                <b:column medium-screen="5" >
+                                    <b:inputText class="col-xs-12 form-control text-left" id="myName" disabled="true" label="Name:" value="#{verify_course_registration.name.toUpperCase()}" style=" ;font-size: x-large; color: red"/>  
+                                </b:column>  
+                            </b:row>
+                            <b:row>
+                                <b:column medium-screen="5" >
+
+                                    <h:outputText value="Session: *"  style="font-family: sans-serif; font-size: large"/> <br />
+                                    <h:selectOneMenu id="mysession" class="form-control" style="font-size: large; " label="Session:" value="#{verify_course_registration.session}" required="true" requiredMessage="Pls, supply session" >
+                                        <f:selectItem itemLabel="Select Session" itemValue=""  />
+                                        <f:selectItems value="#{verify_course_registration.getintakeSessionInfoMthd()}"  />
+
+                                    </h:selectOneMenu> 
+                                    <br />   
+
+                                </b:column>
+
+                                <b:column medium-screen="5">
+                                    <b:selectOneMenu id="semester" label="Semester :" value="#{verify_course_registration.semester}"  style="font-size: large; " required="true" required-message="Pls, enter semester" tooltip="Pls, enter semester">
+                                        <f:selectItem itemLabel="Select Semester" itemValue="" />
+                                        <f:selectItem itemLabel="FIRST SEMESTER" itemValue="FIRST SEMESTER" />
+                                        <f:selectItem itemLabel="SECOND SEMESTER" itemValue="SECOND SEMESTER" />
+                                    </b:selectOneMenu>
+                                </b:column>
+
+                            </b:row>
+
+
+                        </div>
+                        <div class="col-xs-12" style="font-size: large; background: grey" align="center">
+                            <br/>
+                            <b:row>
+
+
+                                <b:column small-screen="6" >  
+                                    <b:commandButton value="View  List" look="primary" process="@this, mysession, mymatricNo, myName, semester" immediate="true" class="form-control" style="background: #ccccff; color: black; border-color: black; border-width: thick;width: 220px; height: 60px" update="listofstudentForVefication,msg2,growlMessage,myName" />
+                                </b:column>
+                                <b:column small-screen="6"  >
+                                    <button onClick="printContent('courseRegInfoDiv')" style="background: #ccccff; color: black; border-color: black; border-width: thick;width: 220px; height: 60px; background:  green; color: white; " look="primary"> Print Course Form</button>
+
+                                </b:column>
+
+                            </b:row>
+                            <br/>
+                        </div>
+
+
+                    </b:panel>
+
+
+                    <div class="col-xs-12" id="listofstudentForVeficationDIV" style="font-size: small">
+
+                        <b:dataTable id="listofstudentForVefication"   style="background: #bacdd4; font-size: small"  value="#{verify_course_registration.listofRegisteredStudentCoursesForVerification}" var="item">
+                            <f:facet name="header">
+                                <h:outputText value="Students Course Registration" />
+                            </f:facet>
+
+                            <b:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Course Code" ></h:outputText>
+                                </f:facet>
+                                <h:outputText escape="false" value="#{item.coursecode}"></h:outputText> 
+                            </b:column>
+                            <b:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Course Title" ></h:outputText>
+                                </f:facet>
+                                <h:outputText escape="false" value="#{item.coursetitle}"></h:outputText>
+                            </b:column>
+                            <b:column>
+                                <f:facet name="header">
+                                    <h:outputText value="C_Unit" ></h:outputText>
+                                </f:facet>
+                                <h:outputText escape="false" value="#{item.creditunit}"></h:outputText>
+                            </b:column>
+                            <b:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Session" ></h:outputText>
+                                </f:facet>
+                                <h:outputText escape="false" value="#{item.session}"></h:outputText>
+                            </b:column>
+
+                            <b:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Semester " ></h:outputText>
+                                </f:facet>
+                                <h:outputText escape="false" value="#{item.semester}"></h:outputText>
+                            </b:column>
+
+                            <b:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Student Level" ></h:outputText>
+                                </f:facet>
+                                <h:outputText escape="false" value="#{item.level}"></h:outputText>
+                            </b:column>
+
+                            <b:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Status" ></h:outputText>
+                                </f:facet>
+                                <h:outputText escape="false" value="#{item.status}"></h:outputText>
+                            </b:column>
+                        </b:dataTable>
+                        <br/>
+                    </div>
+
+                    <div  >
+                        <b:panel title="Course Registration RESET" style="background: #e2edec">
+
+                            <b:row  >
+                                <b:column medium-screen="4">
+                                    <!-- Just A space -->
+                                </b:column>
+                                <b:column medium-screen="4">
+                                    <b:commandButton id="verifyButton" value="RESET Course Reg."  action="#{verify_course_registration.resetCourseRegMthd()}" look="primary" class="form-control" style="font-size: large;background: red; color: black; border-color: green; border-width: thick;; height: 120px"  />
+                                </b:column>
+                                <b:column medium-screen="4">
+                                    <!-- Just A space -->
+                                </b:column>
+
+                            </b:row>
+
+                        </b:panel>
+                    </div>
+                    <br/>   
+                    <br/>
+
+                </b:form>
+            </div>
+        </b:container>              
+    </h:body>
+</html>
+

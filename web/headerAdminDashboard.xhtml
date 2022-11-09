@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:b="http://bootsfaces.net/ui">
+    <h:head>
+        <meta charset="utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+        <!-- Bootstrap -->
+        <link href="css/bootstrap.min.css" rel="stylesheet"></link>
+        <title>Admindashboard header</title>
+        <link rel="shortcut icon"  href="#{request.contextPath}/resources/img/logo.jpg" type="image/x-icon"/> 
+
+    </h:head>
+
+
+    <h:body style="font-size: x-small; background: whitesmoke; font-family: fantasy; color: black;  ">
+        <b:container>
+            <b:form>
+                <b:navBar brand="Result Logic | Adminuser-Dashboard"  brandHref="ProgramsEnrollment.xhtml" fixed="top" inverse="false" style="background: #b1c4d5">
+                    <b:navbarLinks> 
+                        <b:navLink value="Sch Enrollment" outcome="faculty-school-enrollment.xhtml" style="  font-style: initial ; color: whitesmoke; "></b:navLink>
+                        <b:navLink value="Dept Enrollment" outcome="department-enrollment.xhtml" style="color: black"></b:navLink>
+                        <b:navLink value="Prog. Enrollment" outcome="ProgramsEnrollment.xhtml" style="color: black; "></b:navLink>
+
+                        <b:navLink value="Intake-Session-Info"  outcome="intakeSessio_info.xhtml" style="color: black;"></b:navLink>
+                        <b:navLink value="Generate-MatricNo" outcome="generate-matricNo.xhtml" style="color: black"></b:navLink>
+                        <b:navLink value="Course-Reg." outcome="course_registration.xhtml" style="color: black"></b:navLink>
+                        <b:navLink value="Credit-Unit-Reg." outcome="credit_unit_registration.xhtml" style="color: black"></b:navLink>
+ 
+                        <b:navLink value="Applicant-List" outcome="view_applicant_list.xhtml" style="color: black">  </b:navLink>
+
+                        <b:commandButton   tooltip="click to signout"    value="Signout" style="  font-size: small;background: #ae22f2; color: white;" action="#{rootUserLoginBEAN.signoutMethod()}"/>
+
+
+                    </b:navbarLinks>
+
+                </b:navBar>
+
+            </b:form>
+        </b:container>
+
+
+        <!-- the bottom bar -->
+
+    </h:body>
+
+</html>
+

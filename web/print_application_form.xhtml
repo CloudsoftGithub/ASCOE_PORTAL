@@ -1,0 +1,425 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>print-application-form</title>
+        <link rel="shortcut icon"  href="#{request.contextPath}/resources/img/logo.jpg" type="image/x-icon"/> 
+
+
+        <script>
+            function printContent(el) {
+                var restorepage = document.body.innerHTML;
+                var princontent = document.getElementById(el).innerHTML;
+                document.body.innerHTML = princontent;
+                window.print();
+                document.body.innerHTML = restorepage;
+
+            }
+        </script>
+        <style type="text/css">
+            @page{
+                /* size: auto; */
+                size: A4 portrait;
+
+                left: 3mm;
+                right: 3mm;
+                top:  0;
+                bottom:  3mm;
+            }
+        </style>
+    </h:head>
+    <h:body >
+        <div>
+            <p:spacer height="30px" /> <!-- this is a space  -->
+        </div>
+        <div align="center">
+            <b:form >
+                <ui:include src="headerApplicantDashaboard.xhtml"/>
+            </b:form>
+        </div>
+
+
+        <b:container fluid="false">
+            <b:form id="studentPrinApplicationForm" enctype="multipart/form-data">
+
+
+                <h:panelGroup id="printPanel">
+
+
+
+                    <div id="printApplicationFormDiv"  class="col-sm-12" style="width: 1200px">
+
+
+                        <b:messages  id="msg" style="font-size: medium" />
+                        <b:growl id="msg2" style="font-size: medium" />
+                        <br />  
+                        <div  style="font-family: 'Kanit', sans-serif; color: darkgreen;background: white " align="center">
+                            <h3 >APPLICATION FORM PRINTOUT </h3>
+                        </div>
+
+                        <p:commandButton value="Print" style="font-size: large; al" >
+                            <p:printer target="printPanel" />
+                        </p:commandButton>
+                        <br />
+                        <br />
+                        <b:panel style="font-family: 'Kanit', sans-serif; color: black;background: white;border-width: 5px; border-color: black;width: auto " >
+                            <b:panel  style="border-width: 3px; border-color: black; width: auto"  >
+
+                                <b:panel style="width: auto; color: black; background: white; height: auto">
+                                    <div class="col-sm-12">
+                                        <b:row>
+                                            <b:column small-screen="12" >
+                                                <h:graphicImage name="/img/ASCEOFormHeader2.jpg" alt="Sch Form logo" width="970" height="100"  styleClass="content"/>
+
+                                            </b:column>
+                                            <b:column small-screen="12">
+                                                <p:spacer />
+                                                <h3 align="center" style=" color: green; text-transform: uppercase"> application for admission form - #{applicantLoginBEAN.theRetrievedApplicationSession} </h3>
+                                            </b:column>
+                                        </b:row>
+                                    </div>
+
+                                    <div class="col-sm-12">
+                                        <b:row>
+                                            <br />
+                                            <b:column small-screen="12" >
+                                                <h4 align="center" style="background: lightgreen; color: black "> #{applicantLoginBEAN.theRetrievedSurname}, #{applicantLoginBEAN.theRetrievedOrthername} - <h:inputText id="applicant_app_no_from_UI" disabled="false" style="border-width: 3px ;text-align: center; font-size: medium; background: #E8F1D4" value="#{applicantLoginBEAN.theRetrievedAppNo}" required="true" requiredMessage="session expired. Please, log in again and proceed" />
+
+                                                    -  #{applicantLoginBEAN.theRetrievedApplicationType}</h4>
+
+                                            </b:column>
+
+                                        </b:row>
+                                    </div>
+
+
+                                    <div class="col-sm-12" align="left" >
+
+                                        <b:row >
+
+                                            <b:column small-screen="6" style=" width: 170px; height: 150px;" >
+                                                <div style="background-color: #809d9f; color: black;">   
+                                                    <p:panelGrid columns="2" style="width: 1000px; ">
+
+                                                        <b:panel style="border-color: black; border-width: 3px; background: white; width: 150px " >
+
+                                                            <div  style="align-content: center; align-items: center;">
+
+                                                                <p:graphicImage value="#{applicantLoginBEAN.applicant_photo_Image}"  cache="false" alt="Applicant Passport" width="110" height="80" style="vertical-align: central ;align-self: center; align-items: center; " styleClass="content"/>
+
+                                                            </div>
+                                                        </b:panel>
+                                                        <b:panel>
+                                                            <b:inputText     disabled="true" class="form-control" label="Application Number:" style="font-size: medium; " value="#{applicantLoginBEAN.theRetrievedAppNo}" placeholder="The retrieved AppNo." />
+
+                                                        </b:panel>
+                                                    </p:panelGrid>
+                                                </div>
+
+                                            </b:column>  
+                                        </b:row>
+                                    </div>
+                                    <p:spacer />
+                                </b:panel>
+                                <p:spacer />
+
+                                <b:panel style="width: auto; color: black; background: lightgray">
+                                    <div class="col-sm-12">
+                                        <b:row >
+                                            <b:column medium-screen="12" style="background: white"  >
+
+                                                <h4 style="text-transform: uppercase; background: #809d9f;" >
+                                                    1. Applicant Course-Choice Data
+                                                </h4>
+
+                                                <h4> Application No: #{applicantLoginBEAN.theRetrievedAppNo} </h4>
+                                                <h4> Application Type: #{applicantLoginBEAN.theRetrievedApplicationType} </h4>
+                                                <h4> Application Choice: #{applicantLoginBEAN.the_retreived_Course_Choice}</h4>
+
+                                            </b:column>
+                                        </b:row>
+
+                                    </div>
+
+
+                                    <div class="col-sm-12">
+                                        <b:row >
+                                            <b:column medium-screen="12" style="background: white"  >
+                                                <h4 style="text-transform: uppercase; background: #809d9f" >
+                                                    2. Applicant Bio Data
+                                                </h4>
+                                                <h4> Gender: #{applicantLoginBEAN.the_retreived_Gender} </h4>
+                                                <h4> Date of Birth: #{applicantLoginBEAN.the_retreived_DOB} </h4>
+                                                <h4> State of Origin: #{applicantLoginBEAN.the_retreived_State_of_Origin}</h4>
+                                                <h4> L.G.A. of Origin: #{applicantLoginBEAN.the_retreived_lga}</h4>
+                                                <h4> Place of Birth: #{applicantLoginBEAN.the_retreived_PlaceOfBirth}</h4>
+                                                <h4> Email:  #{applicantLoginBEAN.the_retreived_email}</h4>
+                                                <h4> Phone No:  #{applicantLoginBEAN.the_retreived_phoneno}</h4>
+
+                                            </b:column>
+                                        </b:row>
+                                    </div>
+
+                                    <div class="col-sm-12">
+                                        <b:row >
+                                            <b:column medium-screen="12" style="background: white"  >
+                                                <h4 style="text-transform: uppercase; background: #809d9f" >
+                                                    3. UTME/DE Result
+                                                </h4>
+                                                <h4> Name of Institution:  </h4>
+                                                <h4> Year of Graduation:  </h4>
+                                                <h4> Subject1: Grade</h4>
+                                                <h4> Subject2: Grade </h4>
+                                                <h4> Subject3: Grade </h4>
+
+                                            </b:column>
+                                        </b:row>
+                                    </div>
+                                </b:panel>
+                                <div class="col-sm-12">
+                                    <b:row >
+                                        <b:column medium-screen="12"    >
+                                            <h4 style="text-transform: uppercase; background: #809d9f" >
+                                                4. School(s) Attended
+                                            </h4>
+                                        </b:column>
+                                        <b:column>
+                                            <b:panel style="width: auto; color: black">
+                                                <div class="col-sm-12" align="center" >
+                                                    <!--  <div > <p style="text-transform: uppercase">Applicant's Schools Attended </p> </div> -->
+
+                                                    <h:dataTable   id="uploadedApplicantSchCertInfo"   border="6"  style=" width:auto ;align-self: center  ;text-align: left; align-content: center ; font-size: small; word-wrap: normal;word-break: normal; width:auto ; border-bottom-width: thick;  color: black; background: #E8F1D4" value="#{applicantLoginBEAN.applicantSchAttendedInfo}" var="item">
+
+                                                        <h:column>
+                                                            <f:facet name="header">
+                                                                <h:outputText value="ID" ></h:outputText>
+                                                            </f:facet>
+                                                            <h:outputText escape="false" value="#{item.id}"></h:outputText> 
+                                                        </h:column>
+                                                        <h:column>
+                                                            <f:facet name="header">
+                                                                <h:outputText value="Application No." ></h:outputText>
+                                                            </f:facet>
+                                                            <h:outputText escape="false" value="#{item.appNo}"></h:outputText>
+                                                        </h:column>
+                                                        <h:column>
+                                                            <f:facet name="header">
+                                                                <h:outputText value="School Name" ></h:outputText>
+                                                            </f:facet>
+                                                            <h:outputText escape="false" value="#{item.schoolAttendedName}"></h:outputText>
+                                                        </h:column>
+                                                        <h:column>
+                                                            <f:facet name="header">
+                                                                <h:outputText value="Certificate Obtaine" ></h:outputText>
+                                                            </f:facet>
+                                                            <h:outputText escape="false" value="#{item.certTitle}"></h:outputText> 
+                                                        </h:column>
+
+                                                        <h:column>
+                                                            <f:facet name="header">
+                                                                <h:outputText value="From" ></h:outputText>
+                                                            </f:facet>
+                                                            <h:outputText escape="false" value="#{item.from}"></h:outputText>
+                                                        </h:column>
+
+                                                        <h:column>
+                                                            <f:facet name="header">
+                                                                <h:outputText value="To " ></h:outputText>
+                                                            </f:facet>
+                                                            <h:outputText escape="false" value="#{item.to}"></h:outputText>
+                                                        </h:column>
+
+                                                        <h:column>
+                                                            <f:facet name="header">
+                                                                <h:outputText value="Date Uploaded" ></h:outputText>
+                                                            </f:facet>
+                                                            <h:outputText escape="false" value="#{item.uploadDate}"></h:outputText>
+                                                        </h:column>
+
+                                                    </h:dataTable>
+                                                </div>
+                                                <br />
+
+                                            </b:panel>
+                                        </b:column>
+                                    </b:row>
+                                </div>
+                                <div class="col-sm-12">
+                                    <b:row >
+                                        <b:column medium-screen="12"   >
+                                            <h4 style="text-transform: uppercase; background: #809d9f" >
+                                                5. O'Level Result
+                                            </h4>
+                                        </b:column>
+                                        <b:column  medium-screen="12">
+                                            <b:panel style="width: auto; font-family: serif" >
+                                                <div  class="col-sm-12" align="center" >
+                                                    <!--                                                 <div > <p style="text-transform: uppercase; color: black">Applicant's O'Level Result </p> </div>
+                                                    -->
+                                                    <h:dataTable   id="uploadedApplicant_OLevel_Result_Info"  border="6"  style=" width:auto ;align-self: center  ;text-align: left; align-content: center ; font-size: x-small; word-wrap: normal;word-break: normal; width:auto ; border-bottom-width: thick;  color: black; background: #E8F1D4" value="#{applicantLoginBEAN.applicant_OLevel_reulst_Info}" var="item">
+
+                                                        <h:column>
+                                                            <f:facet name="header">
+                                                                <h:outputText value="ID" ></h:outputText>
+                                                            </f:facet>
+                                                            <h:outputText escape="false" value="#{item.id}"></h:outputText> 
+                                                        </h:column>
+                                                        <!--
+                                                          <h:column>
+                                                              <f:facet name="header">
+                                                                  <h:outputText value="App. No." ></h:outputText>
+                                                              </f:facet>
+                                                              <h:outputText escape="false" value="#{item.appNo}"></h:outputText>
+                                                          </h:column>
+                                                        -->
+                                                        <!-- 
+                                                        -->
+                                                        <h:column>
+                                                            <f:facet name="header">
+                                                                <h:outputText value="Exam Type" ></h:outputText>
+                                                            </f:facet>
+                                                            <h:outputText escape="false" value="#{item.applicant_exam_type}"></h:outputText> 
+                                                        </h:column>
+
+                                                        <h:column>
+                                                            <f:facet name="header">
+                                                                <h:outputText value="Center No." ></h:outputText>
+                                                            </f:facet>
+                                                            <h:outputText escape="false" value="#{item.applicant_exam_center_no}"></h:outputText>
+                                                        </h:column>
+
+                                                        <h:column>
+                                                            <f:facet name="header">
+                                                                <h:outputText value="Exam No. " ></h:outputText>
+                                                            </f:facet>
+                                                            <h:outputText escape="false" value="#{item.applicant_exam_no}"></h:outputText>
+                                                        </h:column>
+
+                                                        <h:column>
+                                                            <f:facet name="header">
+                                                                <h:outputText value="Subj1" ></h:outputText>
+                                                            </f:facet>
+                                                            <h:outputText escape="false" value="#{item.applicant_subject1}"></h:outputText>
+                                                        </h:column>
+                                                        <h:column>
+                                                            <f:facet name="header">
+                                                                <h:outputText value="Grade" ></h:outputText>
+                                                            </f:facet>
+                                                            <h:outputText escape="false" value="#{item.applicant_subject1_grade}"></h:outputText>
+                                                        </h:column>
+
+                                                        <h:column>
+                                                            <f:facet name="header">
+                                                                <h:outputText value="Subj2" ></h:outputText>
+                                                            </f:facet>
+                                                            <h:outputText escape="false" value="#{item.applicant_subject2}"></h:outputText>
+                                                        </h:column>
+                                                        <h:column>
+                                                            <f:facet name="header">
+                                                                <h:outputText value="Grade" ></h:outputText>
+                                                            </f:facet>
+                                                            <h:outputText escape="false" value="#{item.applicant_subject2_grade}"></h:outputText>
+                                                        </h:column>
+
+
+                                                        <h:column>
+                                                            <f:facet name="header">
+                                                                <h:outputText value="Subj3" ></h:outputText>
+                                                            </f:facet>
+                                                            <h:outputText escape="false" value="#{item.applicant_subject3}"></h:outputText>
+                                                        </h:column>
+                                                        <h:column>
+                                                            <f:facet name="header">
+                                                                <h:outputText value="Grade" ></h:outputText>
+                                                            </f:facet>
+                                                            <h:outputText escape="false" value="#{item.applicant_subject3_grade}"></h:outputText>
+                                                        </h:column>
+
+                                                        <h:column>
+                                                            <f:facet name="header">
+                                                                <h:outputText value="Subj4" ></h:outputText>
+                                                            </f:facet>
+                                                            <h:outputText escape="false" value="#{item.applicant_subject4}"></h:outputText>
+                                                        </h:column>
+                                                        <h:column>
+                                                            <f:facet name="header">
+                                                                <h:outputText value="Grade" ></h:outputText>
+                                                            </f:facet>
+                                                            <h:outputText escape="false" value="#{item.applicant_subject4_grade}"></h:outputText>
+                                                        </h:column>
+
+                                                        <h:column>
+                                                            <f:facet name="header">
+                                                                <h:outputText value="Subj5" ></h:outputText>
+                                                            </f:facet>
+                                                            <h:outputText escape="false" value="#{item.applicant_subject5}"></h:outputText>
+                                                        </h:column>
+                                                        <h:column>
+                                                            <f:facet name="header">
+                                                                <h:outputText value="Grade" ></h:outputText>
+                                                            </f:facet>
+                                                            <h:outputText escape="false" value="#{item.applicant_subject5_grade}"></h:outputText>
+                                                        </h:column>
+
+                                                        <h:column>
+                                                            <f:facet name="header">
+                                                                <h:outputText value="Subj6" ></h:outputText>
+                                                            </f:facet>
+                                                            <h:outputText escape="false" value="#{item.applicant_subject6}"></h:outputText>
+                                                        </h:column>
+                                                        <h:column>
+                                                            <f:facet name="header">
+                                                                <h:outputText value="Grade" ></h:outputText>
+                                                            </f:facet>
+                                                            <h:outputText escape="false" value="#{item.applicant_subject6_grade}"></h:outputText>
+                                                        </h:column>
+
+
+                                                    </h:dataTable>
+                                                </div>
+                                                <br />
+
+                                            </b:panel>
+                                        </b:column>
+                                    </b:row>
+                                </div>
+
+
+                            </b:panel>
+                            <div class=" col-sm-12" align="center">
+                                <br /> 
+                                <b:row>
+
+
+                                    <!-- 
+                                       <b:column>
+                                           <button onClick="printContent('printApplicationFormDiv')" style="background:  blue; color: whitesmoke; font-family: serif; align-items: center;  font-size: large"> 
+                                               Print Now
+                                           </button>
+                                       </b:column>
+   
+                                    
+                                    -->
+                                </b:row>
+                            </div>
+                            <br /> 
+                        </b:panel>
+
+
+                    </div>
+
+                </h:panelGroup>
+
+                <br /><br />
+
+            </b:form>
+        </b:container>
+        <br /><br />  <br /><br />
+    </h:body>
+</html>
+

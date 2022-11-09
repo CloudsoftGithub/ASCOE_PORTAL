@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui">
+    <h:head>
+        <title> Staff Successful Signup</title>
+
+    </h:head>
+
+    <h:body  style="font-size: medium;background: #ceddde" onload="#{staffSignupBEAN.retrieveStaffNoMthd()}" >
+        <b:container fluid="true">
+
+
+            <div  class="col-xs-3">
+                <!-- Just a space-->
+            </div>
+
+            <div id="Print" class="col-xs-6">
+                <p:spacer height="100px" />
+
+
+                <b:form   >
+                    <b:panel id="SuccessFullySignup" style="; background: #ffffff; font-size: smaller">
+                        <!--- Printing command  -->
+                        <p:commandButton value="Print" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px;background: #b3cee1">
+                            <p:printer  target="SuccessFullySignup" />
+                        </p:commandButton>
+
+                        <div align="center">
+                            <b:form>
+                                <h4 align="center" style="color: #660066">You have successfully signed up as staff with following info: </h4>
+                                <p:separator />
+
+                            </b:form>  
+                        </div>
+
+                        <div>
+
+                            <b:panel style="background: #809d9f; color: black">
+                                <b:form >
+                                    <h4 align="left" style="color:  black; background: #ede2dd; ">  Staff No:   #{staffSignupBEAN.stffsgnp.employmentNo} <br/>  </h4> 
+                                    <h4 align="left" style="color:  black; background: gray; ">  Username:   #{staffSignupBEAN.stffsgnp.username} <br/>  </h4> 
+                                    <h4 align="left" style="color:  black; background: gray; ">  Cadre:   #{staffSignupBEAN.stffsgnp.cadre} <br/>  </h4> 
+
+                                </b:form>
+
+                            </b:panel>
+                        </div>
+
+                        <p:separator />
+                    </b:panel>
+
+                    <b:form>
+                        <div align="right">
+                            <p:link value="Login here" style="font-size: large; font-family: sans-serif" outcome="staffLogin.xhtml"/>
+
+                        </div>
+                    </b:form>
+                </b:form>
+            </div>
+
+            <div align="center" class="col-xs-3">
+
+            </div>
+        </b:container>
+    </h:body>
+</html>
+

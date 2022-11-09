@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>successful-application-for-admission</title>
+         
+    </h:head>
+
+    <h:body style="font-size: small; background-color: #6952dd">
+
+        <b:container  fluid="false" >
+
+            <div>
+                <b:form>
+                    <ui:include src="header.xhtml"/>
+                </b:form>
+            </div>
+
+
+            <div>
+                <p:spacer height="100px" /> <!-- this is a space  -->
+            </div>
+
+            <div class="col-sm-1">
+                <!--Jus a space -->
+            </div>
+            <div class="col-sm-10" style="background:  #ae22f2">
+                <div align="center" style="background: #ced8dc">
+                    <h2 align="center"> You successfully applied for admission</h2>
+                    <p:separator />
+                    <h2 align="center"> Thank you </h2>
+                    <br />
+
+                    <p:link value="Login" style="font-size: xx-large" outcome="studentLogin.xhtml" />
+                </div>
+
+            </div>
+
+            <div class="col-sm-1">
+                <!--Jus a space -->
+            </div>
+
+        </b:container>
+    </h:body>
+</html>
+

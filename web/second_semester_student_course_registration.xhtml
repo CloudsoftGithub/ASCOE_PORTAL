@@ -1,0 +1,211 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>second_semester_student_course_registration</title>
+        <script>
+            function printContent(el) {
+                var restorepage = document.body.innerHTML;
+                var princontent = document.getElementById(el).innerHTML;
+                document.body.innerHTML = princontent;
+                window.print();
+                document.body.innerHTML = restorepage;
+            }
+        </script>
+        <style type="text/css">
+            @page{
+                size: auto;
+                margin: 3mm;
+            }
+        </style>
+    </h:head>
+    <h:body style="background: none">
+
+        <div>
+            <b:form>
+                <ui:include src="headerStudents.xhtml"/>
+            </b:form>
+        </div>
+
+        <p:spacer height="90px" />
+
+        <b:container fluid="false">
+
+            <b:growl id="msg2" />
+
+            <div class="col-sm-3" style="background: linen" >
+
+                <b:form>
+                    <b:panel style=" background: lightskyblue">
+
+                        <b:flyOutMenu style="font-size:large; background: #d2ddba">
+                            <b:navLink value="Dashboard" outcome="studentDashboard.xhtml" style="background: #d0e7e8; color: white" ></b:navLink>
+                            <b:dropMenu value="Course Registration">
+                                <b:navLink value="First Semester-Course Registration" outcome="first_semester_student_course_registration.xhtml" style="background: #d0e7e8; color: white" ></b:navLink>
+                                <b:navLink value="Second Semester-Course Registration" outcome="second_semester_student_course_registration.xhtml" style="background: #d0e7e8; color: white" ></b:navLink>
+
+                            </b:dropMenu>                
+                         </b:flyOutMenu> 
+                    </b:panel>
+                </b:form>
+            </div>
+
+            <b:form id="studentCourseRegForm" style="background: none; font-family: serif">
+
+                <div id="CoureRegSecondSemesterDIV" class="col-sm-9" style="background: lightskyblue">
+
+                    <b:messages id="msg"/>
+
+                    <h2 style="text-align: center; font-family: sans-serif">Second Semester  Course Registration </h2>
+
+                    <p:panel   style=" font-size: medium; background: none" >
+
+                        <p:panel id="course_regPanel"   style="font-family: 'Kanit', sans-serif; color: black;background: #e2edec " >
+
+                            <b:row >
+                                <b:column medium-screen="6">
+                                    <h:outputText value="Full Name: " style="font-size: medium; font-style: oblique" />
+                                    <h:inputText id="myFullname"  class="col-xs-6 form-control text-uppercase"   value="#{studentLoginBEAN.fullName}" style="background: lightyellow; font-size: medium; font-style: normal"/>  
+                                </b:column>
+                            </b:row>
+                            <b:row >
+                                <b:column small-screen="6">
+                                    <h:outputText value="Matric No: " style="font-size: medium; font-style: oblique" />
+                                    <h:inputText id="myMatricNo" class="col-xs-6 form-control text-uppercase"  value="#{studentLoginBEAN.matricNo}" style="background: lightyellow; font-size: medium;font-style: normal"/>  
+                                </b:column>
+                            </b:row>
+                            <b:row >
+
+                                <b:column small-screen="6">
+                                    <h:outputText value="Level:  " style="font-size: medium; font-style: oblique" />
+                                    <h:inputText  id="myLevel"  class="col-xs-8 form-control text-uppercase" value="#{studentLoginBEAN.myStudentLevel}" style="background: lightyellow; font-size: medium;font-style: normal"/>  
+                                </b:column>
+                            </b:row>
+                            <br />
+                            <b:row>
+                                <b:column   small-screen="6">
+                                    <h:outputText value="Session: " style="font-size: medium; font-style: normal" />
+                                    <h:selectOneMenu label="Session :" class="form-control" id="mysession" style="font-size: large; background: white; color: black "   value="#{student_course_regBEAN.session}"  required="true" requiredMessage="Pls, supply session.">
+                                        <f:selectItem itemLabel="Select Session" itemValue=""  />
+                                        <f:selectItems  value="#{student_course_regBEAN.sessionInfoForStudentRegMthd}"  />
+                                    </h:selectOneMenu> 
+                                </b:column>
+                            </b:row>
+
+                            <b:row>
+                                <b:column small-screen="6">
+                                    <b:selectOneMenu id="semester" label="Semester :" value="#{student_course_regBEAN.semester}"  required="true" required-message="Pls, enter semester" tooltip="Pls, enter semester">
+                                        <f:selectItem itemLabel="Select Semester" itemValue="" />
+                                        <f:selectItem itemLabel="SECOND SEMESTER" itemValue="SECOND SEMESTER" />
+                                    </b:selectOneMenu>
+                                </b:column>
+
+                            </b:row>
+
+                            <b:row>
+                                <b:column small-screen="6">
+                                    <b:selectOneMenu id="CourseTitle" label="Course Code &amp; Title: " value="#{student_course_regBEAN.courseTitle}"  required="true" required-message="Pls, select Course_Title" tooltip="Pls, select Course_Title" >
+                                        <f:selectItem itemLabel="Select course" itemValue=""  />
+                                        <f:selectItems value="#{student_course_regBEAN.getcoursesMthd()}"  />
+                                    </b:selectOneMenu>
+                                </b:column>
+
+                            </b:row>
+
+                            <b:row style="background:  #bbd4ee">
+                                <b:column  medium-screen="2" >
+                                    <b:commandButton value="Add Course"  style="font-size:  large; font-kerning: normal; color:black; background: lightgreen"  action="#{student_course_regBEAN.studentsCourseRegMethod()}" update="registeredCoursesFirstSemester,msg,msg2" />
+                                </b:column>
+                                <b:column  medium-screen="4" >
+                                    <b:commandButton value="View Registered Courses"  process="@this, mysession " immediate="true" style="font-size:  large; font-kerning: normal; color: black; background: #a6a4da" update="registeredCoursesFirstSemester,msg,msg2" />
+                                </b:column>
+                                <b:column medium-screen="4">
+                                    <button onClick="printContent('CoureRegSecondSemesterDIV')" style="background: #ccccff; color: black; border-color: black; border-width: thick; background:  green; color: white; " look="primary"> Print Course Slip</button>
+                                </b:column>
+                                <br />
+                            </b:row>
+                        </p:panel>
+                    </p:panel>
+
+                    <b:panel>
+                        <div > <h4>Registered Courses - Second Semester</h4> </div>
+                        <div  class="col-sm-9"  >
+                            <h:dataTable  id="registeredCoursesFirstSemester" class=" col-sm-9"  border="6"  style=" font-size: small; width: auto; border-bottom-width: thick;  border-color: black; background: whitesmoke" value="#{viewStudentregisteredCourses.studentRegisteredCoursesSecondSemester}" var="item">
+
+                                <h:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Course Code" ></h:outputText>
+                                    </f:facet>
+                                    <h:outputText escape="false" value="#{item.coursecode}"></h:outputText> 
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Course Title" ></h:outputText>
+                                    </f:facet>
+                                    <h:outputText escape="false" value="#{item.coursetitle}"></h:outputText>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Credit Unit" ></h:outputText>
+                                    </f:facet>
+                                    <h:outputText escape="false" value="#{item.creditunit}"></h:outputText>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Session" ></h:outputText>
+                                    </f:facet>
+                                    <h:outputText escape="false" value="#{item.session}"></h:outputText>
+                                </h:column>
+
+                                <h:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Semester " ></h:outputText>
+                                    </f:facet>
+                                    <h:outputText escape="false" value="#{item.semester}"></h:outputText>
+                                </h:column>
+
+                                <h:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Student Level" ></h:outputText>
+                                    </f:facet>
+                                    <h:outputText escape="false" value="#{item.level}"></h:outputText>
+                                </h:column>
+
+
+                                <h:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Delete Course" ></h:outputText>
+                                    </f:facet>
+
+                                    <h:column >
+                                        <p:rowEditor />
+                                        <p:commandButton  style="font-size: medium; background: #a6a4da" value="Delete" 
+                                                          action="#{deleteCourseRowInStudentCourseRegBEAN.removeCourseFromStudentCourseRegListWithCommandLink(item.matricno,item.session,item.coursecode)}" process="@this"  update="studentCourseRegForm, registeredCoursesFirstSemester" >
+                                        </p:commandButton>
+                                    </h:column>
+
+                                </h:column>
+
+                                <f:facet name="footer">
+                                    TOTAL CREDIT UNIT:  
+                                </f:facet>
+                            </h:dataTable>
+                        </div>
+                        <br />
+
+                    </b:panel>
+
+
+                    <br />
+                    <p:separator />
+                </div>
+            </b:form>
+
+        </b:container>
+    </h:body>
+</html>

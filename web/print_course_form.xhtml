@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>print course form</title>
+    </h:head>
+    <h:body style="background: none" >
+
+        <div>
+            <b:form>
+                <ui:include src="headerStudents.xhtml"/>
+            </b:form>
+        </div>
+
+        <p:spacer height="90px" />
+
+        <b:container fluid="false">
+
+            <b:growl id="msg2" />
+
+            <div class="col-sm-3" style="background: linen" >
+
+                <b:form>
+                    <b:panel style=" background: lightskyblue">
+
+                        <b:flyOutMenu style="font-size:large; background: #d2ddba">
+                            <b:navLink value="Dashboard" outcome="studentDashboard.xhtml" style="background: #d0e7e8; color: white" ></b:navLink>
+                            <b:navLink value="Course Registration" outcome="student_course_registration.xhtml" style="background: #d0e7e8; color: white" ></b:navLink>
+ 
+                        </b:flyOutMenu> 
+                    </b:panel>
+                </b:form>
+            </div>
+
+            <div class="col-sm-9" style="background: lightskyblue">
+
+                <b:messages id="msg"/>
+
+                <b:form id="studentCourseRegForm" style="font-family: serif">
+                    <h2 style="text-align: center; font-family: sans-serif">Print Student Course Form</h2>
+                    <p:separator />
+
+                    <p:panel   style=" font-size: medium; background: lightsteelblue" >
+
+                        <p:panel id="printcourse_regPanel"   style="font-family: 'Kanit', sans-serif; color: black;background: #e2edec " >
+                            <b:row>
+                                <b:column small-screen="6">
+                                    <h:selectOneMenu id="mysession" style="font-size: x-large; background: black " label="Session:" value="#{student_course_regBEAN.session}"  required="true" requiredMessage="Pls, supply session">
+                                        <f:selectItem itemLabel="Select Session" itemValue=""  />
+                                        <f:selectItems value="#{matricNo_GenerationBEAN.getintakeSessionInfoMthd()}"  />
+                                    </h:selectOneMenu> 
+                                    <br />  
+                                </b:column>
+                            </b:row>
+                            <br />
+                            <b:row >
+                                <b:column medium-screen="6">
+                                    <h:outputText value="Full Name: " style="font-size: medium; font-style: oblique" />
+                                    <h:inputText id="myFullname"  class="col-xs-6 form-control text-uppercase"   value="#{studentLoginBEAN.fullName}" style="background: lightyellow; font-size: medium; font-style: oblique"/>  
+                                </b:column>
+                            </b:row>
+                            <b:row >
+                                <b:column small-screen="6">
+                                    <h:outputText value="Matric No: " style="font-size: medium; font-style: oblique" />
+                                    <h:inputText id="myMatricNo" class="col-xs-6 form-control text-uppercase"  value="#{studentLoginBEAN.matricNo}" style="background: lightyellow; font-size: medium;font-style: oblique"/>  
+                                </b:column>
+                            </b:row>
+                            <b:row >
+
+                                <b:column small-screen="6">
+                                    <h:outputText value="Level:  " style="font-size: medium; font-style: oblique" />
+                                    <h:inputText  id="myLevel"  class="col-xs-8 form-control text-uppercase" value="#{studentLoginBEAN.myStudentLevel}" style="background: lightyellow; font-size: medium;font-style: oblique"/>  
+                                </b:column>
+                            </b:row>
+
+                            <p:separator />
+
+                            <b:row>
+                                <b:column  medium-screen="5" >
+                                    <p:commandButton value="Print Course Form"  style="font-size: x-large; font-kerning: normal; color:black; background: lightgreen" update="msg,msg2,studentCourseRegForm"   />
+                                </b:column>
+                            </b:row>
+                        </p:panel>
+                    </p:panel>
+                    <p:spacer />
+                </b:form>
+
+            </div>
+
+        </b:container>
+    </h:body>
+</html>

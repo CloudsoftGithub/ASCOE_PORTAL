@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title> admin-user-login </title>
+        <script data-ad-client="ca-pub-9824241097560337" async='async' src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js">
+        </script>
+    </h:head>
+
+    <h:body  >
+
+        <b:container  fluid="false" >
+
+            <div>
+                <b:form>
+                    <ui:include src="header.xhtml"/>
+                </b:form>
+            </div>
+
+
+            <div>
+                <p:spacer height="150px" /> <!-- this is a space  -->
+            </div>
+
+            <div class="col-sm-2">
+                <!--Jus a space -->
+            </div>
+            <div class="col-sm-8">
+                        <b:messages id="msg2"  showIcon="true"/>
+
+                <h:form>
+                    <b:panel  style=" background: white;font-size: large">
+
+                        <h2 align="center" style="background: darkslategrey; color: whitesmoke"> Admin Users Login </h2>
+                        <p:separator style="background: black"/>
+ 
+                        <div align="left">
+                            <b:panel >
+                                <b:growl id="msg" />
+                                <b:inputText id="username" label="Username" value="#{adminLoginBEAN.username}" required="true"/>
+
+
+                                <b:inputSecret id="password" label="Password:" value="#{adminLoginBEAN.password}" required="true"  />
+
+                                <f:facet name="footer">
+                                    <p:commandButton value="Login"  style="font-size: medium" action="#{adminLoginBEAN.adminuserLogin()}" ajax="false" update="msg,msg2"/>
+
+                                </f:facet>  
+
+                            </b:panel>
+                        </div>
+
+
+                        <p:separator />
+                    </b:panel>
+                </h:form>
+            </div>
+
+            <div class="col-sm-2">
+                <!--Jus a space -->
+            </div>
+
+        </b:container>
+    </h:body>
+</html>
+

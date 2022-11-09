@@ -1,0 +1,197 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>student-enrollment</title>
+    </h:head>
+    <h:body style="background: white">
+
+        <div>
+            <b:form>
+                <ui:include src="header.xhtml"/>
+            </b:form>
+        </div>
+
+        <!--Sign up Begins here-->
+        <b:container >
+
+            <div>
+                <p:spacer height="100px" /> <!-- this is a space  -->
+            </div>
+
+            <b:form id="studentRegForm">
+
+                <b:messages id="msg" />
+
+                <b:panel   style=" font-size: small; background: white" >
+                    <b:panel id="studentRegFormPanel" title="STUDENT REGISTRATION FORM - Step 1 (Student Bio Data)" style="font-family: 'Kanit', sans-serif; color: black;background: white ;border-width: 4px; border-color: darkslategrey" >
+
+                        <div class="col-sm-12">
+                            <b:row>
+                                <b:column small-screen="4">
+                                    <b:inputText label="First Name:" class="form-control" style="font-size: medium; " value="#{studentEnrolmentBEAN.firstname}" placeholder="First Name"  required="true" requiredMessage="Pls, supply first name"/>
+                                </b:column>
+                                <b:column small-screen="4">
+                                    <b:inputText label="Middle Name:" class="form-control" style="font-size: medium; " value="#{studentEnrolmentBEAN.middlename}" placeholder="Middle Name (OPtional) "  />
+                                </b:column>
+                                <b:column small-screen="4" >
+                                    <b:inputText label="Last Name:"  class="form-control" style="font-size: medium; " value="#{studentEnrolmentBEAN.lastaname}" placeholder="Last Name"  required="true" requiredMessage="Pls, supply last name"/>
+                                </b:column>
+                            </b:row>
+                        </div>
+
+                        <div class="col-sm-12">
+                            <b:row>
+                                <b:column small-screen="4">
+                                    <b:dateTimePicker id="DateofBirth"  show-time="false" class="form-control" style="font-size: medium; " value="#{studentEnrolmentBEAN.DOB}" p:placeholder="Select DOB"   required="true" label="Date of Birth:" required-message="Pls, supply Date of Birth"/>
+
+                                </b:column>
+                                <b:column small-screen="4">
+                                    <b:inputText label="Phone Number:" value="#{studentEnrolmentBEAN.phone}" class="form-control" style="font-size: medium; " maxlength="11" placeholder="e.g: 080XXXXXXXX" required="true" requiredMessage="Pls, supply phone"/>
+                                </b:column>
+                                <b:column small-screen="4" >
+                                    <b:selectOneMenu label="Gender:" value="#{studentEnrolmentBEAN.gender}" class="form-control" style="font-size: medium; " required="true" requiredMessage="Pls, supply gender">
+                                        <f:selectItem itemLabel="Select gender" itemValue=""  />
+                                        <f:selectItem itemLabel="Male" itemValue="Male" ></f:selectItem>
+                                        <f:selectItem itemLabel="Female" itemValue="Female" ></f:selectItem>
+                                    </b:selectOneMenu>                           
+                                </b:column>
+                            </b:row>
+                        </div>
+
+
+
+                        <div class="col-sm-12">
+                            <b:row>
+                                <b:column small-screen="4">
+                                    <b:selectOneMenu  label="Nationality:" required="true" class="form-control" style="font-size: medium; "  value="#{studentEnrolmentBEAN.nationality}" requiredMessage="Pls, supply nationality">
+                                        <f:selectItem itemLabel="Select Nationality" itemValue=""  />
+                                        <f:selectItem itemLabel="Nigerian" itemValue="Nigerian" /> 
+                                        <f:selectItem itemLabel="Non-Nigerian" itemValue="Non-Nigerian" /> 
+                                        <p:ajax  update="@this, statesMenu"  />
+                                    </b:selectOneMenu>                             
+                                </b:column>
+                                <b:column small-screen="4">
+                                    <h:outputLabel for="statesMenu" value="State of Origin:*"/> <br/>
+                                    <h:selectOneMenu id="statesMenu" label="State of Origin:" required="true" class="form-control" style="font-size: medium; "  value="#{studentEnrolmentBEAN.state}" requiredMessage="Pls, supply state of origin">
+                                        <f:selectItem itemLabel="Select state of origin" itemValue=""  />
+                                        <f:selectItems value="#{studentEnrolmentBEAN.get_statesMthd()}"/>
+                                        <p:ajax  update="@this, lgasMenu"  />
+                                    </h:selectOneMenu>                              
+                                </b:column>
+                                <b:column small-screen="4" >
+                                    <h:outputLabel  value="Local Government Area(LGA):"/> <br/>
+                                    <h:selectOneMenu id="lgasMenu"  label="Local Government Area(LGA):"  class="form-control" style="font-size: medium; " value="#{studentEnrolmentBEAN.lga}"   required="true" requiredMessage="Pls, supply LGA">
+                                        <f:selectItem itemLabel="Select LGA" itemValue=""  />
+                                        <f:selectItems value="#{studentEnrolmentBEAN.get_LGAsMthd()}"/>
+                                    </h:selectOneMenu>                            
+                                </b:column>
+
+                            </b:row>
+                        </div>
+
+                        <div class="col-sm-12">
+                            <b:row>
+                                <b:column small-screen="4">
+                                    <b:inputText label="Email Addres:" class="form-control" style="font-size: medium; " value="#{studentEnrolmentBEAN.email}" placeholder="Email Address"  required="true" requiredMessage="Pls, supply email address!"/>
+                                </b:column>
+
+                                <b:column small-screen="4" >
+                                    <b:inputText label="House Address:" class="form-control" style="font-size: medium; " value="#{studentEnrolmentBEAN.houseAddress}" placeholder="House Address"  required="true" requiredMessage="Pls, supply house address!"/>
+                                </b:column>
+                            </b:row>
+                        </div>
+
+                        <b:panel style="font-family: 'Kanit', sans-serif; color: black;background: w " title="MATRIC NUMBER INFORMATION | Step 2 "   class="col-sm-12">
+
+
+                            <div class="col-sm-12">
+
+                                <b:row>
+                                    <b:column small-screen="5">
+                                        <b:inputText   label="Matric No:" class="form-control" style="font-size: medium; " value="#{studentEnrolmentBEAN.matricno}" placeholder="Enter the matric no. Format: ER/YEAR/XXXX/XXXX" required="true" requiredMessage="Pls, supply matric no!" />
+                                    </b:column>
+                                    <b:column small-screen="5"  >
+
+                                    </b:column>
+                                    <b:column small-screen="5" offset="1">
+
+                                    </b:column>
+                                </b:row>
+                            </div>
+
+                        </b:panel>
+
+
+                        <b:panel style="font-family: 'Kanit', sans-serif; color: black;background: white "   title="STUDENT REGISTRATION FORM | Step 3 (Login &amp; Scratch Card Details)"  class="col-sm-12">
+
+                            <div class="col-sm-12">
+                                <b:row>
+                                    <b:column medium-screen="5">
+                                        <b:inputText   label="Username:" class="form-control" style="font-size: medium; " value="#{studentEnrolmentBEAN.username}" placeholder="the username you will use for login" required="true" requiredMessage="Pls, supply username" />
+                                    </b:column>
+                                    <b:column medium-screen="5" offset="1">
+
+                                    </b:column>
+                                </b:row>
+                            </div>
+
+
+                            <div class="col-sm-12">
+                                <b:row>
+                                    <b:column small-screen="5">
+                                        <h:outputLabel for="pwd1" value="Password: "/> <br/>
+                                        <p:password id="pwd1" value="#{studentEnrolmentBEAN.password}"  class="form-control" style="font-size: medium; " required="true" feedback="true" match="pwd2" label="Password maching error. Pls, supply matching password"  requiredMessage="pls, supply password" />
+                                    </b:column>
+                                    <b:column small-screen="5" offset="1">
+                                        <h:outputLabel for="pwd2" value="Confirm Password:"/> <br/>
+                                        <p:password id="pwd2"  value="#{studentEnrolmentBEAN.confirmpassword}" required="true" class="form-control"  style="font-size: medium; " feedback="false"  label="Password maching error. Pls, supply matching password"  requiredMessage="pls, supply confirm password" />
+                                    </b:column>
+                                </b:row>
+                            </div>
+
+                            <div class="col-sm-12">
+                                <b:row>
+                                    <b:column small-screen="5">
+                                        <b:inputSecret id="pinno" label="Pin No:" class="form-control" style="font-size: medium; " value="#{studentEnrolmentBEAN.pinno}" placeholder="Supply PIN no" required="true" requiredMessage="Pls, supply PIN no!"/>
+                                    </b:column>
+                                    <b:column small-screen="5" offset="1">
+                                        <b:inputText id="serialno" label="Serial No:" class="form-control" style="font-size: medium; " value="#{studentEnrolmentBEAN.serialno}" placeholder="Supply serialno" required="true" requiredMessage="Pls, supply serialno!"/>
+                                    </b:column>
+                                </b:row>
+                            </div>
+
+                            <b:form>
+                                <div style="color: white; background: white; background-color: white">
+                                    <p:spacer height="2px" />         
+                                </div>
+                            </b:form>
+
+
+
+                            <div class=" col-sm-12" align="center">
+                                <p:spacer height="50px" />    
+                                <b:row>
+                                    <b:column medium-screen="12" >
+                                        <b:commandButton   class="btn btn-lg"   action="#{studentEnrolmentBEAN.studentEnrollmentMethod()}" value="Register and Continue" style="font-size:  large; background: darkslategrey; height: 60px; width: 230px; color: white " update="msg,studentRegForm" />
+
+                                    </b:column>
+
+                                </b:row>
+                            </div>
+
+                        </b:panel>
+                    </b:panel>
+                </b:panel>
+            </b:form>
+
+
+        </b:container>   
+    </h:body>
+</html>
+

@@ -1,0 +1,171 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>staffSignup</title>
+        <script data-ad-client="ca-pub-9824241097560337" async='async' src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js">
+        </script>
+    </h:head>
+
+    <h:body style="  color: black">
+        <div>
+            <b:form>
+                <ui:include src="header.xhtml"/>
+            </b:form>
+        </div>
+
+        <b:container  fluid="false" >
+
+            <div>
+                <p:spacer height="100px" /> <!-- this is a space  -->
+            </div>
+            <b:growl id="msg2" />
+
+ 
+            <div class="col-sm-12"   style="font-size:  large">
+
+                <b:form id="enrollmentForm" class="col-sm-12"   >
+
+                    <b:panel   style=" align-self: center; font-size: smaller;  border-width: 3px; color: black;background: white ;border-width: 4px; border-color: darkslategrey">
+
+                        <b:panel id="subpanel2">
+                            <b:panel id="panel"  style="height: auto; background: white;">
+                                <div style="background: darkslategrey; color: whitesmoke; font-family: sans-serif" align="center">    <h2 > Staff Signup Form</h2>
+                                </div>
+                                <br />
+                                <p:separator />
+
+                                <div class="col-sm-12">
+                                    <b:row>
+                                        <b:column medium-screen="5">
+                                            <b:inputText tooltip="supply your fullname"  style="background: white; border-width: 1px; border-color: black" type="text" value="#{staffSignupBEAN.stffsgnp.fullname}" class="form-control" label="FullName:" placeholder="Fullname" required="true" requiredMessage="Pls, supply fullname."  />
+                                        </b:column>
+
+                                        <b:column medium-screen="5" offset="1">
+                                            <b:inputText id="emailID" tooltip="supply your e-mail" type="text" style="background: white; border-width: 1px; border-color: black" value="#{staffSignupBEAN.stffsgnp.email}" class="form-control"  label="E-mail" placeholder="e-mail" required="true" requiredMessage="Pls, supply email" validator-message="Supply a valid e-mail id." >
+                                                <f:validateRegex  pattern="^[A-Za-z0-9+_.-]+@(.+)$" /> 
+                                            </b:inputText>
+                                        </b:column>
+                                    </b:row>
+
+                                </div>
+
+
+                                <div class="col-sm-12">
+                                    <b:row>
+                                        <b:column medium-screen="5">
+                                            <b:inputText tooltip="supply your phone no." style="background: white; border-width: 1px; border-color: black" value="#{staffSignupBEAN.stffsgnp.phone}" maxlength="11" validator-message="Pls, suppy a correct phone no." class="form-control" label="Phone no." placeholder="phone no" required="true" requiredMessage="Pls, supply phone no." >
+                                                <f:validateRegex  pattern="[0-9]*{1}{2,3}" /> 
+                                            </b:inputText>
+                                        </b:column>
+
+                                        <b:column medium-screen="5" offset="1">
+                                            <b:inputText tooltip="supply your address" type="text" style="background: white; border-width: 1px; border-color: black" value="#{staffSignupBEAN.stffsgnp.address}"   class="form-control" label="Address: " placeholder="address" required="true" requiredMessage="Pls, supply address!" >
+
+                                            </b:inputText>
+                                        </b:column>
+                                    </b:row>
+
+                                </div>
+
+                                <div class="col-sm-12">
+                                    <b:row>
+
+                                        <b:column medium-screen="5">
+                                            <b:selectOneMenu id="sadre" label="Cadre: " value="#{staffSignupBEAN.stffsgnp.cadre}" style="background: white; border-width: 1px; border-color: black" required-message="Pls, supply cadre" tooltip="Pls, supply cadre">
+                                                <f:selectItem itemLabel="Select Cadre" itemValue="" />
+                                                <f:selectItem itemLabel="ACADEMIC STAFF" itemValue="ACADEMIC STAFF" />
+                                                <f:selectItem itemLabel="NON-ACADEMIC STAFF" itemValue="NON-ACADEMIC STAFF" />
+                                            </b:selectOneMenu>
+                                        </b:column>
+
+                                        <b:column medium-screen="5" offset="1" >
+                                            Employment cate:
+                                        </b:column>
+                                        <b:column medium-screen="5" offset="1">
+
+                                            <p:datePicker label="Employment Date:"   style="background: white; border-width: 1px; border-color: black" value="#{staffSignupBEAN.stffsgnp.employmentDate}" required="true" requiredMessage="Pls, suply employment date "  />
+                                        </b:column>
+                                    </b:row>
+
+                                </div>
+
+                                <div class="col-sm-12" >
+                                    <b:row>
+                                        <b:column medium-screen="5">
+                                            <b:inputText tooltip="supply your Highest Qualification" style="background: white; border-width: 1px; border-color: black" value="#{staffSignupBEAN.stffsgnp.highestQualification}"  class="form-control" label="Highest Qualification: " placeholder="Highest Qualification" required="true" requiredMessage="Pls, supply Highest Qualification!" />
+                                        </b:column>
+                                        <b:column medium-screen="5" offset="1">
+                                            <b:inputText tooltip="supply your school attended with date." style="background: white; border-width: 1px; border-color: black" value="#{staffSignupBEAN.stffsgnp.schoolttended}"  validator-message="Pls, suppy a correct school attended" class="form-control" label="School Attended: " placeholder="school attended" required="true" requiredMessage="Pls, supply school attended!" />
+                                        </b:column>
+
+                                    </b:row>
+
+                                </div>
+
+                                <div class="col-sm-12">
+                                    <b:row>
+                                        <b:column medium-screen="5">
+                                            <b:inputText id="userName" tooltip="supply your username"  style="background: white; border-width: 1px; border-color: black" type="text" value="#{staffSignupBEAN.stffsgnp.username}" class="form-control" label="Username:" placeholder="username" required="true" requiredMessage="Pls, supply username." />      
+                                        </b:column>
+
+                                        <b:column medium-screen="5" offset="1">
+                                            <b:inputSecret id="password" tooltip="supply your password"  style="background: white; border-width: 1px; border-color: black" value="#{staffSignupBEAN.stffsgnp.password}" class="form-control" label="Password:" placeholder="password" required="true" requiredMessage="Pls, supply password." />      
+                                        </b:column>
+                                    </b:row>
+
+                                </div>
+
+                                <div class="col-sm-12">
+                                    <b:row>
+                                        <b:column medium-screen="5">
+                                            <b:inputSecret tooltip="PIN no"  style="background: white; border-width: 1px; border-color: black" value="#{staffSignupBEAN.stffsgnp.pinNo}" class="form-control" label="PIN no." placeholder="PIN no." required="true" requiredMessage="Pls, supply PIN no." />
+                                        </b:column>
+
+                                        <b:column medium-screen="5" offset="1">
+                                            <b:inputText tooltip="Serial no" type="text"  style="background: white; border-width: 1px; border-color: black" value="#{staffSignupBEAN.stffsgnp.serialNo}" class="form-control" label="Serial no." placeholder="Serial no." required="true" requiredMessage="Pls, supply Serial no." />
+                                        </b:column>
+                                    </b:row>
+
+                                </div>
+
+                                <div class="col-sm-12" align="left">
+                                    <p:separator />
+                                    <b:row>
+                                        <b:column medium-screen="12">
+                                            <b:commandButton  style="font-family: sans-serif; font-size: x-large; background: white; border-width: 1px; border-color: darkslategrey" value="Register"  action="#{staffSignupBEAN.staffsignupMethod()}" ajax="false" update="msg2"/>
+                                        </b:column>
+
+                                        <b:column medium-screen="5" offset="1">
+
+                                        </b:column>
+                                    </b:row>
+
+                                </div>
+
+
+                            </b:panel>
+
+                        </b:panel> <!-- SubPanel2-->
+
+                    </b:panel>
+                </b:form>
+            </div>
+
+
+
+        </b:container>
+
+        <div>
+            <b:form>
+                <ui:include src=""/>
+            </b:form>
+        </div>
+    </h:body>
+</html>
+

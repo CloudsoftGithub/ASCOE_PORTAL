@@ -1,0 +1,162 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>applicant-bio-data-upload</title>
+    </h:head>
+    <h:body >
+
+        <div>
+            <b:form>
+                <ui:include src="headerApplicantDashaboard.xhtml"/>
+            </b:form>
+        </div>
+
+        <!--Sign up Begins here-->
+        <b:container  >
+
+            <div>
+                <p:spacer height="100px" /> <!-- this is a space  -->
+            </div>
+
+            <b:form id="studentRegForm" enctype="multipart/form-data" style="background: white">
+
+
+
+                <b:panel id="studentRegFormPanel" title="APPLICATION FOR ADMISSION - Step III ( Bio Data &amp; Photo Upload)" style="border-width: 3px; font-family: 'Kanit', sans-serif; color: black; background: white " look="success" >
+                    <b:growl id="msg2" />
+                    <b:messages id="msg" />
+                    <div style="background: #bceecd; color: black; ">
+                        <br />
+                        <h4 align="center" style="font-size: xx-large">Bio Data &amp; Photo Upload</h4>
+                        <h4 align="center" style="font-size: large; color: black"> Please, Carefully supply the following details and then upload your recent photo; </h4>
+                        <h3 align="center"  style="background: #E8F1D4; color: black "> You have logged in as: #{applicantLoginBEAN.theRetrievedSurname}, #{applicantLoginBEAN.theRetrievedOrthername} <h:inputText id="applicant_app_no_from_UI" disabled="false" style="text-align: center; font-size: x-large; background: #E8F1D4" value="#{applicantLoginBEAN.theRetrievedAppNo}" required="true" requiredMessage="session expired. Please, log in again and proceed" /> </h3>
+
+                        <br /> <br />
+                    </div>
+                    <br /> <br />
+                    <div class="col-xs-12">
+
+
+                        <b:row>
+
+                            <b:column small-screen="4" >
+                                <b:selectOneMenu label="Gender:" value="#{application_for_admissionBEAN.gender}" class="form-control" style="font-size: medium; " required="true" requiredMessage="Pls, supply gender">
+                                    <f:selectItem itemLabel="Select gender" itemValue=""  />
+                                    <f:selectItem itemLabel="Male" itemValue="Male" ></f:selectItem>
+                                    <f:selectItem itemLabel="Female" itemValue="Female" ></f:selectItem>
+                                </b:selectOneMenu>                           
+                            </b:column>
+                        </b:row>
+                    </div>
+
+                    <div class="col-xs-12">
+                        <b:row>
+                            <b:column small-screen="4">
+
+                                <b:dateTimePicker id="DateofBirth"   class="form-control" show-time="false" style="font-size: medium; " value="#{application_for_admissionBEAN.DOB}" p:placeholder="Select DOB"   required="true" label="Date of Birth:" required-message="Pls, supply Date of Birth"/>
+
+                            </b:column>
+                            <b:column small-screen="4">
+                                <b:inputText id="PlaceofBirth"   class="form-control" style="font-size: medium; " value="#{application_for_admissionBEAN.placeOfBirth}" p:placeholder="Select Place of Birth"   required="true" label="Place of Birth:" required-message="Pls, supply Place of Birth"/>
+
+                            </b:column>
+                            <b:column small-screen="4">
+                                <b:selectOneMenu  label="Nationality:" required="true" class="form-control" style="font-size: medium; "  value="#{application_for_admissionBEAN.nationality}" requiredMessage="Pls, supply nationality">
+                                    <f:selectItem itemLabel="Select Nationality" itemValue=""  />
+                                    <f:selectItem itemLabel="Nigerian" itemValue="Nigerian" /> 
+                                    <f:selectItem itemLabel="Non-Nigerian" itemValue="Non-Nigerian" /> 
+                                    <p:ajax  update="@this, statesMenu"  />
+                                </b:selectOneMenu>                             
+                            </b:column>
+
+                        </b:row>
+                    </div>
+
+                    <div class="col-xs-12">
+                        <b:row>
+
+                            <b:column small-screen="4">
+                                <h:outputLabel for="statesMenu" value="State of Origin:*"/> <br/>
+                                <h:selectOneMenu id="statesMenu" label="State of Origin:" required="true" class="form-control" style="font-size: medium; "  value="#{application_for_admissionBEAN.state}" requiredMessage="Pls, supply state of origin">
+                                    <f:selectItem itemLabel="Select state of origin" itemValue=""  />
+                                    <f:selectItems value="#{application_for_admissionBEAN.get_statesMthd()}"/>
+                                    <p:ajax  update="@this, lgasMenu"  />
+                                </h:selectOneMenu>                              
+                            </b:column>
+                            <b:column small-screen="4" >
+                                <h:outputLabel  value="Local Government Area(LGA):"/> <br/>
+                                <h:selectOneMenu id="lgasMenu"  label="Local Government Area(LGA):"  class="form-control" style="font-size: medium; " value="#{application_for_admissionBEAN.lga}"   required="true" requiredMessage="Pls, supply LGA">
+                                    <f:selectItem itemLabel="Select LGA" itemValue=""  />
+                                    <f:selectItems value="#{application_for_admissionBEAN.get_LGAsMthd()}"/>
+                                </h:selectOneMenu>                            
+                            </b:column>
+                            <b:column small-screen="4" >
+                                <b:inputText label="House Address:" class="form-control" style="font-size: medium; " value="#{application_for_admissionBEAN.houseAddress}" placeholder="House Address"  required="true" requiredMessage="Pls, supply house address!"/>
+                            </b:column>
+                        </b:row>
+                    </div>
+
+
+                    <div class="col-xs-12">
+                        <b:row>
+                            <b:column small-screen="4">
+                                <b:inputText label="Permanent Home Address:" value="#{application_for_admissionBEAN.permanentAddress}" class="form-control" style="font-size: medium; " placeholder="Permanent home address" required="true" requiredMessage="Pls, supply permanent home address"/>
+                            </b:column>
+                            <b:column small-screen="4">
+                                <b:inputText label="Occupation:" value="#{application_for_admissionBEAN.occupation}" class="form-control" style="font-size: medium; " placeholder="Occupation" required="true" requiredMessage="Pls, supply Occupation"/>
+                            </b:column>
+                            <b:column small-screen="4">
+                                <b:inputText label="Next of Kin:" value="#{application_for_admissionBEAN.nextofkin}" class="form-control" style="font-size: medium; "   placeholder="Next of Kin name" required="true" requiredMessage="Pls, supply Next of Kin name"/>
+                            </b:column>
+                        </b:row>
+                    </div>
+                    <div class="col-xs-12">
+                        <b:row>
+
+                            <b:column small-screen="4">
+                                <b:inputText label="Relationship:" class="form-control" style="font-size: medium; " value="#{application_for_admissionBEAN.relationship}" placeholder="Email Address"  required="true" requiredMessage="Pls, supply Relationship!"/>
+                            </b:column>
+                            <b:column small-screen="4">
+                                <b:inputText label="Sponsorship" value="#{application_for_admissionBEAN.sponsorship}" class="form-control" style="font-size: medium; " placeholder="Sponsorship" required="true" requiredMessage="Pls, supply Sponsorship"/>
+                            </b:column>
+                        </b:row>
+                    </div>
+
+
+                    <b:panel style=" border-width: 3px; font-family: 'Kanit', sans-serif; color: black; background: white "   title="APPLICATION FOR ADMISSION | Step III-b (Photo Upload) " look="success" class="col-xs-12">
+
+                        <div class="col-xs-12">
+                            <b:column small-screen="12">
+                                <p:fileUpload id="fileupload"    value="#{application_for_admissionBEAN.applicantPhoto}"  mode="simple"  dragDropSupport="true"
+                                              update="msg" sizeLimit="1726174" fileLimit="1"  allowTypes="/(\.|\/)(png|jpeg|JPEG|JPG|jpg|pdf)$/i" fileLimitMessage="Maximum number of images exceeded"  invalidSizeMessage="The maximum file size allowed is: 1726174kb" 
+                                              invalidFileMessage="You can only upload these files types: PDF" required="true" requiredMessage="Pls, upload the applicant photo" />
+                            </b:column>
+
+                        </div>
+
+                    </b:panel>
+
+                    <div class=" col-xs-12">
+                        <br />
+                        <b:row>
+                            <b:column medium-screen="5">
+                                <b:commandButton   class="btn btn-lg" look="sucess" action="#{application_for_admissionBEAN.applicant_SubmitBioData()}" value="Submit Bio Data Info " style="background-color: green; color: white; border-radius: 15px; margin-right: 10px;" update="msg,msg2,studentRegForm" />
+
+                            </b:column>
+                        </b:row>
+                    </div>
+
+                </b:panel>
+            </b:form>
+
+
+        </b:container>   
+    </h:body>
+</html>
+

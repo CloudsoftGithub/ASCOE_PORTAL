@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>confirm-payment-for-application</title>
+        <link rel="shortcut icon"  href="#{request.contextPath}/resources/img/logo.jpg" type="image/x-icon"/> 
+    </h:head>
+    <h:body >
+        <div>
+            <p:spacer height="90px" /> <!-- this is a space  -->
+        </div>
+        <b:container>
+            <div align="center">
+                <b:form >
+                    <ui:include src="headerApplicantDashaboard.xhtml"/>
+                </b:form>
+            </div>
+
+            <b:form>
+
+                <b:messages  id="msg" style="font-size: medium" />
+                <b:growl id="msg2" style="font-size: medium" />
+                <br />
+
+                <b:panel style="border-width: 3px; font-family: 'Kanit', sans-serif; color: black;background: white "   title="APPLICATION FOR ADMISSION | Step II ( Payment Confirmation)" look="success" class="col-xs-12">
+
+                    <div style="background: #bceecd; color: black; ">
+                        <br />
+                        <h4 align="center" style="font-size: xx-large"> Confirmation Before Payment</h4>
+                        <h4 align="center" style="font-size: large; color: black"> Please, Confirm the following details before executing the payment; </h4>
+
+                        <br /> 
+                    </div>
+                    <br />
+                    <div class="col-xs-12">
+                        <b:row>
+                            <b:column medium-screen="5">
+                                <b:inputText   label="Application No:" disabled="true" class="form-control" style="font-size: medium; " value="#{applicationPaymentBEAN.the_retreived_ApplicationNumber}" placeholder="The retrieved AppNo." required="true" requiredMessage="Pls, supply AppNo" />
+                            </b:column>
+                            <b:column medium-screen="5" >
+                            </b:column>
+                        </b:row>
+                    </div>
+
+                    <div class="col-xs-12">
+                        <b:row>
+                            <b:column medium-screen="5">
+                                <b:inputText   label="Application Type:" disabled="true" class="form-control" style="font-size: medium; " value="#{applicationPaymentBEAN.the_retreived_ApplicationType}" placeholder="The retrieved Application Type." required="true" requiredMessage="Pls, supply Application Type" />
+                            </b:column>
+                            <b:column medium-screen="5" >
+                                <b:inputText   label="Session: " disabled="true" class="form-control" style="font-size: medium;  " value="#{applicationPaymentBEAN.the_retreived_session}" placeholder="The retrieved Session." required="true" requiredMessage="Pls, supply Session" />
+                            </b:column>
+                        </b:row>
+                    </div>
+                    <div class="col-xs-12">
+                        <b:row>
+                            <b:column medium-screen="5">
+                                <b:inputText   label="E-mail address:" disabled="true" class="form-control" style="font-size: medium; " value="#{applicationPaymentBEAN.the_retreived_email}" placeholder="The E-mail address" required="true" requiredMessage="Pls, supply E-mail address:" />
+                            </b:column>
+                            <b:column medium-screen="5" >
+                                <b:inputText   label="Course-Choice: " disabled="true" class="form-control" style="font-size: medium; "  value="#{applicationPaymentBEAN.the_retreived_Course_Choice}" placeholder="The retrieved course-choice." required="true" requiredMessage="Pls, supply course-choice" />
+                            </b:column>
+                        </b:row>
+                    </div>
+                    <div class="col-xs-12">
+                        <b:row>
+                            <b:column medium-screen="5">
+                                <b:inputText   label="Phone no:" disabled="true" class="form-control" style="font-size: medium; " value="#{applicationPaymentBEAN.the_retreived_phoneno}" placeholder="The Phone No:" required="true" requiredMessage="Pls, supply Phone No" />
+                            </b:column>
+                            <b:column medium-screen="5" >
+                                <b:inputText   label="Registreation Date:" disabled="true" class="form-control" style="font-size: medium; "  value="#{applicationPaymentBEAN.the_retreived_regDate}" placeholder="The retrieved Registreation Date." required="true" requiredMessage="Pls, supply Registreation Date" />
+                            </b:column>
+                        </b:row>
+                    </div>
+                    <div class="col-xs-12">
+                        <b:row>
+                            <b:column medium-screen="5">
+                                <b:inputText   label="Surname:" disabled="true" class="form-control" style="font-size: medium; background: #E8F1D4; color: black; font-style: normal " value="#{applicationPaymentBEAN.the_retreived_Surname}" placeholder="The retrieved Surname." required="true" requiredMessage="Pls, supply Surname" />
+                            </b:column>
+                            <b:column medium-screen="5" >
+                                <b:inputText   label="Orthername:" disabled="true" class="form-control" style="font-size: medium; background: #E8F1D4; color: black; font-style: normal " value="#{applicationPaymentBEAN.the_retreived_Orthername}"   placeholder="The retrieved orthernames." required="true" requiredMessage="Pls, supply Orthername:" />
+                            </b:column>
+                        </b:row>
+                    </div>
+
+
+                    <b:form>
+                        <div style="color: white; background: white; background-color: white">
+                            <p:spacer height="2px" />         
+                        </div>
+                    </b:form>
+
+                    <div class=" col-xs-12" align="center">
+                        <b:row>
+                            <b:column >
+                                <b:commandButton   class="btn btn-lg" look="success" action="#{applicationPaymentBEAN.confirmApplicantionPayment()}" value="Pay Now " style="background: white; color: green; border-radius: 10px; margin-right: 10px;" update="msg,msg2" />
+                            </b:column>
+
+                        </b:row>
+                    </div>
+                    <br /> 
+                </b:panel>
+
+            </b:form>
+            <br /><br />
+        </b:container>
+        <br /><br />  <br /><br />
+    </h:body>
+</html>
+

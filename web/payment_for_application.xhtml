@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>payment-for-application</title>
+        <link rel="shortcut icon"  href="#{request.contextPath}/resources/img/logo.jpg" type="image/x-icon"/> 
+    </h:head>
+    <h:body >
+        <div>
+            <p:spacer height="120px" /> <!-- this is a space  -->
+        </div>
+        <b:container>
+            <div align="center">
+                <b:form >
+                    <ui:include src="headerApplicantDashaboard.xhtml"/>
+                </b:form>
+            </div>
+            <b:form id="applicantPaymentForm">
+ 
+                <b:messages  id="msg" style="font-size: medium; font-family: sans-serif"  />
+                <b:growl id="msg2" style="font-size: medium; font-family: serif" />
+
+
+                <b:panel style="font-family: 'Kanit', sans-serif; color: black;background: white; border-width: 3px "   title="APPLICATION FOR ADMISSION | Step II ( Scratch Card Details)" look="success" class="col-xs-12">
+                    <div style="background: #bceecd; color: black; ">
+                        <br />
+                        <h4 align="center" style="font-size: xx-large"> Processing payment via scratch card</h4>
+                        <h4 align="center" style="font-size: large; color: black"> Please, Carefully supply the PIN and Serial no. for your card. </h4>
+                        <h3 align="center"  style="background: #E8F1D4; color: black "> You have logged in as: #{applicantLoginBEAN.theRetrievedSurname}, #{applicantLoginBEAN.theRetrievedOrthername} <h:inputText id="applicant_app_no_from_UI" disabled="false" style="text-align: center; font-size: x-large; background: #E8F1D4" value="#{applicantLoginBEAN.theRetrievedAppNo}" required="true" requiredMessage="session expired. Please, log in again and proceed" /> </h3>
+
+                        <br /> <br />
+                    </div>
+                    <br />
+             
+                    <div class="col-xs-12">
+                        <b:row>
+                            <b:column small-screen="5">
+                                <b:inputSecret id="pinno" label="Pin No:" class="form-control" style="font-size: medium; " value="#{applicationPaymentBEAN.pinno}" placeholder="Supply PIN no" required="true" requiredMessage="Pls, supply PIN no!"/>
+                            </b:column>
+                            <b:column small-screen="5" offset="1">
+                                <b:inputText id="serialno" label="Serial No:" class="form-control" style="font-size: medium; " value="#{applicationPaymentBEAN.serialno}" placeholder="Supply serialno" required="true" requiredMessage="Pls, supply serialno!"/>
+                            </b:column>
+                        </b:row>
+                    </div>
+
+                    <b:form>
+                        <div style="color: white; background: white; background-color: white">
+                            <p:spacer height="2px" />         
+                        </div>
+                    </b:form>
+
+
+
+                    <div class=" col-xs-12">
+                        <b:row>
+                            <b:column medium-screen="5">
+                                <b:commandButton   class="btn btn-lg" look="success" action="#{applicationPaymentBEAN.processApplicantionPayment()}" value="Process Payment" style="background:whitesmoke;color:green ;border-radius: 10px; margin-right: 10px;" update="msg,msg2" />
+
+                            </b:column>
+
+                        </b:row>
+                    </div>
+
+                </b:panel>
+            </b:form>
+        </b:container>
+
+    </h:body>
+</html>
+

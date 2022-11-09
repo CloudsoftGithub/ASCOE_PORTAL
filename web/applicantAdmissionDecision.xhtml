@@ -1,0 +1,299 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:b="http://bootsfaces.net/ui">
+
+    <h:head>
+        <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1" http-equiv="X-UA-Conpatible" />
+
+        <title>applicant-admissio-decision</title>
+        <style type="text/css">
+            .updateBtnStyle {
+                width: 80px !important;
+            }
+        </style>
+    </h:head>
+    <h:body>
+        <b:container >
+            <div>
+                <p:spacer height="50px" /> <!-- this is a space  -->
+            </div>
+
+            <b:form id="admissionDecisionForm" class="form-horizontal">
+
+
+                <b:growl id="msg2"  />
+
+                <b:messages id="msg" />
+                <b:panel id="applicantAdmissionDecisionPanel" style="border-width: 6px; font-family: 'Kanit', sans-serif; color: black; background: white " look="primary" >
+                    <div style="background: #b7c094">
+                        <hr/>
+                        <h3 style=" color:  blue " align="center"> APPLICANT'S ADMISSION DECISION PAGE</h3>
+                        <h4 style="  color:  black " align="center"> Carefully decide on the appropriate course of study for the applicant</h4>
+                    </div>
+
+                    <p:separator />
+
+
+                    <div class="col-sm-12">
+                        <b:row style="color: black">
+                            <b:column small-screen="4">
+                                <b:inputText id="appNo" label="Application No:"  value="#{editRecordObj.appNo}" class="form-control"/>
+                            </b:column>
+
+                            <b:column small-screen="4">
+                                <b:inputText id="surname" label="Surname: " value="#{editRecordObj.surname}" class="form-control"/>
+                            </b:column>
+                            <b:column small-screen="4">
+                                <b:inputText id="othernames" label="Othernames: " value="#{editRecordObj.orthername}" class="form-control"/>
+                            </b:column>
+                        </b:row>
+                    </div>
+
+                    <div class="col-sm-12">
+                        <b:row style="color: black">
+                            <b:column small-screen="4">
+                                <b:inputText id="appType" label="Application Type:"  value="#{editRecordObj.appType}" class="form-control"/>
+                            </b:column>
+
+                            <b:column small-screen="4">
+                                <b:inputText id="session" label="Session: " value="#{editRecordObj.session}" class="form-control"/>
+                            </b:column>
+                            <b:column small-screen="4">
+                                <b:inputText id="CourseApplied" label="Course Applied:" value="#{editRecordObj.course_Choice}" class="form-control"/>
+                            </b:column>
+                        </b:row>
+                    </div>
+
+               
+                    <div class=" col-sm-12">
+                        <b:row>
+                            <b:column small-screen="5">
+                                <b:commandButton   class="btn btn-lg"  action="#{applicantsBEAN.updateApplicantsDetailsInDB(editRecordObj)}" look="success"  value="Admit into Course Applied " style="background:whitesmoke;color:green ;border-radius: 16px; margin-right: 10px;" />
+                            </b:column>
+
+                        </b:row>
+                    </div>
+
+
+
+                    <div class=" col-sm-12">
+                        <p:separator style="width: 5px; color: black" />
+                        <h4 style="background: darkgreen; text-transform: uppercase; color: white">Admit the Applicant into a Different Course</h4>
+                        <b:row>
+
+                            <b:column small-screen="4">
+                                <h:commandButton value="Replace with this Course" action="#{applicantsBEAN.replaceCourseChoiceForApplicantsDetailsInDB(editRecordObj)}" style="font-size: large" class="btn btn-danger" />
+
+                            </b:column>
+
+                            <b:column small-screen="4">
+                                <!-- Just a space-->
+                            </b:column>
+                            <b:column small-screen="4">
+                                <b:selectOneMenu id="replace_course_choice"    class="form-control" style="font-size: large; " value="#{editRecordObj.replaceCourseChoice}"  >
+                                    <f:selectItem itemLabel="Select Course-Choice" itemValue=""  />
+                                    <f:selectItems value="#{view_list_of_applicants.get_Course_ChoiceMthd()}"/>
+                                </b:selectOneMenu> 
+
+
+                            </b:column>
+                        </b:row>
+
+
+                    </div>
+
+                    <b:column  small-screen="12">
+                        <b:column small-screen="12"    >
+                            <h4 style="text-transform: uppercase; background: #809d9f" >
+                                Applicant O'Level Information
+                            </h4>
+                        </b:column>
+                        <b:panel style="width: auto; font-family: serif; background: #d6e4e0" >
+                            <div  class="col-sm-12" align="center" >
+                                
+                                <b:dataTable   id="uploadedApplicant_OLevel_Result_Info"  style="word-wrap: normal; width:auto ;align-self: center  ;text-align: left; align-content: center ; font-size: x-small; word-wrap: normal;word-break: normal; width:auto ; border-bottom-width: thick; ; color: black; background: #E8F1D4" value="#{adminLoginBEAN.applicant_OLevel_reulst_Info}" var="item">
+
+                                    <b:column >
+                                        <f:facet name="header">
+                                            <h:outputText value="ID" ></h:outputText>
+                                        </f:facet>
+                                        <h:outputText escape="false" value="#{item.id}"></h:outputText> 
+                                    </b:column>
+                                    <b:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="App. No" ></h:outputText>
+                                        </f:facet>
+                                        <h:outputText escape="false"  value="#{item.appNo}"></h:outputText> 
+                                    </b:column>
+                                    <b:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Exam Type" ></h:outputText>
+                                        </f:facet>
+                                        <h:outputText escape="false" value="#{item.applicant_exam_type}"></h:outputText> 
+                                    </b:column>
+
+                                    <b:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Center No." ></h:outputText>
+                                        </f:facet>
+                                        <h:outputText escape="false" value="#{item.applicant_exam_center_no}"></h:outputText>
+                                    </b:column>
+
+                                    <b:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Exam No. " ></h:outputText>
+                                        </f:facet>
+                                        <h:outputText escape="false" value="#{item.applicant_exam_no}"></h:outputText>
+                                    </b:column>
+
+                                    <b:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Subj1" ></h:outputText>
+                                        </f:facet>
+                                        <h:outputText escape="false" value="#{item.applicant_subject1}"></h:outputText>
+                                    </b:column>
+                                    <b:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Grade" ></h:outputText>
+                                        </f:facet>
+                                        <h:outputText escape="false" styleClass="form-control" value="#{item.applicant_subject1_grade}"></h:outputText>
+                                    </b:column>
+
+                                    <b:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Subj2" ></h:outputText>
+                                        </f:facet>
+                                        <h:outputText escape="false" value="#{item.applicant_subject2}"></h:outputText>
+                                    </b:column>
+                                    <b:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Grade" ></h:outputText>
+                                        </f:facet>
+                                        <h:outputText escape="false" styleClass="form-control"  value="#{item.applicant_subject2_grade}"></h:outputText>
+                                    </b:column>
+
+
+                                    <b:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Subj3" ></h:outputText>
+                                        </f:facet>
+                                        <h:outputText escape="false" value="#{item.applicant_subject3}"></h:outputText>
+                                    </b:column>
+                                    <b:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Grade" ></h:outputText>
+                                        </f:facet>
+                                        <h:outputText escape="false" styleClass="form-control" value="#{item.applicant_subject3_grade}"></h:outputText>
+                                    </b:column>
+
+                                    <b:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Subj4" ></h:outputText>
+                                        </f:facet>
+                                        <h:outputText escape="false" value="#{item.applicant_subject4}"></h:outputText>
+                                    </b:column>
+                                    <b:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Grade" ></h:outputText>
+                                        </f:facet>
+                                        <h:outputText escape="false" styleClass="form-control" value="#{item.applicant_subject4_grade}"></h:outputText>
+                                    </b:column>
+
+                                    <b:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Subj5" ></h:outputText>
+                                        </f:facet>
+                                        <h:outputText escape="false" value="#{item.applicant_subject5}"></h:outputText>
+                                    </b:column>
+                                    <b:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Grade" ></h:outputText>
+                                        </f:facet>
+                                        <h:outputText escape="false" styleClass="form-control" value="#{item.applicant_subject5_grade}"></h:outputText>
+                                    </b:column>
+ 
+                                </b:dataTable>
+                            </div>
+                            <br />
+
+                        </b:panel>
+                    </b:column>
+
+                    <div class="col-sm-12">
+                        <b:row >
+                            <b:column small-screen="12"    >
+                                <h4 style="text-transform: uppercase; background: #809d9f" >
+                                    School(s) Attended
+                                </h4>
+                            </b:column>
+                            <b:column>
+                                <b:panel style="width: auto; color: black; background: #d6e4e0">
+                                    <div class="col-sm-12" align="center" >
+                                        <!--  <div > <p style="text-transform: uppercase">Applicant's Schools Attended </p> </div> -->
+
+                                        <b:dataTable   id="uploadedApplicantSchCertInfo"   style=" width:auto ;align-self: center  ;text-align: left; align-content: center ; font-size: small; word-wrap: normal;word-break: normal; width:auto ; border-bottom-width: thick;  color: black; background: #E8F1D4" value="#{adminLoginBEAN.applicantSchAttendedInfo}" var="item">
+
+                                            <b:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value="ID" ></h:outputText>
+                                                </f:facet>
+                                                <h:outputText escape="false" value="#{item.id}"></h:outputText> 
+                                            </b:column>
+                                            <b:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value="Application No." ></h:outputText>
+                                                </f:facet>
+                                                <h:outputText styleClass="form-control" escape="false" value="#{item.appNo}"></h:outputText>
+                                            </b:column>
+                                            <b:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value="School Name" ></h:outputText>
+                                                </f:facet>
+                                                <h:outputText styleClass="form-control" escape="false" value="#{item.schoolAttendedName}"></h:outputText>
+                                            </b:column>
+                                            <b:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value="Certificate Obtaine" ></h:outputText>
+                                                </f:facet>
+                                                <h:outputText styleClass="form-control" escape="false" value="#{item.certTitle}"></h:outputText> 
+                                            </b:column>
+
+                                            <b:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value="From" ></h:outputText>
+                                                </f:facet>
+                                                <h:outputText escape="false" value="#{item.from}"></h:outputText>
+                                            </b:column>
+
+                                            <b:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value="To " ></h:outputText>
+                                                </f:facet>
+                                                <h:outputText escape="false" value="#{item.to}"></h:outputText>
+                                            </b:column>
+
+                                            <b:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value="Date Uploaded" ></h:outputText>
+                                                </f:facet>
+                                                <h:outputText escape="false" value="#{item.uploadDate}"></h:outputText>
+                                            </b:column>
+
+                                        </b:dataTable>
+                                    </div>
+                                    <br />
+
+                                </b:panel>
+                            </b:column>
+                        </b:row>
+                    </div>
+
+                </b:panel>
+            </b:form>
+        </b:container>
+
+    </h:body>
+</html>

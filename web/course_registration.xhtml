@@ -1,0 +1,195 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>courses registration</title>
+    </h:head>
+    <h:body style="background-color:  #5f7ff7">
+        <p:spacer height="50px" />
+
+        <div>
+            <b:form>
+                <ui:include src="headerAdminDashboard.xhtml"/>
+            </b:form>
+        </div>
+        <b:container>
+            <div>
+                <p:spacer height="100px" /> <!-- this is a space  -->
+            </div>
+            <b:growl id="msg2" />
+            <div class="col-sm-12" style="background: white">
+                <b:messages id="msg"/>
+
+                <b:form style="background: #809d9f; ">
+                    <h1 align="center">Courses Registration</h1>
+
+ 
+                    <b:panel   style=" font-size: medium; background: #809d9f" >
+                        <b:panel id="course_regPanel" title="Course Registration" style="font-family: 'Kanit', sans-serif; color: black; " look="success" >
+
+                            <b:row>
+                                <b:column small-screen="6">
+                                    <b:selectOneMenu id="semester" label="Semester :" value="#{courseRegBEAN.semester}"  required="true" required-message="pls, enter semester" tooltip="pls, enter semester">
+                                        <f:selectItem itemLabel="Select Semester" itemValue="" />
+                                        <f:selectItem itemLabel="FIRST SEMESTER" itemValue="FIRST SEMESTER" />
+                                        <f:selectItem itemLabel="SECOND SEMESTER" itemValue="SECOND SEMESTER" />
+                                    </b:selectOneMenu>
+                                </b:column>
+                                <b:column small-screen="6">
+                                    <b:selectOneMenu id="level" label="Level :" value="#{courseRegBEAN.level}" required="true" required-message="Pls, Enter level" tooltip="Pls, Enter level" >
+                                        <f:selectItem itemLabel="Select Level" itemValue="" />
+                                        <f:selectItem itemLabel="NCE I" itemValue="NCE I"/>
+                                        <f:selectItem itemLabel="NCE II" itemValue="NCE II"/>
+                                        <f:selectItem itemLabel="NCE III" itemValue="NCE III"/>
+                                    </b:selectOneMenu>
+                                </b:column>
+                            </b:row>
+                            <b:row>
+                                <b:column small-screen="6">
+                                    <b:inputText id="courseCode" label="Course Code :" maxlength="7" value="#{courseRegBEAN.coursecode}" placeholder="Course_code" required="true" required-message="pls, enter Course_code" tooltip="pls, enter Course_code"/>
+                                </b:column>
+                                <b:column small-screen="6">
+                                    <b:inputText id="CourseTitle" label="Course Title :" value="#{courseRegBEAN.coursetitle}" placeholder="Course_Title" required="true" required-message="Pls, Enter Course_Title" tooltip="Pls, Enter Course_Title" />
+                                </b:column>
+                            </b:row>
+                            <b:row>
+                                <b:column small-screen="6">
+                                    <b:inputText id="Credit" label="Credit :" value="#{courseRegBEAN.creditunit}" placeholder="Credit" required="true" required-message="pls, enter Credit" tooltip="pls, enter Credit"/>
+                                </b:column>
+                                <b:column small-screen="6">
+                                    <b:selectOneMenu id="Status" label="Status :" value="#{courseRegBEAN.status}" required="true" required-message="Pls, Select status" tooltip="Pls, select status" >
+                                        <f:selectItem itemLabel="select status" itemValue="" />
+                                        <f:selectItem itemLabel="COMPULSORY" itemValue="COMPULSORY" />
+                                        <f:selectItem itemLabel="ELECTIVE" itemValue="ELECTIVE" />
+                                    </b:selectOneMenu>
+                                </b:column>
+                            </b:row>
+                            <b:row>
+                                <b:column small-screen="6">
+                                    <b:inputText id="course_Category" label="Course Category :" value="#{courseRegBEAN.courseCategory}" required="true" placeholder="Supply the course category" required-message="Pls, supply program" tooltip="Pls, select course category" />
+
+                                </b:column>
+                                <b:column small-screen="6">
+                                    <b:inputText id="Prerequisite" label="Prerequisite :" value="#{courseRegBEAN.prerequisite}" placeholder="Prerequisite" required="true" required-message="Pls, Enter Prerequisite" tooltip="Pls, Enter Prerequisite" />
+                                </b:column>
+                            </b:row>
+
+
+                            <b:row>
+
+                                <!--  
+                                  <b:column small-screen="6">
+                                     <b:datepicker id="PDateregistered" value="Dateregistered" label="PDateregistered" placeholder="PDateregistered" required="true" required-message="Pls, select Dateregistered" tooltip="Pls, select Dateregistered" />
+                                 </b:column>
+                     
+                                <b:column small-screen="6">
+                                    <b:inputText id="Doneby" label="Doneby :" value="" placeholder="Doneby" required="true" required-message="pls, enter Doneby" tooltip="pls, enter Doneby"/>
+                                </b:column>
+                                -->
+                            </b:row>
+
+                            <b:row>
+                                <b:column small-screen="6" >
+                                    <b:commandButton value="Register"  style="font-size: x-large" look="success" action="#{courseRegBEAN.courseRegMthd()}" update="registeredCourses,msg,msg2" />
+                                </b:column>
+                            </b:row>
+                        </b:panel>
+                    </b:panel>
+
+                    <b:panel title="View Registered Courses" style="background: #b1c6d5">
+
+                        <div  style="background: none">
+                            <b:dataTable  class="col-sm-12" id="registeredCourses" style="background: whitesmoke; font-size: small; color: black" value="#{viewregisteredCourses.registeredCourses}" var="item">
+                                <f:facet name="header">
+                                    <h:outputText value="Registered Courses" />
+                                </f:facet>
+
+                                <b:column >
+                                    <f:facet name="header">
+                                        <h:outputText value="ID" ></h:outputText>
+                                    </f:facet>
+                                    <h:outputText escape="false" value="#{item.id}"></h:outputText>
+
+                                </b:column>
+
+                                <b:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Semester " ></h:outputText>
+                                    </f:facet>
+                                    <h:outputText escape="false" value="#{item.semester}"></h:outputText>
+                                </b:column>
+                                <b:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Level" ></h:outputText>
+                                    </f:facet>
+                                    <h:outputText escape="false" value="#{item.level}"></h:outputText>
+                                </b:column>
+
+                                <b:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Course Code" ></h:outputText>
+                                    </f:facet>
+                                    <h:outputText escape="false" value="#{item.coursecode}"></h:outputText>
+                                </b:column>
+                                <b:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Course Title" ></h:outputText>
+                                    </f:facet>
+                                    <h:outputText escape="false" value="#{item.coursetitle}"></h:outputText>
+                                </b:column>
+                                <b:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Credit Unit" ></h:outputText>
+                                    </f:facet>
+                                    <h:outputText escape="false" value="#{item.creditunit}"></h:outputText>
+                                </b:column>
+
+                                <b:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Status" ></h:outputText>
+                                    </f:facet>
+                                    <h:outputText escape="false" value="#{item.status}"></h:outputText>
+                                </b:column>
+
+                                <b:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Course Category" ></h:outputText>
+                                    </f:facet>
+                                    <h:outputText escape="false" value="#{item.courseCategory}"></h:outputText>
+                                </b:column>
+                                <b:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Prerequisite" ></h:outputText>
+                                    </f:facet>
+                                    <h:outputText escape="false" value="#{item.prerequisite}"></h:outputText>
+                                </b:column>
+                                <b:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Date Registered" ></h:outputText>
+                                    </f:facet>
+                                    <h:outputText escape="false" value="#{item.dateregistered}"></h:outputText>
+                                </b:column>
+                                <b:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Done By" ></h:outputText>
+                                    </f:facet>
+                                    <h:outputText escape="false" value="#{item.doneby}"></h:outputText>
+                                </b:column>
+                            </b:dataTable>
+                        </div>
+
+
+                    </b:panel>
+
+                </b:form>
+
+            </div>
+
+        </b:container>
+    </h:body>
+</html>

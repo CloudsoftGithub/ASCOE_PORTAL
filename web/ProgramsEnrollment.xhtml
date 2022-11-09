@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>program-enrollment</title>
+    </h:head>
+    <h:body style="background: #5f7ff7;">
+
+        <div>
+            <b:form>
+                <ui:include src="headerAdminDashboard.xhtml"/>
+            </b:form>
+        </div>
+
+        <b:container>
+
+            <b:form id="ProgramEnrollmentForm">
+
+                <div>
+                    <p:spacer height="150px" /> <!-- this is a space  -->
+                </div>
+                <b:messages id="mgs" />
+                <div style="font-size: xx-small">  
+                    <b:growl id="mgs1"  />
+                </div>
+                <b:panel   style=" font-size: smaller; background: #dfddf7" >
+
+                    <b:panel title="Program Enrollment" style="background: #adc4be; font-size: large" >
+                        <h1 align="center"> Programs/Combinations Enrollment </h1>
+                        <p:separator />
+
+                        <div class="col-sm-12">
+                            <b:row>
+                                <b:column medium-screen="5">
+                                    <b:inputText id="title" label="Program: " placeholder="Supply program" value="#{programsEnrollmentBEAN.prgrms.title}" tooltip="this box is for unit title" required="true" requiredMessage="Please, supply unit!" />
+                                </b:column>
+                                <b:column medium-screen="5" offset="1">
+                                    <b:inputText id="unitCode" label="Program Code:" placeholder="Supply Program" value="#{programsEnrollmentBEAN.prgrms.code}" tooltip="This box is for unit code"  required="true" requiredMessage="Please, Supply Program Code!" />
+                                </b:column>
+                            </b:row>
+                        </div>
+
+                        <div class="col-sm-12">
+                            <b:row>
+                                <b:column medium-screen="5">
+                                    <b:inputText id="dept" label="Department: " placeholder="Supply department title" value="#{programsEnrollmentBEAN.prgrms.department}" tooltip="This box is for department title" required="true" requiredMessage="Pls, supply the title of the department where this unit belongs" />
+                                </b:column>
+                                <b:column medium-screen="5" offset="1">
+                                    <b:inputText id="duration"  label="Duration: " placeholder="Supply program duration (in years)" value="#{programsEnrollmentBEAN.prgrms.duration}" tooltip="This box is for program duration (in years)" required="true" requiredMessage="Pls, supply the program duration (in years i.e 3-years)" />
+                                </b:column>
+                            </b:row>
+                        </div>
+
+                        <div class="col-sm-12">
+                            <b:commandButton id="register" value="Register" action="#{programsEnrollmentBEAN.programEnrollmentMthd()}"  look="primary" style="height: 60px; width: 130px" update="mgs1,mgs,ProgramEnrollmentForm" />
+                        </div>
+
+                        <p:spacer height="30px" />
+                        <p:separator />
+
+                        <div  style="background: none">
+                            <b:dataTable  class="col-sm-12" id="Enrolled-Faculty-School" style="background: #ced8dc; font-size: small" value="#{viewProgramsTable.enrolledPrograms}" var="item">
+                                <f:facet name="header">
+                                    <h:outputText value="Registered Units-Combinations" />
+                                </f:facet>
+
+                                <b:column >
+                                    <f:facet name="header">
+                                        <h:outputText value="Program ID" ></h:outputText>
+                                    </f:facet>
+                                    <h:outputText escape="false" value="#{item.id}"></h:outputText>
+                                </b:column>
+
+                                <b:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Title" ></h:outputText>
+                                    </f:facet>
+                                    <h:outputText escape="false" value="#{item.title}"></h:outputText>
+                                </b:column>
+                                <b:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Code" ></h:outputText>
+                                    </f:facet>
+                                    <h:outputText escape="false" value="#{item.code}"></h:outputText>
+                                </b:column>
+
+                                <b:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Duration" ></h:outputText>
+                                    </f:facet>
+                                    <h:outputText escape="false" value="#{item.duration}"></h:outputText>
+                                </b:column>
+                                <b:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Registration_Date" ></h:outputText>
+                                    </f:facet>
+                                    <h:outputText escape="false" value="#{item.dateregistered}"></h:outputText>
+                                </b:column>
+                                <b:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Done By" ></h:outputText>
+                                    </f:facet>
+                                    <h:outputText escape="false" value="#{item.doneBy}"></h:outputText>
+                                </b:column>
+                            </b:dataTable>
+                        </div>
+
+
+                    </b:panel>
+                </b:panel>
+            </b:form>
+
+        </b:container>
+
+    </h:body>
+</html>
+

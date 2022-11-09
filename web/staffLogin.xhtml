@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title> login </title>
+        <script data-ad-client="ca-pub-9824241097560337" async='async' src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js">
+        </script>
+    </h:head>
+
+    <h:body style="font-size: medium; background: whitesmoke">
+
+        <b:container  fluid="false" >
+
+            <div>
+                <b:form>
+                    <ui:include src="header.xhtml"/>
+                </b:form>
+            </div>
+
+
+            <div>
+                <p:spacer height="150px" /> <!-- this is a space  -->
+            </div>
+
+            <div class="col-sm-2">
+                <!--Just a space -->
+            </div>
+
+            <div class="col-sm-8">
+
+                <h:form style="background: white; " >
+                    <b:panel  style=" background: white;font-size: large;border-width: 4px; border-color: darkslategrey ">
+
+                        <h2 align="center" style="background: darkslategrey; color: whitesmoke; "> Staff Login </h2>
+
+
+                        <b:messages id="mgs1" showIcon="true" style="font-size: small" />
+
+                        <div align="left">
+                            <b:panel >
+                                <b:growl id="msg" />
+                                <b:inputText id="username" label="Username" value="#{staffLoginBEAN.username}" required="true"/>
+
+
+                                <b:inputSecret id="password" label="Password:" value="#{staffLoginBEAN.password}" required="true"  />
+
+                                <f:facet name="footer">
+                                    <div align="center" >
+                                        <p:commandButton value="Login"  style="font-size: xx-large; background: darkslategrey; height: 60px; width: 130px; "  action="#{staffLoginBEAN.staffLoginMethod()}" ajax="false" update="msg,mgs1"/>
+                                    </div>
+                                </f:facet>  
+
+                            </b:panel>
+                        </div>
+
+
+                        <p:separator />
+                        <div align="center"  >
+                            <b:row >
+                                <b:column small-screen="5" >
+                                    <p:link style="color: black; background:  none; font-size: medium" value="Admin"  outcome="adminUsersLogin.xhtml"/>                                        </b:column>
+
+                                <b:column  small-screen="7" >
+                                    <p:link style="color: black; background:  none; font-size: medium" value="Root" outcome="rootlogin"  />
+                                </b:column>
+                            </b:row>    
+
+
+                        </div>
+
+                    </b:panel>
+                </h:form>
+            </div>
+
+            <div class="col-sm-2">
+                <!--Just a space -->
+            </div>
+
+        </b:container>
+    </h:body>
+</html>
+

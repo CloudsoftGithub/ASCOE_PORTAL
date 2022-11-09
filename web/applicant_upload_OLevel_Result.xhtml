@@ -1,0 +1,529 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:pe="http://primefaces.org/ui/extensions">
+    <h:head>
+        <title>applicant-o'level-result-upload</title>
+    </h:head>
+    <h:body >
+
+        <div>
+            <b:form>
+                <ui:include src="headerApplicantDashaboard.xhtml"/>
+            </b:form>
+        </div>
+
+        <!--Sign up Begins here-->
+        <b:container  >
+
+            <div>
+                <p:spacer height="100px" /> <!-- this is a space  -->
+            </div>
+
+            <b:form id="studentOLevelUploadForm" enctype="multipart/form-data" style="background: white">
+
+                <b:growl id="msg2" style="font-size: medium; font-family: sans-serif" />
+                <b:messages id="msg" style="font-size: medium; font-family: sans-serif" />
+
+                     <b:panel id="studentRegFormPanel" title="APPLICATION FOR ADMISSION - Step V (O'Level Result Upload)" style="border-width: 3px; font-family: 'Kanit', sans-serif; color: black; background: white " look="success" >
+                        <div style="background: #bceecd; color: black; ">
+                            <br />
+                            <h4 align="center" style="font-size: xx-large" >O'Level Result Upload</h4>
+                            <h4 align="center" style="font-size: large; color: black"> Please, Carefully supply the following details; </h4>
+                            <h3 align="center" style="background: #E8F1D4; color: black "> You have logged in as: #{applicantLoginBEAN.theRetrievedSurname}, #{applicantLoginBEAN.theRetrievedOrthername} <h:inputText id="applicant_app_no_from_UI" disabled="false" style="text-align: center; font-size: x-large; background: #E8F1D4" value="#{applicantLoginBEAN.theRetrievedAppNo}" required="true" requiredMessage="session expired. Please, log in again and proceed" /> </h3>
+
+                            <br /> <br />
+                        </div>
+                        <br /> <br />
+
+                        <div class="col-xs-12">
+                            <b:row>
+                                <b:column small-screen="4">
+                                    <b:selectOneMenu  label="Exam Sitting Type( Maximum of 2)" required="true" class="form-control" style="font-size: medium; "  value="#{application_for_admissionBEAN.applicant_exam_no_of_sitting}" requiredMessage="Pls, supply number sitting">
+                                        <f:selectItem itemLabel="Select no. of sitting" itemValue=""/>
+                                        <f:selectItem itemLabel="First Sitting" itemValue="First Sitting" /> 
+                                        <f:selectItem itemLabel="Second Sitting" itemValue="Second Sitting" />                                          
+                                    </b:selectOneMenu>                             
+                                </b:column>                           
+                            </b:row>
+                        </div>
+                        <div class="col-xs-12">
+                            <b:row>
+                                <b:column small-screen="4">
+                                    <b:selectOneMenu  label="Exam Type:" required="true" class="form-control" style="font-size: medium; "  value="#{application_for_admissionBEAN.applicant_exam_type}" requiredMessage="Pls, supply exam type">
+                                        <f:selectItem itemLabel="Select type of exam" itemValue=""/>
+                                        <f:selectItem itemLabel="NABTEB" itemValue="NABTEB" />                                          
+                                        <f:selectItem itemLabel="NBAIS" itemValue="NBAIS" /> 
+                                        <f:selectItem itemLabel="NECO" itemValue="NECO" />     
+                                        <f:selectItem itemLabel="WAEC" itemValue="WAEC" /> 
+                                    </b:selectOneMenu>                             
+                                </b:column>
+
+                            </b:row>
+                        </div>
+
+
+                        <div class="col-xs-12">
+                            <b:row>
+                                <b:column small-screen="4">
+                                    <b:inputText id="ExamYear"   class="form-control" style="font-size: medium; " value="#{application_for_admissionBEAN.applicant_exam_year}" p:placeholder="Exam Year "   required="true" label="Exam Year:" required-message="Pls, supply ExamYear"/>
+                                </b:column>
+                                <b:column small-screen="4">
+                                    <b:inputText id="centerNo"   class="form-control" style="font-size: medium; " value="#{application_for_admissionBEAN.applicant_exam_center_no}" p:placeholder="Center No"   required="true" label="Center No:" required-message="Pls, supply Center No"/>
+                                </b:column>
+                                <b:column small-screen="4">
+                                    <b:inputText id="ExamNo"   class="form-control" style="font-size: medium; " value="#{application_for_admissionBEAN.applicant_exam_no}" p:placeholder="Exam No"   required="true" label="Exam No:" required-message="Pls, supply Exam No"/>
+                                </b:column>
+                            </b:row>
+                        </div>
+                        <div class="col-xs-12">
+                            <h:outputText value="Carefully Supply Grades Obtained for your O'Level Result " style="font-size: larger; background: #E8F1D4; text-align: center; color: black; font-style: normal" class="form-control"/>
+                            <br />
+                            <b:row>
+                                <b:column small-screen="4">
+                                    <b:selectOneMenu  label="Subject 1 Title" required="true" class="form-control" style="font-size: medium; background: #d6e4e0; color: black "  value="#{application_for_admissionBEAN.applicant_subject1}" requiredMessage="Pls, supply Subject1 Title">
+                                        <f:selectItem itemLabel="Select Subject1 Title" itemValue=""/>
+                                        <f:selectItem itemLabel="ENGLISH LANGUGAGE" itemValue="ENGLISH LANGUGAGE" />                                     
+                                    </b:selectOneMenu>                             
+                                </b:column>
+                                <b:column small-screen="4">
+                                    <b:selectOneMenu  label="Subject1 Grade" required="true"  class="form-control" style="font-size: medium; background: #d6e4e0; color: black "  value="#{application_for_admissionBEAN.applicant_subject1_grade}" requiredMessage="Pls, supply Subject1 Grade">
+                                        <f:selectItem itemLabel="Select Subject1 Grade" itemValue=""/>
+                                        <f:selectItem itemLabel="A1" itemValue="A1" />                                     
+                                        <f:selectItem itemLabel="B2" itemValue="B2" />  
+                                        <f:selectItem itemLabel="B3" itemValue="B3" />   
+                                        <f:selectItem itemLabel="B4" itemValue="B4" />   
+                                        <f:selectItem itemLabel="C4" itemValue="C4" />  
+                                        <f:selectItem itemLabel="C5" itemValue="C5" /> 
+                                        <f:selectItem itemLabel="C6" itemValue="C6" />                                     
+                                        <f:selectItem itemLabel="D7" itemValue="D7" />  
+                                        <f:selectItem itemLabel="E8" itemValue="E8" />                                     
+                                        <f:selectItem itemLabel="F9" itemValue="F9" />  
+
+                                    </b:selectOneMenu>                             
+                                </b:column>
+
+                            </b:row>
+                        </div>
+                        <div class="col-xs-12">
+
+                            <b:row>
+                                <b:column small-screen="4">
+                                    <b:selectOneMenu  label="Subject 2 Title" required="true" class="form-control" style="font-size: medium; background: #d6e4e0; color: black "  value="#{application_for_admissionBEAN.applicant_subject2}" requiredMessage="Pls, supply Subject2 Title">
+                                        <f:selectItem itemLabel="Select Subject2 Title" itemValue=""/>
+                                        <f:selectItem itemLabel="MATHEMATICS" itemValue="MATHEMATICS" />                                     
+                                    </b:selectOneMenu>                             
+                                </b:column>
+                                <b:column small-screen="4">
+                                    <b:selectOneMenu  label="Subject 2 Grade" required="true" class="form-control" style="font-size: medium; background: #d6e4e0; color: black "  value="#{application_for_admissionBEAN.applicant_subject2_grade}" requiredMessage="Pls, supply Subject2 Grade">
+                                        <f:selectItem itemLabel="Select Subject2 Grade" itemValue=""/>
+                                        <f:selectItem itemLabel="A1" itemValue="A1" />                                     
+                                        <f:selectItem itemLabel="B2" itemValue="B2" />  
+                                        <f:selectItem itemLabel="B3" itemValue="B3" />   
+                                        <f:selectItem itemLabel="B4" itemValue="B4" />   
+                                        <f:selectItem itemLabel="C4" itemValue="C4" />  
+                                        <f:selectItem itemLabel="C5" itemValue="C5" /> 
+                                        <f:selectItem itemLabel="C6" itemValue="C6" />                                     
+                                        <f:selectItem itemLabel="D7" itemValue="D7" />  
+                                        <f:selectItem itemLabel="E8" itemValue="E8" />                                     
+                                        <f:selectItem itemLabel="F9" itemValue="F9" />  
+                                    </b:selectOneMenu>                             
+                                </b:column>
+
+                            </b:row>
+                        </div>
+                        <div class="col-xs-12">
+
+                            <b:row>
+                                <b:column small-screen="4">
+                                    <b:inputText id="Subject3"   class="form-control" style="font-size: medium; " value="#{application_for_admissionBEAN.applicant_subject3}" p:placeholder="Supply Subject3"   required="true" label="Subject 3: " required-message="Pls, supply Subject3"/>
+                                </b:column>
+                                <b:column small-screen="4">
+                                    <b:selectOneMenu  label="Subject 3 Grade" required="true"  class="form-control" style="font-size: medium; background: #d6e4e0; color: black "  value="#{application_for_admissionBEAN.applicant_subject3_grade}" requiredMessage="Pls, supply Other Subject1 Grade">
+                                        <f:selectItem itemLabel="Select Subject3 Grade" itemValue=""/>
+                                        <f:selectItem itemLabel="A1" itemValue="A1" />                                     
+                                        <f:selectItem itemLabel="B2" itemValue="B2" />  
+                                        <f:selectItem itemLabel="B3" itemValue="B3" />   
+                                        <f:selectItem itemLabel="B4" itemValue="B4" />   
+                                        <f:selectItem itemLabel="C4" itemValue="C4" />  
+                                        <f:selectItem itemLabel="C5" itemValue="C5" /> 
+                                        <f:selectItem itemLabel="C6" itemValue="C6" />                                     
+                                        <f:selectItem itemLabel="D7" itemValue="D7" />  
+                                        <f:selectItem itemLabel="E8" itemValue="E8" />                                     
+                                        <f:selectItem itemLabel="F9" itemValue="F9" />  
+
+                                    </b:selectOneMenu>                             
+                                </b:column>
+                            </b:row>
+                        </div>
+                            <div class="col-xs-12">
+
+                            <b:row>
+                                <b:column small-screen="4">
+                                    <b:inputText id="Subject4"   class="form-control" style="font-size: medium; " value="#{application_for_admissionBEAN.applicant_subject4}" p:placeholder="Supply Subject4"   required="true" label="Subject 4: " required-message="Pls, supply Subject4"/>
+                                </b:column>
+                                <b:column small-screen="4">
+                                    <b:selectOneMenu  label="Subject 4 Grade" required="true"  class="form-control" style="font-size: medium; background: #d6e4e0; color: black "  value="#{application_for_admissionBEAN.applicant_subject4_grade}" requiredMessage="Pls, supply Other Subject4 Grade">
+                                        <f:selectItem itemLabel="Select Subject4 Grade" itemValue=""/>
+                                        <f:selectItem itemLabel="A1" itemValue="A1" />                                     
+                                        <f:selectItem itemLabel="B2" itemValue="B2" />  
+                                        <f:selectItem itemLabel="B3" itemValue="B3" />   
+                                        <f:selectItem itemLabel="B4" itemValue="B4" />   
+                                        <f:selectItem itemLabel="C4" itemValue="C4" />  
+                                        <f:selectItem itemLabel="C5" itemValue="C5" /> 
+                                        <f:selectItem itemLabel="C6" itemValue="C6" />                                     
+                                        <f:selectItem itemLabel="D7" itemValue="D7" />  
+                                        <f:selectItem itemLabel="E8" itemValue="E8" />                                     
+                                        <f:selectItem itemLabel="F9" itemValue="F9" />  
+
+                                    </b:selectOneMenu>                             
+                                </b:column>
+                            </b:row>
+                        </div>
+                        <div class="col-xs-12">
+
+                            <b:row>
+                                <b:column small-screen="4">
+                                    <b:inputText id="Subject5"   class="form-control" style="font-size: medium; " value="#{application_for_admissionBEAN.applicant_subject5}" p:placeholder="Supply Subject5"   required="true" label="Subject 5: " required-message="Pls, supply Subject5"/>
+                                </b:column>
+                                <b:column small-screen="4">
+                                    <b:selectOneMenu  label="Subject 5 Grade" required="true"  class="form-control" style="font-size: medium; background: #d6e4e0; color: black "  value="#{application_for_admissionBEAN.applicant_subject5_grade}" requiredMessage="Pls, supply Subject5 Grade">
+                                        <f:selectItem itemLabel="Select Subject5 Grade" itemValue=""/>
+                                        <f:selectItem itemLabel="A1" itemValue="A1" />                                     
+                                        <f:selectItem itemLabel="B2" itemValue="B2" />  
+                                        <f:selectItem itemLabel="B3" itemValue="B3" />   
+                                        <f:selectItem itemLabel="B4" itemValue="B4" />   
+                                        <f:selectItem itemLabel="C4" itemValue="C4" />  
+                                        <f:selectItem itemLabel="C5" itemValue="C5" /> 
+                                        <f:selectItem itemLabel="C6" itemValue="C6" />                                     
+                                        <f:selectItem itemLabel="D7" itemValue="D7" />  
+                                        <f:selectItem itemLabel="E8" itemValue="E8" />                                     
+                                        <f:selectItem itemLabel="F9" itemValue="F9" />  
+
+                                    </b:selectOneMenu>                             
+                                </b:column>
+                            </b:row>
+                        </div>
+                         <div class="col-xs-12">
+
+                            <b:row>
+                                <b:column small-screen="4">
+                                    <b:inputText id="Subject6"   class="form-control" style="font-size: medium; " value="#{application_for_admissionBEAN.applicant_subject6}" p:placeholder="Supply Subject6"   required="false" label="Subject 6: " required-message="Pls, supply Subject6"/>
+                                </b:column>
+                                <b:column small-screen="4">
+                                    <b:selectOneMenu  label="Subject 6 Grade" required="false"  class="form-control" style="font-size: medium; background: #d6e4e0; color: black "  value="#{application_for_admissionBEAN.applicant_subject6_grade}" requiredMessage="Pls, supply Other Subject6 Grade">
+                                        <f:selectItem itemLabel="Select Subject6 Grade" itemValue=""/>
+                                        <f:selectItem itemLabel="A1" itemValue="A1" />                                     
+                                        <f:selectItem itemLabel="B2" itemValue="B2" />  
+                                        <f:selectItem itemLabel="B3" itemValue="B3" />   
+                                        <f:selectItem itemLabel="B4" itemValue="B4" />   
+                                        <f:selectItem itemLabel="C4" itemValue="C4" />  
+                                        <f:selectItem itemLabel="C5" itemValue="C5" /> 
+                                        <f:selectItem itemLabel="C6" itemValue="C6" />                                     
+                                        <f:selectItem itemLabel="D7" itemValue="D7" />  
+                                        <f:selectItem itemLabel="E8" itemValue="E8" />                                     
+                                        <f:selectItem itemLabel="F9" itemValue="F9" />  
+
+                                    </b:selectOneMenu>                             
+                                </b:column>
+                            </b:row>
+                        </div>
+                        <div class="col-xs-12">
+
+                            <b:row>
+                                <b:column small-screen="4">
+                                    <b:inputText id="Subject7"   class="form-control" style="font-size: medium; " value="#{application_for_admissionBEAN.applicant_subject7}" p:placeholder="Supply Subject7"   required="false" label="Subject 7: " required-message="Pls, supply Subject7"/>
+                                </b:column>
+                                <b:column small-screen="4">
+                                    <b:selectOneMenu  label="Subject 7 Grade" required="false"  class="form-control" style="font-size: medium; background: #d6e4e0; color: black "  value="#{application_for_admissionBEAN.applicant_subject7_grade}" requiredMessage="Pls, supply Other Subject7 Grade">
+                                        <f:selectItem itemLabel="Select Subject7 Grade" itemValue=""/>
+                                        <f:selectItem itemLabel="A1" itemValue="A1" />                                     
+                                        <f:selectItem itemLabel="B2" itemValue="B2" />  
+                                        <f:selectItem itemLabel="B3" itemValue="B3" />   
+                                        <f:selectItem itemLabel="B4" itemValue="B4" />   
+                                        <f:selectItem itemLabel="C4" itemValue="C4" />  
+                                        <f:selectItem itemLabel="C5" itemValue="C5" /> 
+                                        <f:selectItem itemLabel="C6" itemValue="C6" />                                     
+                                        <f:selectItem itemLabel="D7" itemValue="D7" />  
+                                        <f:selectItem itemLabel="E8" itemValue="E8" />                                     
+                                        <f:selectItem itemLabel="F9" itemValue="F9" />  
+
+                                    </b:selectOneMenu>                             
+                                </b:column>
+                            </b:row>
+                        </div>
+                        <div class="col-xs-12">
+
+                            <b:row>
+                                <b:column small-screen="4">
+                                    <b:inputText id="Subject8"   class="form-control" style="font-size: medium; " value="#{application_for_admissionBEAN.applicant_subject8}" p:placeholder="Supply Subject8"   required="false" label="Subject 8: " required-message="Pls, supply Subject8"/>
+                                </b:column>
+                                <b:column small-screen="4">
+                                    <b:selectOneMenu  label="Subject 8 Grade" required="false"  class="form-control" style="font-size: medium; background: #d6e4e0; color: black "  value="#{application_for_admissionBEAN.applicant_subject8_grade}" requiredMessage="Pls, supply Other Subject8 Grade">
+                                        <f:selectItem itemLabel="Select Subject8 Grade" itemValue=""/>
+                                        <f:selectItem itemLabel="A1" itemValue="A1" />                                     
+                                        <f:selectItem itemLabel="B2" itemValue="B2" />  
+                                        <f:selectItem itemLabel="B3" itemValue="B3" />   
+                                        <f:selectItem itemLabel="B4" itemValue="B4" />   
+                                        <f:selectItem itemLabel="C4" itemValue="C4" />  
+                                        <f:selectItem itemLabel="C5" itemValue="C5" /> 
+                                        <f:selectItem itemLabel="C6" itemValue="C6" />                                     
+                                        <f:selectItem itemLabel="D7" itemValue="D7" />  
+                                        <f:selectItem itemLabel="E8" itemValue="E8" />                                     
+                                        <f:selectItem itemLabel="F9" itemValue="F9" />  
+
+                                    </b:selectOneMenu>                             
+                                </b:column>
+                            </b:row>
+                        </div>
+                        <div class="col-xs-12">
+
+                            <b:row>
+                                <b:column small-screen="4">
+                                    <b:inputText id="Subject9"   class="form-control" style="font-size: medium; " value="#{application_for_admissionBEAN.applicant_subject9}" p:placeholder="Supply Subject 9"   required="false" label="Subject 9: " required-message="Pls, supply Subject9"/>
+                                </b:column>
+                                <b:column small-screen="4">
+                                    <b:selectOneMenu  label="Subject 9 Grade" required="false"  class="form-control" style="font-size: medium; background: #d6e4e0; color: black "  value="#{application_for_admissionBEAN.applicant_subject9_grade}" requiredMessage="Pls, supply Other Subject9 Grade">
+                                        <f:selectItem itemLabel="Select Subject9 Grade" itemValue=""/>
+                                        <f:selectItem itemLabel="A1" itemValue="A1" />                                     
+                                        <f:selectItem itemLabel="B2" itemValue="B2" />  
+                                        <f:selectItem itemLabel="B3" itemValue="B3" />   
+                                        <f:selectItem itemLabel="B4" itemValue="B4" />   
+                                        <f:selectItem itemLabel="C4" itemValue="C4" />  
+                                        <f:selectItem itemLabel="C5" itemValue="C5" /> 
+                                        <f:selectItem itemLabel="C6" itemValue="C6" />                                     
+                                        <f:selectItem itemLabel="D7" itemValue="D7" />  
+                                        <f:selectItem itemLabel="E8" itemValue="E8" />                                     
+                                        <f:selectItem itemLabel="F9" itemValue="F9" />  
+
+                                    </b:selectOneMenu>                             
+                                </b:column>
+                            </b:row>
+                        </div>
+                        <div class="col-xs-12">
+                            
+                            <h:outputText value="Upload The Scanned O'Level Result in (PDF Format ONLY)" style="font-size: larger; background: #E8F1D4; text-align: center; color: black; font-style: normal" class="form-control"/>
+                            <br />
+                            <b:column small-screen="12">
+                                <p:fileUpload id="fileupload"    value="#{application_for_admissionBEAN.applicant_OLevel_certificate_photo}"  mode="simple"  dragDropSupport="true"  
+                                              update="msg" sizeLimit="1726174" fileLimit="1"  allowTypes="/(\.|\/)(pdf)$/i" fileLimitMessage="Maximum number of images exceeded"  invalidSizeMessage="The maximum file size allowed is: 1726174kb" 
+                                              invalidFileMessage="You can only upload these files types: PDF" required="true" requiredMessage="Pls, upload the Scanned O'Level Result Copy (IMAGE)" />
+                            </b:column>
+
+                        </div>
+
+                        <div class=" col-xs-12" align="center">
+                            <br />
+                            <b:row>
+                                <b:commandButton   class="btn btn-lg" look="success" action="#{application_for_admissionBEAN.applicant_OLevel_upload()}" value="Add O'Level Result" style="background: white; color: green; border-radius: 10px; margin-right: 10px;" update="msg,msg2,studentOLevelUploadForm,uploadedApplicant_OLevel_Result_Info" />
+                            </b:row>
+                        </div>
+
+                    </b:panel>
+ 
+                <b:panel style="width: auto; font-family: sans-serif">
+                    <div  class="col-sm-12" align="center" >
+                        <div > <h4 style="text-transform: uppercase; color: black">Uploaded Applicant O'Level Information </h4> </div>
+
+                        <h:dataTable   id="uploadedApplicant_OLevel_Result_Info"   border="6"  style="alignment-baseline: central ;text-align: center; align-content: center ;align-self: center ; font-size: xx-small; width:auto ; border-bottom-width: thick;  color: black; background: #E8F1D4" value="#{viewApplicantOLevelResultUpload.applicant_OLevel_reulst_Info}" var="item">
+
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Id" ></h:outputText>
+                                </f:facet>
+                                <h:outputText escape="false" value="#{item.id}"></h:outputText> 
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="App. No." ></h:outputText>
+                                </f:facet>
+                                <h:outputText escape="false" value="#{item.appNo}"></h:outputText>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Sitting No." ></h:outputText>
+                                </f:facet>
+                                <h:outputText escape="false" value="#{item.applicant_exam_no_of_sitting}"></h:outputText>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Exam Type" ></h:outputText>
+                                </f:facet>
+                                <h:outputText escape="false" value="#{item.applicant_exam_type}"></h:outputText> 
+                            </h:column>
+
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Center No." ></h:outputText>
+                                </f:facet>
+                                <h:outputText escape="false" value="#{item.applicant_exam_center_no}"></h:outputText>
+                            </h:column>
+
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Exam No. " ></h:outputText>
+                                </f:facet>
+                                <h:outputText escape="false" value="#{item.applicant_exam_no}"></h:outputText>
+                            </h:column>
+
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Subj1" ></h:outputText>
+                                </f:facet>
+                                <h:outputText escape="false" value="#{item.applicant_subject1}"></h:outputText>
+                            </h:column>
+                               <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Subj1 Grade" ></h:outputText>
+                                </f:facet>
+                                   <h:outputText escape="false" value="#{item.applicant_subject1_grade}"></h:outputText>
+                               </h:column>
+                            
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Subj2" ></h:outputText>
+                                </f:facet>
+                                <h:outputText escape="false" value="#{item.applicant_subject2}"></h:outputText>
+                            </h:column>
+                               <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Subj2 Grade" ></h:outputText>
+                                </f:facet>
+                                   <h:outputText escape="false" value="#{item.applicant_subject2_grade}"></h:outputText>
+                               </h:column>
+                            
+                            
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Subj3" ></h:outputText>
+                                </f:facet>
+                                <h:outputText escape="false" value="#{item.applicant_subject3}"></h:outputText>
+                            </h:column>
+                               <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Subj3 Grade" ></h:outputText>
+                                </f:facet>
+                                   <h:outputText escape="false" value="#{item.applicant_subject3_grade}"></h:outputText>
+                               </h:column>
+                            
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Subj4" ></h:outputText>
+                                </f:facet>
+                                <h:outputText escape="false" value="#{item.applicant_subject4}"></h:outputText>
+                            </h:column>
+                               <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Subj4 Grade" ></h:outputText>
+                                </f:facet>
+                                   <h:outputText escape="false" value="#{item.applicant_subject4_grade}"></h:outputText>
+                               </h:column>
+                            
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Subj5" ></h:outputText>
+                                </f:facet>
+                                <h:outputText escape="false" value="#{item.applicant_subject5}"></h:outputText>
+                            </h:column>
+                               <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Subj5 Grade" ></h:outputText>
+                                </f:facet>
+                                   <h:outputText escape="false" value="#{item.applicant_subject5_grade}"></h:outputText>
+                               </h:column>
+                            
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Subj6" ></h:outputText>
+                                </f:facet>
+                                <h:outputText escape="false" value="#{item.applicant_subject6}"></h:outputText>
+                            </h:column>
+                               <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Subj6 Grade" ></h:outputText>
+                                </f:facet>
+                                   <h:outputText escape="false" value="#{item.applicant_subject6_grade}"></h:outputText>
+                               </h:column>
+                            
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Subj7" ></h:outputText>
+                                </f:facet>
+                                <h:outputText escape="false" value="#{item.applicant_subject7}"></h:outputText>
+                            </h:column>
+                               <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Subj7 Grade" ></h:outputText>
+                                </f:facet>
+                                   <h:outputText escape="false" value="#{item.applicant_subject7_grade}"></h:outputText>
+                               </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Subj8" ></h:outputText>
+                                </f:facet>
+                                <h:outputText escape="false" value="#{item.applicant_subject8}"></h:outputText>
+                            </h:column>
+                               <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Subj8 Grade" ></h:outputText>
+                                </f:facet>
+                                   <h:outputText escape="false" value="#{item.applicant_subject8_grade}"></h:outputText>
+                               </h:column>
+                            
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Subj9" ></h:outputText>
+                                </f:facet>
+                                <h:outputText escape="false" value="#{item.applicant_subject9}"></h:outputText>
+                            </h:column>
+                               <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Subj9 Grade" ></h:outputText>
+                                </f:facet>
+                                   <h:outputText escape="false" value="#{item.applicant_subject9_grade}"></h:outputText>
+                               </h:column>
+                            <!-- comment -->
+                            <!-- 
+                              <h:column>
+                               <f:facet name="header">
+                                   <h:outputText value="File" ></h:outputText>
+                               </f:facet>
+
+                                  <pe:documentViewer value="#{viewApplicantSchAttendedUpload.cert_file}" width="500"   cache="false"  />
+                               
+                           </h:column>
+                            -->
+
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Delete O'Level" ></h:outputText>
+                                </f:facet>
+
+                                <h:column>
+                                    <p:rowEditor />
+                                    <p:commandButton  style="font-size: medium; background: red;color: white" value="Delete" 
+                                                      action="#{ viewApplicantOLevelResultUpload.remove_OLevel_result_WithCommandLink(item.appNo)}" process="@this"  update="studentOLevelUploadForm, uploadedApplicant_OLevel_Result_Info" >
+                                    </p:commandButton>
+                                </h:column>
+
+                            </h:column>
+
+
+
+                        </h:dataTable>
+                    </div>
+                    <br />
+
+                </b:panel>
+            </b:form>
+
+
+        </b:container>   
+    </h:body>
+</html>
+

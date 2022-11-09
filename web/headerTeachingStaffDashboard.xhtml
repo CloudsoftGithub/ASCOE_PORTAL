@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:b="http://bootsfaces.net/ui">
+    <h:head>
+        <meta charset="utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+        <!-- Bootstrap -->
+        <link href="css/bootstrap.min.css" rel="stylesheet"></link>
+        <title>teachingStaff dashboard header</title>
+
+    </h:head>
+
+
+    <h:body style="font-size: small; background: lightgrey ">
+        <b:container>
+            <b:form>
+                <b:navBar brand="Result Login | Teaching-Staff-Dashboard"  brandHref="teachingStaffDashboard.xhtml" fixed="top" inverse="false" style="background: #b7dfed">
+                    <b:navbarLinks>
+                        <b:dropMenu value="Course_Reg_Verfication">
+                            <b:navLink value="Verify-Course-Reg" outcome="verify_student_course_registration.xhtml" style="color: black"></b:navLink>
+                            <b:navLink value="Reset-Course-Reg" outcome="reset_student_course_registration.xhtml"   style="color: black"></b:navLink>
+
+                        </b:dropMenu>
+                        <b:navLink value="Student-List-Per-Course" outcome="student_list_registered_in_a_Course.xhtml" style="color: black"></b:navLink>
+                        <b:navLink value="Data-Entry" outcome="data_entry_form.xhtml" style="color: black"></b:navLink>
+                        <b:navLink value="Compute GP/CGPA" outcome="compute_gp_cgpa_remarks.xhtml" style="color: black"></b:navLink>
+                        <b:navLink value="Results" outcome="results.xhtml" style="color: black"></b:navLink>
+
+
+                        <b:commandButton class="form-control"  tooltip="click to signout" icon="log-out" value="Signout" style="background: red; color: white" action="#{rootUserLoginBEAN.signoutMethod()}"/>
+                    </b:navbarLinks>
+                </b:navBar>
+
+            </b:form>
+        </b:container>
+
+
+        <!-- the bottom bar -->
+
+    </h:body>
+
+</html>
+

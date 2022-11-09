@@ -1,0 +1,184 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:pe="http://primefaces.org/ui/extensions">
+    <h:head>
+        <title>applicant-sch-attended-upload</title>
+    </h:head>
+    <h:body >
+
+        <div>
+            <b:form>
+                <ui:include src="headerApplicantDashaboard.xhtml"/>
+            </b:form>
+        </div>
+
+        <!--Sign up Begins here-->
+        <b:container  >
+
+            <div>
+                <p:spacer height="120px" /> <!-- this is a space  -->
+            </div>
+
+            <b:form id="studentRegForm" enctype="multipart/form-data" style="background: white">
+                
+                <b:growl id="msg2" style="font-size: medium; font-family: sans-serif" />
+                <b:messages id="msg" style="font-size: medium; font-family: sans-serif" />
+                <br />
+                <b:panel id="studentRegFormPanel" title="APPLICATION FOR ADMISSION - Step IV ( School(s) Attended Upload)" style="border-width: 3px; font-family: 'Kanit', sans-serif; color: black; background: white " look="success" >
+                    <div style="background: #bceecd; color: black; ">
+                        <br />
+                        <h4 align="center" style="font-size: xx-large">School Attedned Upload</h4>
+                        <h4 align="center" style="font-size: large; color: black"> Please, Carefully supply the following details; </h4>
+                        <h3 align="center" style="background: #E8F1D4; color: black "> You have logged in as: #{applicantLoginBEAN.theRetrievedSurname}, #{applicantLoginBEAN.theRetrievedOrthername} <h:inputText id="applicant_app_no_from_UI" disabled="false" style="text-align: center; font-size: x-large; background: #E8F1D4" value="#{applicantLoginBEAN.theRetrievedAppNo}" required="true" requiredMessage="session expired. Please, log in again and proceed" /> </h3>
+
+                        <br /> <br />
+                    </div>
+                    <br /> <br />
+
+                    <div class="col-xs-12">
+                        <b:row>
+                            <b:column small-screen="4">
+                                <b:inputText id="SchName"   class="form-control" style="font-size: medium; " value="#{application_for_admissionBEAN.applicant_sch_attended_name}" p:placeholder="Enter name of the school you have attended"   required="true" label="School Name:" required-message="Pls, supply School Name"/>
+                            </b:column>
+
+                        </b:row>
+                    </div>
+
+
+                    <div class="col-xs-12">
+                        <h:outputText value="Date(s) Attednded:" style="font-size: larger; background: #adc4be; text-align: center; color: black; font-style: normal" class="form-control"/>
+                        <b:row>
+
+                            <b:column small-screen="4">
+                                <b:inputText id="DatesAttendedFrom"   class="form-control" style="font-size: medium; " value="#{application_for_admissionBEAN.applicant_sch_attended_Date_From}" p:placeholder="From Date: "   required="true" label="From :" required-message="Pls, supply From Date"/>
+                            </b:column>
+                            <b:column small-screen="4">
+                                <b:inputText id="DatesAttendedTo"   class="form-control" style="font-size: medium; " value="#{application_for_admissionBEAN.applicant_sch_attended_Date_To}" p:placeholder="To Date: "   required="true" label="To :" required-message="Pls, supply To Date"/>
+                            </b:column>
+                        </b:row>
+                    </div>
+                    <div class="col-xs-12">
+                        <b:row>
+                            <b:column small-screen="4">
+                                <b:inputText id="CerttObtained"   class="form-control" style="font-size: medium; " value="#{application_for_admissionBEAN.applicant_sch_attended_TitileofCert}" p:placeholder="Enter title of the certificate you have obtained"   required="true" label="Certificate Obtained:" required-message="Pls, supply Certificate Obtained"/>
+                            </b:column>
+
+                        </b:row>
+                    </div>
+
+                    <div class="col-xs-12">
+                        <h:outputText value="Upload Certificate in (PDF Format ONLY)" style="font-size: larger; background: #adc4be; text-align: center; color: black; font-style: normal" class="form-control"/>
+                        <br />
+                        <b:column small-screen="12">
+                            <p:fileUpload id="fileupload"    value="#{application_for_admissionBEAN.applicant_certificate_photo}"  mode="simple"  dragDropSupport="true"  
+                                          update="msg" sizeLimit="1726174" fileLimit="1"  allowTypes="/(\.|\/)(pdf)$/i" fileLimitMessage="Maximum number of images exceeded"  invalidSizeMessage="The maximum file size allowed is: 1726174kb" 
+                                          invalidFileMessage="You can only upload these files types: PDF" required="true" requiredMessage="Pls, upload the school attended certificate Photo (IMAGE)" />
+                        </b:column>
+
+                    </div>
+
+                    <div class=" col-xs-12" align="center">
+                        <br />
+                        <b:row>
+                            <b:commandButton   class="btn btn-lg" look="success" action="#{application_for_admissionBEAN.applicant_Sch_attended_upload()}" value="Add Sch Info" style="background: white; color: green; border-radius: 10px; margin-right: 10px;" update="msg,msg2,studentRegForm,uploadedApplicantSchCertInfo" />
+                        </b:row>
+                    </div>
+
+                </b:panel>
+
+                <b:panel style="width: auto; color: black">
+                    <div  class="col-sm-12" align="center" >
+                        <div > <h4 style="text-transform: uppercase">Uploaded Schools Attended Information </h4> </div>
+
+                        <h:dataTable   id="uploadedApplicantSchCertInfo"   border="6"  style=" align-self: center ; font-size: medium; width:auto ; border-bottom-width: thick;  color: black; background: #E8F1D4" value="#{viewApplicantSchAttendedUpload.applicantSchAttendedInfo}" var="item">
+
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="ID" ></h:outputText>
+                                </f:facet>
+                                <h:outputText escape="false" value="#{item.id}"></h:outputText> 
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Application No." ></h:outputText>
+                                </f:facet>
+                                <h:outputText escape="false" value="#{item.appNo}"></h:outputText>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="School Name" ></h:outputText>
+                                </f:facet>
+                                <h:outputText escape="false" value="#{item.schoolAttendedName}"></h:outputText>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Certificate Obtaine" ></h:outputText>
+                                </f:facet>
+                                <h:outputText escape="false" value="#{item.certTitle}"></h:outputText> 
+                            </h:column>
+
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="From" ></h:outputText>
+                                </f:facet>
+                                <h:outputText escape="false" value="#{item.from}"></h:outputText>
+                            </h:column>
+
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="To " ></h:outputText>
+                                </f:facet>
+                                <h:outputText escape="false" value="#{item.to}"></h:outputText>
+                            </h:column>
+
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Date Uploaded" ></h:outputText>
+                                </f:facet>
+                                <h:outputText escape="false" value="#{item.uploadDate}"></h:outputText>
+                            </h:column>
+                            <!-- 
+                              <h:column>
+                               <f:facet name="header">
+                                   <h:outputText value="File" ></h:outputText>
+                               </f:facet>
+
+                                  <pe:documentViewer value="#{viewApplicantSchAttendedUpload.cert_file}" width="500"   cache="false"  />
+                               
+                           </h:column>
+                            -->
+
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Delete Row" ></h:outputText>
+                                </f:facet>
+
+                                <h:column>
+                                    <p:rowEditor />
+                                    <p:commandButton  style="font-size: medium; background: red;color: white" value="Delete ONLY this row" 
+                                                      action="#{viewApplicantSchAttendedUpload.removeSch_attended_WithCommandLink(item.appNo)}" process="@this"  update="studentRegForm, uploadedApplicantSchCertInfo" >
+                                    </p:commandButton>
+                                </h:column>
+
+                            </h:column>
+
+
+
+                        </h:dataTable>
+                    </div>
+                    <br />
+
+                </b:panel>
+            </b:form>
+
+
+        </b:container>   
+    </h:body>
+</html>
+

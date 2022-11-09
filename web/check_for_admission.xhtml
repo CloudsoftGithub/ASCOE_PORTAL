@@ -1,0 +1,147 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>Admission </title>
+        <link rel="shortcut icon"  href="#{request.contextPath}/resources/img/logo.jpg" type="image/x-icon"/> 
+        <script data-ad-client="ca-pub-9824241097560337" async='async' src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js">
+        </script>
+    </h:head>
+
+    <h:body style="background: white">
+
+        <div>
+            <b:form>
+                <ui:include src="header.xhtml"/>
+            </b:form>
+        </div>
+
+        <b:container  fluid="false" >
+
+            <div>
+                <p:spacer height="80px" /> <!-- this is a space  -->
+            </div>
+
+           
+            <div class="col-sm-12">
+                <b:form>
+                    
+                       <b:panel  style="background: red; font-size: large; width: auto" >
+                        <b:messages id="mgs" show-detail="true" />
+
+
+                        <div class="col-sm-12" style="background: #f0e9e7">
+                            <div align="center" > <h5 style="text-transform: uppercase; color: black; text-align-last: center; font-style: normal; font-size: x-large; color: white;background: black"> List of the Admitted Students  </h5> </div>
+
+                            <div  style="background: lightsteelblue;" class="col-sm-12" align="center">
+                                <p:spacer />
+                                <b:row>
+                                    <b:column small-screen="12" >
+                                        <p:commandButton class="center-block" value="Print (PDF)" style=" font-size: large; background: red; color: black">
+                                            <p:printer target="admisionDetails" />
+                                        </p:commandButton>
+                                    </b:column> 
+                                    
+                                </b:row>
+                                <p:spacer />
+                            </div>
+
+                            <div class="col-sm-12">
+                                <p:spacer />
+                                <b:row>
+
+                                    <div class="col-sm-12">
+                                        <p:dataTable  id="admisionDetails" tableStyle="width: auto"   paginator="true" rows="20"  scrollHeight="5" scrollWidth="5" value="#{applicantsBEAN.admissionListMthd()}"  var="item" style=" ;font-size: medium ; background: whitesmoke; align-items: center; align-self: center" >
+
+                                            <p:column >
+                                                <f:facet name="header">
+                                                    <h:outputText value="ID" ></h:outputText>
+                                                </f:facet>
+                                                <h:outputText escape="false" value="#{item.id}" ></h:outputText>
+                                            </p:column>
+                                            <p:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value="App No." ></h:outputText>
+                                                </f:facet>
+                                                <h:outputText escape="false" value="#{item.appNo}"  ></h:outputText>
+                                            </p:column>
+                                             <p:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value="Session" ></h:outputText>
+                                                </f:facet>
+                                                <h:outputText escape="false" value="#{item.session}"  ></h:outputText>
+                                            </p:column>
+                                            <p:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value="Surname" ></h:outputText>
+                                                </f:facet>
+                                                <h:outputText escape="false" value="#{item.surname}"  ></h:outputText>
+                                            </p:column> 
+                                            <p:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value="Orther Names" ></h:outputText>
+                                                </f:facet>
+                                                <h:outputText escape="false" value="#{item.orthername}"  ></h:outputText>
+                                            </p:column> 
+
+                                            <p:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value="State" ></h:outputText>
+                                                </f:facet>
+                                                <h:outputText escape="false" value="#{item.state}"  ></h:outputText>
+                                            </p:column> 
+                                            
+                                            <p:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value="LGA" ></h:outputText>
+                                                </f:facet>
+                                                <h:outputText escape="false" value="#{item.lga}"  ></h:outputText>
+                                            </p:column> 
+                                               
+                                            <p:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value="email" ></h:outputText>
+                                                </f:facet>
+                                                <h:outputText escape="false" value="#{item.email}"  ></h:outputText>
+                                            </p:column> 
+                                             
+                                            <p:column > 
+                                               
+                                                    <f:facet name="header">
+                                                        <h:outputText value="Course Admitted " ></h:outputText>
+                                                    </f:facet>
+                                                    <h:outputText escape="false" value="#{item.course_admitted}" style="   color: black; text-align: center"  ></h:outputText>
+                                               
+                                            </p:column>
+
+                                        </p:dataTable>
+                                        <br />
+
+                                    </div>
+                                </b:row>
+                            </div>
+                        </div>
+                    </b:panel>
+                    
+                </b:form>               
+                
+            </div>
+           
+
+        </b:container>
+        <h:form >
+            <div>
+                <b:form>
+                    <ui:include src="footera.xhtml"/>
+                </b:form>
+            </div>
+
+        </h:form>
+    </h:body>
+</html>
+

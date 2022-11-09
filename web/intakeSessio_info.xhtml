@@ -1,0 +1,123 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>intake-session_info</title>
+    </h:head>
+    <h:body style="background: #5f7ff7;">
+
+        <div>
+            <b:form>
+                <ui:include src="headerAdminDashboard.xhtml"/>
+            </b:form>
+        </div>
+
+        <b:container>
+
+            <b:form id="Intake-SessionInfoForm">
+                <div>
+                    <p:spacer height="150px" /> <!-- this is a space  -->
+                </div>
+                <b:messages id="mgs" show-detail="true" />
+                <div style="font-size: xx-small">  
+                    <b:growl id="mgs1"  show-detail="true"  />
+                </div>
+                <b:panel   style=" font-size: smaller; background: #dfddf7" >
+
+                    <b:panel title="Intake Session Information" style="background: #afb6e3; font-size: large" >
+                        <h1  align="center"> Supply Intake Session Information</h1>
+                        <p:separator />
+
+
+                        <div class="col-sm-12">
+                            <b:row>
+                                <b:column medium-screen="5">
+                                    <b:inputText id="intakeSession"  label="Intake Session:" placeholder="Intake Session" value="#{intake_SessionInfoBEAN.intkSessioInfo.intake_session}" required="true" requiredMessage="Pls, supply intake session"/>
+                                </b:column>
+                                <b:column medium-screen="5" offset="1">
+                                    <b:inputText id="intakeYear"  label="Year:" placeholder="Intake Year"  value="#{intake_SessionInfoBEAN.intkSessioInfo.intake_year}"  required="true" requiredMessage="Pls, supply intake year" />
+                                </b:column> 
+                            </b:row>
+                        </div>
+
+                        <div class="col-sm-12">
+                            <b:row>
+                                <b:column medium-screen="5" >
+                                </b:column>
+                                <b:column medium-screen="5" offset="1">
+                                    <b:commandButton id="register" value="Capture intake Session "  action="#{intake_SessionInfoBEAN.captureIntakeSessionInfoMthd()}"  look="primary" style="height: 60px; width: 250px;font-size: larger" update="mgs1,mgs,Intake-SessionInfoForm" />
+                                </b:column> 
+                            </b:row>
+                        </div>
+
+                        <p:separator />
+                        <br />
+                     
+
+                        <p:spacer height="35px" />
+
+
+
+                        <b:panel title="View the Intake Session Information" style="background: #b1c6d5">
+
+                            <div  style="background: none">
+                                <b:dataTable  class="col-sm-12" id="intake-session-information" style="background: #e7f0ef; font-size: small" value="#{viewIntakeSessionInfoTable.capturedIntakeSessionInfo}" var="item">
+                                    <f:facet name="header">
+                                        <h:outputText value="Intake Session Information" />
+                                    </f:facet>
+
+                                    <b:column >
+                                        <f:facet name="header">
+                                            <h:outputText value="ID" ></h:outputText>
+                                        </f:facet>
+                                        <h:outputText escape="false" value="#{item.id}"></h:outputText>
+                                    </b:column>
+                  
+                                    <b:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Intake_Session" ></h:outputText>
+                                        </f:facet>
+                                        <h:outputText escape="false" value="#{item.intake_session}"></h:outputText>
+                                    </b:column>
+
+                                    <b:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Intake_Year" ></h:outputText>
+                                        </f:facet>
+                                        <h:outputText escape="false" value="#{item.intake_year}"></h:outputText>
+                                    </b:column>
+                                    <b:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Status" ></h:outputText>
+                                        </f:facet>
+                                        <h:outputText escape="false" value="#{item.status}"></h:outputText>
+                                    </b:column>
+                                   
+
+                                     
+
+                                    <b:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Date Captured" ></h:outputText>
+                                        </f:facet>
+                                        <h:outputText escape="false" value="#{item.dateCaptured}"></h:outputText>
+                                    </b:column>
+                                </b:dataTable>
+                            </div>
+
+                        </b:panel>
+ 
+                    </b:panel>
+                </b:panel>
+            </b:form>
+
+        </b:container>
+
+    </h:body>
+</html>
+

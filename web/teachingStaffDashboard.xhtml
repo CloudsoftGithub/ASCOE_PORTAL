@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>teaching-staff-dashboard</title>
+        <link rel="shortcut icon"  href="#{request.contextPath}/resources/img/logo.jpg" type="image/x-icon"/> 
+
+    </h:head>
+    <h:body style="background: #b3cee1">
+        <div>
+            <b:form>
+                <ui:include src="headerTeachingStaffDashboard.xhtml"/>
+            </b:form>
+        </div>
+
+        <b:container  fluid="false" >
+
+            <div>
+                <p:spacer height="100px" /> <!-- this is a space  -->
+            </div>
+
+            <div class="col-xs-2"   style="font-size:  large">
+                <!-- Space -->
+            </div>
+
+            <div class="col-xs-8"   style="font-size:  large">
+                <div> <h2>Teaching Staff Dashboard </h2> </div>
+                <p:separator />
+
+                <div>
+                    <h:outputLabel value="Username: "  style="font-size: x-large"/>
+                    <h:inputText class="col-xs-8 form-control text-left"  id="myServiceNo"  value="#{staffLoginBEAN.username}" style=" background: #66ff33;font-size: xx-large"/>  
+                </div>
+                <p:separator />
+
+                <ul class="list-group">
+                    <li class="list-group-item active">Activities:</li>
+                    <li class="list-group-item"> Course registration verification </li>
+                    <li class="list-group-item">Downloading the list of the registered student for a particular course</li>
+                    <li class="list-group-item">Result Sheet Data Entry</li>
+
+                </ul>
+            </div>
+
+            <div class="col-xs-2"   style="font-size:  large">
+                <!-- Space -->
+            </div>
+
+        </b:container>
+    </h:body>
+</html>
+

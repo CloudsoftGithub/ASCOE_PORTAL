@@ -1,0 +1,29 @@
+.containerBox {
+  position: relative;
+  display: inline-block;
+}
+
+.section_of_the_page {
+  position: absolute;
+  height: 30%;
+  text-align: center;
+  width: 100%;
+  margin: auto;
+  top: 11%;
+  bottom: 0;
+  right: 0;
+  left: 14%;
+  font-size: 42px;
+}
+
+.img-responsive {
+  display: block;
+  max-width: 100%;
+  height: 120px;
+  margin: auto;
+  padding: auto;
+}
+
+.dataNumber {
+  margin-top: auto;
+}
