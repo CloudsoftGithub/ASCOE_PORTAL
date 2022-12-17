@@ -12,6 +12,7 @@ import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
@@ -241,33 +242,40 @@ public class matricNo_GenerationBEAN extends DAO implements Serializable {
     public void getstudentAdmissionInfoMthd() throws Exception {
 
         this.Connector();
+        String surname = "";
+        String othername = "";
         studentName = "";//Clears student's name prio fetching it  from DB
         phoneno = "";//Clears student's name prio fetching it from DB
         programs = "";//Clears student's name prio fetching it from DB
-        
-        try { 
-            ps = this.getCn().prepareStatement("SELECT concat(surname, \" \", orther), phoneno,course_admitted,session  FROM admission_list WHERE appno=? "); //
+        intakeSession = "";
+        try {
+            //   ps = this.getCn().prepareStatement("SELECT concat(admission_list.surname, \" \", orther), phoneno,course_admitted,session  FROM admission_list WHERE appno=? "); //
+
+            ps = this.getCn().prepareStatement("SELECT admission_list.surname,admission_list.orther, admission_list.phoneno, admission_list.course_admitted,admission_list.session  FROM admission_list WHERE appno=? "); //
             ps.setString(1, appNo);
             rs = ps.executeQuery();
 
             while (rs.next()) {
-                studentName = rs.getString(1);
-                phoneno = rs.getString(2);
-                programs = rs.getString(3);
-                intakeSession = rs.getString(4);
+                surname = rs.getString(1);
+                othername = rs.getString(2);
+                studentName = surname +" "+ othername;
 
-                //SPLITTING THE 'intakeSession' into two parts in order to get the 'IntakeYear'
-                String[] parts = intakeSession.split("/");
-                part1 = parts[0];//The inTake Year 
-                part2 = parts[1];//The Next Year
-                intakeYear = part1;//setting the 'part1' as intakeYear
-
+                phoneno = rs.getString(3);
+                programs = rs.getString(4);
+                intakeSession = rs.getString(5);
+ 
             }//end of while-block
 
+             // SPLITTING THE intakeSession into 'Session' and 'Year'
+                String[] parts = intakeSession.split("/");
+                part1 = parts[0];// 1st Year (The intakeYear)
+                part2 = parts[1];//2nd Year
+                
+                intakeYear =  part1;
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Studentsname Retrieval Error", e.getMessage() + " . Pls, try again"));
         } finally {
-            this.Close();
+         //   this.Close();
         }
 
     }//end of method
@@ -279,7 +287,7 @@ public class matricNo_GenerationBEAN extends DAO implements Serializable {
 
         this.Connector();
 
-        try { 
+        try {
             ps = this.getCn().prepareStatement("SELECT phoneno FROM admission_list WHERE SESSION=? "); //
             ps.setString(1, intakeSession);
             rs = ps.executeQuery();
@@ -435,6 +443,8 @@ public class matricNo_GenerationBEAN extends DAO implements Serializable {
 
         this.Connector();//
 
+        getstudentAdmissionInfoMthd();//Invoked before executing the below codes
+                
         ////Pulling the ProgramCode from the 'programs' table
         ps = this.getCn().prepareStatement("SELECT code FROM programs WHERE title = ? ");
         ps.setString(1, programs);
@@ -455,38 +465,55 @@ public class matricNo_GenerationBEAN extends DAO implements Serializable {
         myMatricNo = "ER" + "/" + subCal + "/" + ProgramCode + "/";
 
         //VALIDATING THE SUPPLIED PHONE NO 
-        ps = this.getCn().prepareStatement("SELECT phoneno FROM " + myMatricNoGenTableName + " WHERE phoneno = ? ");
+        ps = this.getCn().prepareStatement("SELECT phoneno FROM " + myMatricNoGenTableName.toLowerCase() + " WHERE phoneno = ? ");
         ps.setString(1, phoneno);
         rs = ps.executeQuery();
-        if (rs.next()) {//Phone no is found
 
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "This Phone no:  " + phoneno + " has been used by another person", "replace it and try again"));
+        System.out.println(" Printing the Cal TWO DIGITS " + subCal);
+        ///Generating the Matric No
+        try {
 
-        } else {//phone NOT found
-            System.out.println(" Printing the Cal TWO DIGITS " + subCal);
-            ///Generating the Matric No
+            if (studentName.equalsIgnoreCase("")) {//Serverside validations for the requred inputs
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Please, supply name ", " and try again. Thank you."));
+                //CLEAR THE COUNTER, when the precess failed, for fresh attempt 
+                counter = 0;
+            } else if (phoneno.equalsIgnoreCase("")) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Please, supply phone ", " and try again. Thank you."));
+                //CLEAR THE COUNTER, when the precess failed, for fresh attempt 
+                counter = 0;
+            } else if (rs.next()) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Sorry, This Phone No. EXIST. ", " Pls, use a different phone no."));
+
+                //CLEAR THE COUNTER, when the precess failed, for fresh attempt 
+                counter = 0;
+            } else {
+
+                ps = getCn().prepareStatement("INSERT INTO " +  myMatricNoGenTableName.toLowerCase() + " values(null,?,?,?,?,?,?, Date(Now()), ?,?,?)");
+                ps.setString(1, myMatricNo);
+                ps.setString(2, studentName);
+                ps.setString(3, faculty_SchoolName);
+                ps.setString(4, department);
+                ps.setString(5, programs);
+                ps.setString(6, phoneno);
+                ps.setString(7, intakelevel);
+                ps.setString(8, intakeSession);
+                ps.setString(9, intakeYear);
+                ps.executeUpdate();
+
+                counter++;//incrementing the counter 
+            }
+
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            // this.Close();
+        }
+
+        if (counter > 0) {//1. IF MATRIC NO IS GENERATED SUCCESSFULLY THEN 2.//UPDATING THE MATRICNO IN THE 'myMatricNoGenTableName' TABLE 
             try {
-
-                if (studentName.equalsIgnoreCase("")) {//Serverside validations for the requred inputs
-                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Please, supply name ", " and try again. Thank you."));
-                } else if (phoneno.equalsIgnoreCase("")) {
-                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Please, supply phone ", " and try again. Thank you."));
-
-                } else {
-                    ps = getCn().prepareStatement("INSERT INTO " + myMatricNoGenTableName + " values(null,?,?,?,?,?,?, Date(Now()), ?,?,?)");
-                    ps.setString(1, myMatricNo);
-                    ps.setString(2, studentName);
-                    ps.setString(3, faculty_SchoolName);
-                    ps.setString(4, department);
-                    ps.setString(5, programs);
-                    ps.setString(6, phoneno);
-                    ps.setString(7, intakelevel);
-                    ps.setString(8, intakeSession);
-                    ps.setString(9, intakeYear);
-                    ps.executeUpdate();
-
-                    counter++;//incrementing the counter 
-                }
+                PreparedStatement st4 = getCn().prepareStatement("UPDATE " + myMatricNoGenTableName.toLowerCase() + "  SET generatedMatricno= CONCAT(generatedMatricno,id) WHERE phoneno=? ");
+                st4.setString(1, phoneno);
+                st4.executeUpdate();
 
             } catch (Exception e) {
                 throw e;
@@ -494,22 +521,9 @@ public class matricNo_GenerationBEAN extends DAO implements Serializable {
                 // this.Close();
             }
 
-            if (counter > 0) {//UPDATING THE MATRICNO IN THE 'myMatricNoGenTableName' TABLE 
-                try {
-                    PreparedStatement st4 = getCn().prepareStatement("UPDATE " + myMatricNoGenTableName + "  SET generatedMatricno= CONCAT(generatedMatricno,id) WHERE phoneno=? ");
-                    st4.setString(1, phoneno);
-                    st4.executeUpdate();
-
-                } catch (Exception e) {
-                    throw e;
-                } finally {
-                    // this.Close();
-                }
-            }
-
-            ////Pulling the just generated MATRIC NO
+            //3. ////Pulling the just generated MATRIC NO
             try {
-                ps = this.getCn().prepareStatement("SELECT generatedMatricno FROM " + myMatricNoGenTableName);
+                ps = this.getCn().prepareStatement("SELECT generatedMatricno FROM " + myMatricNoGenTableName.toLowerCase());
                 rs = ps.executeQuery();
 
                 while (rs.next()) {
@@ -526,38 +540,27 @@ public class matricNo_GenerationBEAN extends DAO implements Serializable {
                 //this.Close();
             }
 
-            if (counter > 0) {// 1. i.e record have been inserted into the 'myMatricNoGenTableName' table
-                //2. Then we want to insert info into the the 'levelcompute' 
+        }//END OF THE IFBLOCK 
 
-                /*
-                  ps = this.getCn().prepareStatement("  SELECT id, matricno,level,session,year FROM levelcompute ");
+        if (counter > 0) {
+            // 1. i.e record have been inserted into the 'myMatricNoGenTableName.toLowerCase()' table
+            //2. Then we want to insert info into the the 'levelcompute' 
 
-                rs = ps.executeQuery();
-                if (rs.next()) {//IF FOUND ... do nothing
+            try {
+                ps = this.getCn().prepareStatement(" INSERT INTO levelcompute values(null, ?, ?, ?, ?)");
+                ps.setString(1, generatedMatricNo);//THE FULLED MATRIC NO
+                ps.setString(2, intakelevel);
+                ps.setString(3, intakeSession);
+                ps.setString(4, intakeYear);
+                ps.executeUpdate();
 
-                    //Do nothing 
-                } else {//IF NOT FOUND .. Insert into the 'levelcompute' table  
-
-                    ps = this.getCn().prepareStatement(" INSERT INTO levelcompute SELECT id, generatedMatricno,intake_level,intake_session,year FROM " + myMatricNoGenTableName);
-                    ps.executeUpdate();
-                }
-                
-                 */
-                try {
-                    ps = this.getCn().prepareStatement(" INSERT INTO levelcompute values(null, ?, ?, ?, ?)");
-                    ps.setString(1, generatedMatricNo);//THE FULLED MATRIC NO
-                    ps.setString(2, intakelevel);
-                    ps.setString(3, intakeSession);
-                    ps.setString(4, intakeYear);
-                    ps.executeUpdate();
-
-                } catch (Exception e) {
-                    throw e;
-                } finally {
-                    this.Close();
-                }
+                //CLEAR THE COUNTER, IMMEDAITELY WHEN THE 'MATRIC NO GENERATION IS SUCCESSFUL'
+                counter = 0;
+            } catch (Exception e) {
+                throw e;
+            } finally {
+                this.Close();
             }
-
         }
 
     }//end of the method

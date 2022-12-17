@@ -22,7 +22,13 @@
         <welcome-file>index.xhtml</welcome-file>
     </welcome-file-list>
     
-     <!-- web fonts -->
+    <!-- <error-page>
+        <exception-type>javax.faces.application.ViewExpiredException</exception-type>
+        <location>/WEB-INF/expired.xhtml</location>
+    </error-page>
+ -->
+    
+    <!-- web fonts -->
     <mime-mapping>
         <extension>eot</extension>
         <mime-type>application/vnd.ms-fontobject</mime-type>
@@ -47,4 +53,7 @@
         <extension>ico</extension>
         <mime-type>image/x-icon</mime-type>
     </mime-mapping>
+    
+    
+    
 </web-app>

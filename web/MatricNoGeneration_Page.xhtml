@@ -1,0 +1,155 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>MatricNoGeneration</title>
+    </h:head>
+    <h:body style="background: #dfddf7">
+        <div>
+            <b:form>
+                <ui:include src="headerAdminDashboard.xhtml"/>
+            </b:form>
+        </div>
+        <b:container>
+            <b:form id="matricNumerAssignmentForm">
+                <div>
+                    <p:spacer height="200px" /> <!-- this is a space  -->
+                </div>
+                <b:messages id="mgs" show-detail="true" />
+                <div style="font-size: xx-small">  
+                    <b:growl id="mgs1"  show-detail="true"  />
+                </div>
+
+                <b:panel   style=" font-size: smaller; background: #dfddf7" >
+
+                    <b:panel title="Matric Number Generation" style="background: #809d9f; font-size: large" look="success">
+                        <h3 align="center" class="col-sm-12" > Generate Matric-Number/Registration-Number</h3>
+                        <p:separator />
+
+
+                        <div class="col-sm-12">
+
+                            <b:row>
+                                <b:column small-screen="5" >
+                                    <b:selectOneMenu id="faculty-SchoolName" label="School:" value="#{matricNo_GenerationBEAN.faculty_SchoolName}"  required="true" requiredMessage="Pls, supply faculty-school">
+                                        <f:selectItem itemLabel="Select school" itemValue=""  />
+                                        <f:selectItems value="#{matricNo_GenerationBEAN.getfaculty_SchoolTitleMthd()}"  />
+                                    </b:selectOneMenu> 
+                                </b:column>
+
+                                <b:column small-screen="5" offset="1">
+                                    <b:selectOneMenu id="dept" label="Department:" value="#{matricNo_GenerationBEAN.department}"  required="true" requiredMessage="Pls, supply department" >
+                                        <f:selectItem itemLabel="Select department" itemValue=""  />
+                                        <f:selectItems value="#{matricNo_GenerationBEAN.getdepartmentTitleMthd()}"  />
+                                    </b:selectOneMenu> 
+                                </b:column>
+                            </b:row>
+                        </div>
+                        <div class="col-sm-12">
+                            <b:row>
+                                <b:column medium-screen="5">
+                                    <b:inputText id="AppNo" label="Applicantion No: "  style="background: #8f9363;  color: whitesmoke"  value="#{matricNo_GenerationBEAN.appNo}"  
+                                                 tooltip="This inputText is for Applicant AppNo" required="true" requiredMessage="Pls, supply the Applicant AppNo!" 
+                                                 >
+                                    </b:inputText>
+
+                                </b:column>
+
+                            </b:row>
+                        </div>
+
+                        <div class="col-sm-12">
+
+                            <b:row>
+                                <b:column medium-screen="5" >
+                                    <b:inputText id="programs" label="Program/Combination: " value="#{matricNo_GenerationBEAN.programs}">
+
+                                    </b:inputText>                                              
+                                </b:column>
+                                <b:column medium-screen="5" offset="1">
+                                    <b:inputText id="studName" label="Student Name: " value="#{matricNo_GenerationBEAN.studentName}"  tooltip="This inputText is for student name" >
+
+                                    </b:inputText>
+
+                                </b:column>
+                            </b:row>
+                        </div>
+
+                        <div class="col-sm-12">
+                            <b:row>
+                                <b:column medium-screen="5">
+                                    <b:inputText id="phoneno" label="Phone No:" value="#{matricNo_GenerationBEAN.phoneno}"  tooltip="This box is for phone no." >
+
+                                    </b:inputText>
+
+                                </b:column>
+                                <b:column medium-screen="5" offset="1">
+                                    <b:selectOneMenu id="intakeLevel" label="Intake Level:" value="#{matricNo_GenerationBEAN.intakelevel}"  required="true" requiredMessage="Pls, supply intake level">
+                                        <f:selectItem itemLabel="Select intake level" itemValue=""  />
+                                        <f:selectItem itemLabel="NCE I" itemValue="NCE I"/>
+                                        <f:selectItem itemLabel="NCE II" itemValue="NCE II"/>
+                                        <f:selectItem itemLabel="NCE III" itemValue="NCE III"/>
+                                    </b:selectOneMenu> 
+                                </b:column> 
+                            </b:row>
+                        </div>
+
+                        <div class="col-sm-12">
+                            <b:row>
+                                <b:column medium-screen="5">
+                                    <b:inputText  id="intakeSession" label="Intake Session:" value="#{matricNo_GenerationBEAN.intakeSession}"  >
+
+                                    </b:inputText>
+
+                                </b:column>
+                                <b:column medium-screen="5" offset="1">
+                                    <b:inputText  id="intakeYear" label="Year:" value="#{matricNo_GenerationBEAN.intakeYear}"  >
+
+                                    </b:inputText>
+
+                                </b:column> 
+                            </b:row>
+                        </div>
+
+                        <div class="col-sm-12">
+                            <b:row>
+                                <b:column medium-screen="4">
+                                    <b:commandButton id="generate" value="Generate! " ajax="false" action="#{matricNo_GenerationBEAN.generateMatricNoMthd()}"  look="primary" style="height: 60px; width: 130px;font-size: larger" update="mgs1,mgs,matricNumerAssignmentForm" />
+                                </b:column> 
+                                <b:column medium-screen="4">
+                                    <!-- Just a space -->
+                                </b:column>
+
+                                <b:column medium-screen="4" >
+                                    <b:commandButton id="fetchData" value="Fetch Data " action="#{matricNo_GenerationBEAN.getstudentAdmissionInfoMthd()}" ajax="false" process="@this, studName, phoneno, AppNo,programs,intakeSession"   look="danger" style="height: 60px; width: 130px;font-size: larger" update="mgs1,mgs,matricNumerAssignmentForm" />
+                                </b:column> 
+                            </b:row>
+                        </div>
+                        <p:separator />
+                        <b:panel style="background: red; color: #8f9363" title="Generated Matric No Information">
+                            <div class="col-sm-12">
+                                <b:row>
+                                    <h4 align="left" style="color: white">Note: </h4>
+                                    <h4 align="justify"  style="color: whitesmoke">
+                                        Matric numbers are generated automatically whenever the 'generate' button is clicked and after supplying the required data. 
+                                        The generated matric number will be displayed under its program below. You are therefore NOT allowed to generate matric numbers unless you are instructed to do so by the college management.
+                                    </h4>
+                                </b:row>
+
+                            </div>
+                        </b:panel>
+                        <p:separator />
+
+                    </b:panel>
+                </b:panel>
+
+            </b:form>
+        </b:container>
+    </h:body>
+</html>
+

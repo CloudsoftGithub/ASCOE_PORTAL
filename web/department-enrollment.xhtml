@@ -8,18 +8,18 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <h:head>
         <title>department-enrollment</title>
-         
+
     </h:head>
 
     <h:body style="background: #5f7ff7">
-     
-         <div>
-             <b:form>
-                 <ui:include src="headerAdminDashboard.xhtml"/>
-             </b:form>
-         </div>
- 
-      
+
+        <div>
+            <b:form>
+                <ui:include src="headerAdminDashboard.xhtml"/>
+            </b:form>
+        </div>
+
+
         <b:container  fluid="false" >
 
             <div>
@@ -34,10 +34,10 @@
                 <b:form id="Dept-enrollmentForm" class="col-sm-12" style="background: none" >
                     <b:messages  id="msg2" showDetail="true"  />
 
-                    <b:panel   style=";height: 950px; font-size: smaller; background: #dfddf7">
+                    <b:panel   style=";height: auto; font-size: smaller; background: #dfddf7">
 
                         <b:panel id="subpanel2">
-                            <b:panel id="Dept-enrollmentPanel" title="Department_Enrollment Form" style="height: 850px; background: #adc4be; ">
+                            <b:panel id="Dept-enrollmentPanel" title="Department_Enrollment Form" style="height: auto; background: #adc4be; ">
                                 <h1 align="center" style="font-family: sans-serif; color: black"> Department Enrollment </h1>
 
                                 <br />
@@ -55,7 +55,7 @@
                                     </b:row>
 
                                 </div>
- 
+
                                 <div class="col-sm-12">
                                     <b:row>
                                         <b:column medium-screen="5">
@@ -65,8 +65,8 @@
                                     </b:row>
 
                                 </div>
-                              
- 
+
+
                                 <div class="col-sm-12">
                                     <b:row>
                                         <b:column medium-screen="5">
@@ -82,9 +82,33 @@
 
                                 <p:spacer height="30px" />
                                 <p:separator />
+                                <div class="col-sm-12" style="background: #5f7ff7; color: white">
+
+                                    <b:row>
+                                        <b:column small-screen="6">
+                                            <h:outputText value="Department Code: *"  style="font-weight: bold; font-size: medium" />
+                                            <h:selectOneMenu id="departmentCode" label="Department Code :" class="form-control" style="font-size: large" value="#{viewDepartmentTable.code}"  required="true" requiredMessage="Pls, supply Department Code">
+                                                <f:selectItem itemLabel="Select Department Code" itemValue=""  />
+                                                <f:selectItems value="#{viewDepartmentTable.departmentsMthd}"  />
+                                            </h:selectOneMenu> 
+                                        </b:column>
+
+                                    </b:row>
+                                    <br />
+                                </div>
+
+                                <div class="col-sm-12" style="background: #5f7ff7">
+                                    <b:row>
+                                        <b:column small-screen="4" >
+                                            <b:commandButton value="View Departments"  style="font-size: x-large; background: darkslategray; color: white" action="#{viewDepartmentTable.goViewDepartmentsMthd()}" process="@this, departmentCode" update="Enrolled_departments,msg" />
+                                        </b:column>
+                                    </b:row>
+                                    <p:separator />
+                                </div>
+
 
                                 <div  style="background: #d6e4e0">
-                                    <b:dataTable   id="Enrolled-departments" style="background: #b89cf3; font-size: small" value="#{viewDepartmentTable.enrolledDpartment}" var="item">
+                                    <b:dataTable   id="Enrolled_departments" style="background: #b89cf3; font-size: small" value="#{viewDepartmentTable.enrolledDpartment}" var="item">
                                         <f:facet name="header">
                                             <h:outputText value="Registered Department" />
                                         </f:facet>
@@ -108,7 +132,7 @@
                                             </f:facet>
                                             <h:outputText escape="false" value="#{item.code}"></h:outputText>
                                         </b:column>
-                                        
+
 
                                         <b:column>
                                             <f:facet name="header">

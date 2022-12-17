@@ -1,4 +1,3 @@
- 
 package COM.ResultLogic.BEAN;
 
 import COM.ResultLogic.DAO.DAO;
@@ -6,11 +5,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 
 @ManagedBean
-@SessionScoped
+@RequestScoped
 public class viewProgramsTable extends DAO {
 
     PreparedStatement ps;
@@ -24,6 +26,8 @@ public class viewProgramsTable extends DAO {
 
     private String dateregistered;
     private String doneBy;
+    private String programDureation;
+    private List<String> programDurationList = new ArrayList<>();
 
     public int getId() {
         return id;
@@ -57,7 +61,6 @@ public class viewProgramsTable extends DAO {
         this.duration = duration;
     }
 
-    
     public String getFaculty() {
         return faculty;
     }
@@ -82,14 +85,60 @@ public class viewProgramsTable extends DAO {
         this.doneBy = doneBy;
     }
 
-    public List<viewProgramsTable> getEnrolledPrograms() throws Exception {
+    public List<String> getProgramDurationList() {
+        return programDurationList;
+    }
+
+    public void setProgramDurationList(List<String> programDurationList) {
+        this.programDurationList = programDurationList;
+    }
+
+    public String getProgramDureation() {
+        return programDureation;
+    }
+
+    public void setProgramDureation(String programDureation) {
+        this.programDureation = programDureation;
+    }
+
+    public List<String> getProgramDurationMthd() throws Exception {
+
+        programDurationList.removeAll(programDurationList);
+
+        this.Connector();
+
+        try {
+
+            ps = this.getCn().prepareStatement("SELECT distinct duration FROM programs ");
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                programDurationList.add(rs.getString("duration"));//retrieves all the sessions  and ADD into the intakeSessionList
+            }//end of while-block
+
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Intake Session Error", e.getMessage() + " . Pls, try again"));
+
+        } finally {
+            this.Close();
+        }
+
+        return programDurationList;
+
+    }//end of method
+
+    public List<viewProgramsTable> getenrolledPrograms() throws Exception {
+        getProgramDurationMthd();//invoked 
+        
         this.Connector();
 
         List<viewProgramsTable> progrm_info = new ArrayList<viewProgramsTable>();
 
         try {
 
-            ps = this.getCn().prepareStatement("select * from programs ");
+            ps = this.getCn().prepareStatement("select * from programs WHERE duration=? ");
+            ps.setString(1, programDureation);
+
             rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -110,9 +159,14 @@ public class viewProgramsTable extends DAO {
             this.Close();
         }
 
+       
         return progrm_info;
 
     }//end of the method
 
+    public void goViewEnrolledrogramsMthd() throws Exception {
+        getenrolledPrograms();//invoked
+
+    }//end of the the method 
 }//end of the class
 

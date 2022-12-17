@@ -40,17 +40,17 @@
         </script>
     </h:head>
 
-    <h:body style="color: #0033ff; font-family: 'Kanit',monospace">
+    <h:body style="color: white; font-family: 'Kanit',monospace">
         <b:container  fluid="true" >
 
             <div>
                 <b:form> 
-                    <b:navBar brand="Applicant Dashaboard | " brand-href="applicantDashboard.xhtml" fixed="top"  inverse="true" class="navbar-nav nav-xs"  style="background: green; color: white; font-family: 'Kanit', sans-serif; font-size: large">
+                    <b:navBar brand="Applicant Dashaboard | " brand-href="applicantDashboard.xhtml" fixed="top"  inverse="true" class="navbar-nav nav-xs"  style="background: darkslategrey; color: white; font-family: 'Kanit', sans-serif; font-size: large">
                          <b:navbarLinks >
                             <b:navCommandLink>
                                 <b:row>
                                     <b:column medium-screen="12" >
-                                        <b:commandButton class="form-control"  tooltip="click to signout" icon="log-out" value="Signout" style="background: red; color: white" action="#{rootUserLoginBEAN.signoutMethod()}"/>
+                                        <h:commandButton class="form-control"   value="Signout" style="background: #5f7ff7; color: white" action="#{rootUserLoginBEAN.signoutMethod()}"/>
                                     </b:column>
                                 </b:row>
 
@@ -64,18 +64,7 @@
 
         </b:container>
 
-        <script src="resources/js/bootstrap.min.js"></script>
-        <script src="resources/js/owl.carousel.min.js"></script>
-        <script type="text/javascript" src="resources/js/jquery.mixitup.min.js" ></script>
-        <script src="resources/js/wow.min.js"></script>
-        <script src="resources/js/jquery.validate.js"></script>
-        <script type="text/javascript" src="resources/js/jquery.hoverdir.js"></script>
-        <script type="text/javascript" src="resources/js/jQuery.scrollSpeed.js"></script>
-        <script src="resources/js/script.js"></script>
-
-        <!-- js -->
-        <script type="text/javascript" src="resources/js/jquery-2.1.4.min.js"></script>
-        <!-- //js -->
+     
 
     </h:body>
 </html>

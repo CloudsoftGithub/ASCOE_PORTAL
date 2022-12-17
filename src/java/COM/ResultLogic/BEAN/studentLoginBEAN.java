@@ -143,6 +143,7 @@ public class studentLoginBEAN extends DAO {
         //pullingStudentLevelInfoMthd();//invoked 
     }//end of the method
 
+    
     public void pullingStudentInfoMthd() throws Exception {
         this.Connector();//
 

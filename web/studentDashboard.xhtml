@@ -22,17 +22,19 @@
 
             <div class="col-sm-4" style="background: slateblue" >
                 <b:form>
-                    <b:panel style="height: 850px; background: slateblue">
+                    <b:panel style="height: 850px; background: #d9ebeb">
 
-                        <b:flyOutMenu style="font-size:large; background: lightpink">
-                            <b:navLink value="Dashboard" outcome="studentDashboard.xhtml" style="background: white; color: black" ></b:navLink>
+                        <b:flyOutMenu style="font-size:large; background: red; color: white; " >
+                            <b:navLink value="Dashboard" outcome="studentDashboard.xhtml" style="background: white; color: black; font-size: x-large" ></b:navLink>
 
-                             <b:dropMenu value="Course Registration">
-                                <b:navLink value="First Semester-Course Registration" outcome="first_semester_student_course_registration.xhtml" style="background: #d0e7e8; color: brown" ></b:navLink>
-                                <b:navLink value="Second Semester-Course Registration" outcome="second_semester_student_course_registration.xhtml" style="background: #d0e7e8; color: brown" ></b:navLink>
-
+                            <b:dropMenu value="Course Registration" style="font-size: x-large">
+                                <b:navLink value="First Semester-Course Registration" outcome="first_semester_student_course_registration.xhtml" style="background: #d0e7e8; color: brown; font-size: large" ></b:navLink>
+                                <b:navLink value="Second Semester-Course Registration" outcome="second_semester_student_course_registration.xhtml" style="background: #d0e7e8; color: brown; font-size: large" ></b:navLink>
                             </b:dropMenu>
- 
+
+                            <b:dropMenu value="Print Examination Card" style="font-size: x-large">
+                                <b:navLink value="PRINT Exam Card" outcome="print_exams_card.xhtml" style="background: #d0e7e8; color: brown; font-size: large" ></b:navLink>
+                             </b:dropMenu>
                         </b:flyOutMenu> 
                     </b:panel>
                 </b:form>
@@ -40,18 +42,24 @@
 
             <div class="col-sm-8" >
                 <b:form>  
-                    <b:panel style="background: lightpink; height: 850px; background: slateblue">                               
+                    <b:panel style=" height: 850px; background: #d9ebeb">                               
 
-                        <h3 style="background: white; " align="center"> STUDENT DASHBOARD</h3>
+                        <h3 style="background: slateblue; color: whitesmoke; " align="center"> STUDENT DASHBOARD</h3>
                         <p:separator />
                         <h3 style="background: lightgreen; font-family: cursive"> Welcome: #{studentLoginBEAN.fullName}</h3>
                         <div align="justify" style="background: lightcyan" >
-                            <ol>
-                                <li> <p  style="font-size: large" align="justify"> This dashboard is for the student who have enrolled into a particular program. 
-                                    </p> </li>
-                                <li> <p style="font-size: large; font-family: sans-serif"> Students should carefully select the required function to execute by clicking on the left side pane.
-                                    </p></li>
-                            </ol>
+
+                            <ul class="list-group">
+                                <li class="list-group-item active">Activities:</li>
+                                <li  class="list-group-item"> 1.    This dashboard is for the student who have enrolled into a particular program. </li>
+                                <li class="list-group-item">  2.    Student should carefully select the required function to execute by clicking on the left side pane. </li>
+                                <li class="list-group-item">  3.    Student should register all his/her 'FIRST SEMESTER' courses </li>
+                                <li class="list-group-item">  4.    Student should register all his/her 'SECOND SEMESTER' courses </li>
+                                <li class="list-group-item">  5.    Student should 'PRINT OUT' his/her 'EXAMINATION SLIP' </li>
+                                <li class="list-group-item" style="background: red;color: white; font-weight: bold"> NOTE: All documents generated &amp; printed from this dashboard SHOULD be submitted to the 'COURSE-COORDINATOR'/'LEVEL-COORDINATOR' for endorsement</li>
+
+                            </ul>
+
                         </div>
 
 

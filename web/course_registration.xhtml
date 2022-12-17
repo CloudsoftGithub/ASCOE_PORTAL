@@ -28,7 +28,7 @@
                 <b:form style="background: #809d9f; ">
                     <h1 align="center">Courses Registration</h1>
 
- 
+
                     <b:panel   style=" font-size: medium; background: #809d9f" >
                         <b:panel id="course_regPanel" title="Course Registration" style="font-family: 'Kanit', sans-serif; color: black; " look="success" >
 
@@ -103,8 +103,42 @@
 
                     <b:panel title="View Registered Courses" style="background: #b1c6d5">
 
+                        <div class="col-sm-12" style="background: skyblue">
+
+                            <b:row>
+                                <b:column small-screen="4"> 
+                                    <b:selectOneMenu id="courseCategory"  label="Course Category"  class="form-control" style="font-size: medium; " value="#{viewregisteredCourses.courseCategory}"   required="true" requiredMessage="Pls, supply course category">
+                                        <f:selectItem itemLabel="Select Course Category" itemValue=""  />
+                                        <f:selectItems value="#{viewregisteredCourses.getcoursecategoryMthd()}"/>
+                                    </b:selectOneMenu> 
+                                </b:column>
+                                <b:column small-screen="4"> 
+                                    <b:selectOneMenu id="CourseLevel"  label="Course Level"  class="form-control" style="font-size: medium; " value="#{viewregisteredCourses.level}"   required="true" requiredMessage="Pls, supply course level">
+                                        <f:selectItem itemLabel="Select Course Level" itemValue=""  />
+                                        <f:selectItems value="#{viewregisteredCourses.getlelvelMthd()}"/>
+                                    </b:selectOneMenu> 
+                                </b:column>
+                                <b:column small-screen="4">
+                                    <b:selectOneMenu id="CourseSemester" label="Semester :" value="#{viewregisteredCourses.semester}"  required="true" required-message="Pls, enter semester" tooltip="Pls, enter semester">
+                                        <f:selectItem itemLabel="Select Semester" itemValue="" />
+                                        <f:selectItem itemLabel="FIRST SEMESTER" itemValue="FIRST SEMESTER" />
+                                         <f:selectItem itemLabel="SECOND SEMESTER" itemValue="SECOND SEMESTER" />
+                                    </b:selectOneMenu>
+                                </b:column>
+
+                            </b:row>
+                        </div>
+                        <div class="col-sm-12" style="background: skyblue">
+                            <b:row>
+                                <b:column small-screen="4" >
+                                    <b:commandButton value="View Courses"  style="font-size: x-large; background: black; color: white" action="#{viewregisteredCourses.goViewMethod()}" process="@this, courseCategory, CourseLevel,CourseSemester" update="registeredCourses,msg,msg" />
+                                </b:column>
+                            </b:row>
+                            <p:separator />
+                        </div>
+
                         <div  style="background: none">
-                            <b:dataTable  class="col-sm-12" id="registeredCourses" style="background: whitesmoke; font-size: small; color: black" value="#{viewregisteredCourses.registeredCourses}" var="item">
+                            <b:dataTable  class="col-sm-12" id="registeredCourses" responsive="true" style="background: whitesmoke; font-size: small; color: black" value="#{viewregisteredCourses.registeredCourses}" var="item">
                                 <f:facet name="header">
                                     <h:outputText value="Registered Courses" />
                                 </f:facet>

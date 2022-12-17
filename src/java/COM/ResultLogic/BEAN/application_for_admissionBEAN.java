@@ -17,14 +17,16 @@ import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import org.primefaces.model.StreamedContent;
 import org.primefaces.model.file.UploadedFile;
 
 @ManagedBean
-@SessionScoped
+@ViewScoped
 public class application_for_admissionBEAN extends DAO {
 
     PreparedStatement ps;
@@ -813,8 +815,8 @@ public class application_for_admissionBEAN extends DAO {
                 ps.setString(1, null);
                 ps.setString(2, the_ApplicationNumber);
                 ps.setString(3, applicant_sch_attended_name);
-                ps.setString(4, applicant_sch_attended_Date_To);
-                ps.setString(5, applicant_sch_attended_Date_From);
+                ps.setString(4,  applicant_sch_attended_Date_From );
+                ps.setString(5, applicant_sch_attended_Date_To);
                 ps.setString(6, applicant_sch_attended_TitileofCert);
                 ps.setBinaryStream(7, uploadAppCertPhoto.getInputStream());//Photo
 
@@ -823,7 +825,7 @@ public class application_for_admissionBEAN extends DAO {
                 rowCount = rowCount + 1;
 
                 if (rowCount > 0) {
-                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Applicant School Attended Uploaded Succcessfully for: " + applicant_sch_attended_TitileofCert.toUpperCase(), ". Pls, upload other cert(s) if any. Thank you."));
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Applicant School Attended Uploaded Succcessfully for: " + applicant_sch_attended_TitileofCert.toUpperCase(), ". Pls, upload other cert(s) if any. OR Login into dashboard again to proceed to the next step (Step 4: Proceed to upload school(s) attended info)."));
                     //ExternalContext redcontext = FacesContext.getCurrentInstance().getExternalContext();
                 }
                 //clears the variables
@@ -835,6 +837,7 @@ public class application_for_admissionBEAN extends DAO {
                 throw e;
             } finally {
                 this.Close();//
+                this.ps.close();
             }
         }
     }//end of the method 
@@ -1192,6 +1195,7 @@ public class application_for_admissionBEAN extends DAO {
 
         } finally {
             this.Close();
+            ps.close();
         }
 
         return intakeSessionList;

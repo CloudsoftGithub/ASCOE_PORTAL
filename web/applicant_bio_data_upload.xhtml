@@ -28,7 +28,7 @@
 
 
 
-                <b:panel id="studentRegFormPanel" title="APPLICATION FOR ADMISSION - Step III ( Bio Data &amp; Photo Upload)" style="border-width: 3px; font-family: 'Kanit', sans-serif; color: black; background: white " look="success" >
+                <b:panel id="studentRegFormPanel" title="APPLICATION FOR ADMISSION - Step III ( Bio Data &amp; Photo Upload)" style="border-width: 3px; font-family: 'Kanit', sans-serif; color: black; background: white" look="success" >
                     <b:growl id="msg2" />
                     <b:messages id="msg" />
                     <div style="background: #bceecd; color: black; ">
@@ -120,7 +120,7 @@
                         <b:row>
 
                             <b:column small-screen="4">
-                                <b:inputText label="Relationship:" class="form-control" style="font-size: medium; " value="#{application_for_admissionBEAN.relationship}" placeholder="Email Address"  required="true" requiredMessage="Pls, supply Relationship!"/>
+                                <b:inputText label="Relationship:" class="form-control" style="font-size: medium; " value="#{application_for_admissionBEAN.relationship}" placeholder="Relationship"  required="true" requiredMessage="Pls, supply Relationship!"/>
                             </b:column>
                             <b:column small-screen="4">
                                 <b:inputText label="Sponsorship" value="#{application_for_admissionBEAN.sponsorship}" class="form-control" style="font-size: medium; " placeholder="Sponsorship" required="true" requiredMessage="Pls, supply Sponsorship"/>
@@ -146,7 +146,7 @@
                         <br />
                         <b:row>
                             <b:column medium-screen="5">
-                                <b:commandButton   class="btn btn-lg" look="sucess" action="#{application_for_admissionBEAN.applicant_SubmitBioData()}" value="Submit Bio Data Info " style="background-color: green; color: white; border-radius: 15px; margin-right: 10px;" update="msg,msg2,studentRegForm" />
+                                <b:commandButton   class="btn btn-lg" look="sucess" action="#{application_for_admissionBEAN.applicant_SubmitBioData()}" value="Submit Bio Data Info " style="background: white; color: green; border-radius: 15px; margin-right: 10px; border-color: green" update="msg,msg2,studentRegForm" />
 
                             </b:column>
                         </b:row>

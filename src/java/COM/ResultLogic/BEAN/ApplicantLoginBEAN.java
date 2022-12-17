@@ -13,14 +13,15 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpSession;
+import org.apache.catalina.manager.util.SessionUtils;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import org.primefaces.model.file.UploadedFile;
 
 @ManagedBean
 @SessionScoped
-public class ApplicantLoginBEAN extends DAO implements Serializable{
-     
+public class ApplicantLoginBEAN extends DAO implements Serializable {
 
     private String appNo;
     private String password;
@@ -61,7 +62,6 @@ public class ApplicantLoginBEAN extends DAO implements Serializable{
     private String the_retreived_Gender;
     private String the_retreived_lga;
 
-    
     private String applicant_exam_no_of_sitting;
     private String applicant_exam_type;
     private String applicant_exam_year;
@@ -95,15 +95,15 @@ public class ApplicantLoginBEAN extends DAO implements Serializable{
     private String applicant_subject9_grade;
 
     private UploadedFile applicant_OLevel_certificate_photo;
-    
-    private byte [] applicant_photo_Image;
+
+    private byte[] applicant_photo_Image;
     private StreamedContent applicant_photo_Image_streamedContentVar;
-    
+
     int rowCount = 0;
     PreparedStatement ps;
     ResultSet rs;
-    
-       private int id;
+
+    private int id;
 
     private String schoolAttendedName;
     private String uploadDate;
@@ -599,56 +599,139 @@ public class ApplicantLoginBEAN extends DAO implements Serializable{
         this.applicant_photo_Image_streamedContentVar = applicant_photo_Image_streamedContentVar;
     }
 
- 
-    
-   //RETRIEVING VALUES for 'Matric no' FROM THE UI
+    //RETRIEVING VALUES for 'Matric no' FROM THE UI
     public void retriveAppNoFromUI() {//get the current 'AppNo' on the UI 
         ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
         appNo = ec.getRequestParameterMap().get("studentPrinApplicationForm:applicant_app_no_from_UI");
     }//end of method
-    
+
     public void applicantLoginMthd() throws Exception {
         this.Connector();//Db connection 
+        //retrieveAPPNO_usingEmail();//
+        String Applicant_Navigation_Page = "";
 
-        try {
-            PreparedStatement st = this.getCn().prepareStatement("select appno, generated_password from application_signup where appno= ? and generated_password= ? ");
-            st.setString(1, appNo);
-            st.setString(2, password);
+        if (appNo.contains("@")) {
 
-            ResultSet rs = st.executeQuery();
-            if (rs.next()) // found
-            {
+            //QUERY TO CHECK FOR APPLICATION 'PAYMENT STATUS'  (i.e BEFORE PROCEEDING TO BIO DATA AND OTHER DETAILS) 
+            PreparedStatement psr1 = this.getCn().prepareStatement("SELECT paymentDate FROM application_for_admission WHERE email=?  ");//OR email=?
+            psr1.setString(1, appNo);// FOR PARA1
+            // psr.setString(2, the_retreived_email);//FOR PARA2
+            ResultSet rs_for_application_payment1 = psr1.executeQuery();
 
-                ExternalContext redcontext = FacesContext.getCurrentInstance().getExternalContext();
-                redcontext.redirect("applicantDashboard.xhtml");   /// redirecting to  the 
+            try {
 
-                //CLEAR THE VARIABLES USED AFTER LOGGING
-                password = "";
+                PreparedStatement st = this.getCn().prepareStatement(" SELECT appno, generated_password FROM application_signup WHERE  email=? AND phoneno=? ");//appno=? AND generated_password= ? OR
+                st.setString(1, appNo);
+                st.setString(2, password);
+                // st.setString(3, appNo);
+                //st.setString(4, password);
+                ResultSet rs = st.executeQuery();
+                if (rs.next()) // found
+                {
+                    appNo = rs.getString("appno");
 
-            } else {
+                    // HttpSession session = SessionManagement_util.getSession();//SESSION MANAGEMENT 
+                    // session.setAttribute("appNo", appNo);
+                   
+                    //APPLICATANT NAVIGATION DECISION BASED ON PAYMENT
+                    if (rs_for_application_payment1.next()) {
+                        Applicant_Navigation_Page = "applicantDashboard.xhtml";
+                    } else {
+                        Applicant_Navigation_Page = "applicantDashboard_prior_payment.xhtml";
+                    }
+
+                    ExternalContext redcontext = FacesContext.getCurrentInstance().getExternalContext();
+                    redcontext.redirect(Applicant_Navigation_Page);   /// redirecting to  the 
+
+                    //CLEAR THE VARIABLES USED AFTER LOGGING
+                    password = "";
+                    System.err.println("Email@ Man: " + appNo);
+
+                } else {
+                    FacesContext.getCurrentInstance().addMessage(
+                            null,
+                            new FacesMessage(FacesMessage.SEVERITY_FATAL,
+                                    "Wrong Login Credentials! " + "  'USERNAME' or 'PASSWORD' NOT correct!",
+                                    ".Pls, Supply the correct credentials and try again"));
+
+                }//end of the while-block 
+
+                //RETRIEVE THE NAMES & APP No. OF THE APPLICANT, AFTER A SUCCESSFUL LOGIN 
+                reteiveTheNamesOfTheApplicants();//invoked 
+
+                //RETRIEVE THE Applicant  INFO, AFTER A SUCCESSFUL LOGIN 
+                reteiveInfoForApplicantionPrintout();//invoked 
+
+                //RETRIVE THE PAYMENT STATUS 
+                reteiveTheCompletionStatusForTheApplicants();
+
+            } catch (Exception e) {
                 FacesContext.getCurrentInstance().addMessage(
                         null,
                         new FacesMessage(FacesMessage.SEVERITY_FATAL,
-                                "Wrong Login Credentials! " + "  'AppNo' or 'Password' NOT correct!",
-                                "Supply correct credentials and try again"));
+                                "Wrong Login Credentials! " + "  'USERNAME' or 'PASSWORD' NOT correct!",
+                                ".Pls, Supply the correct credentials and try again"));
             }
 
-            //RETRIEVE THE NAMES & APP No. OF THE APPLICANT, AFTER A SUCCESSFUL LOGIN 
-            reteiveTheNamesOfTheApplicants();//invoked 
+        } else {//USER lOGS IN WITH "APP NO"
 
-            //RETRIEVE THE Applicant  INFO, AFTER A SUCCESSFUL LOGIN 
-            reteiveInfoForApplicantionPrintout();//invoked 
+            //QUERY TO CHECK FOR APPLICATION 'PAYMENT STATUS'  (i.e BEFORE PROCEEDING TO BIO DATA AND OTHER DETAILS) 
+            PreparedStatement psr1 = this.getCn().prepareStatement("SELECT paymentDate FROM application_for_admission WHERE appno=?  ");//OR email=?
+            psr1.setString(1, appNo);// FOR PARA1
+            // psr.setString(2, the_retreived_email);//FOR PARA2
+            ResultSet rs_for_application_payment1 = psr1.executeQuery();
 
-            //RETRIVE THE PAYMENT STATUS 
-            reteiveTheCompletionStatusForTheApplicants();
+            try {
+                PreparedStatement st = this.getCn().prepareStatement(" SELECT appno, generated_password FROM application_signup WHERE appno=? AND generated_password= ? ");
+                st.setString(1, appNo);
+                st.setString(2, password);
 
-        } catch (Exception e) {
-            FacesContext.getCurrentInstance().addMessage(
-                    null,
-                    new FacesMessage(FacesMessage.SEVERITY_FATAL,
-                            "Wrong Login Credentials! " + "  'AppNo' or 'Password' NOT correct!",
-                            "Supply correct credentials and try again"));
-        }
+                ResultSet rs = st.executeQuery();
+                if (rs.next()) // found
+                {
+                    appNo = rs.getString("appno");
+
+                    // HttpSession session = SessionManagement_util.getSession();//SESSION MANAGEMENT 
+                    // session.setAttribute("appNo", appNo);
+                    //APPLICATANT NAVIGATION DECISION BASED ON PAYMENT
+                    if (rs_for_application_payment1.next()) {
+                        Applicant_Navigation_Page = "applicantDashboard.xhtml";
+                    } else {
+                        Applicant_Navigation_Page = "applicantDashboard_prior_payment.xhtml";
+                    }
+
+                    ExternalContext redcontext = FacesContext.getCurrentInstance().getExternalContext();
+                    redcontext.redirect(Applicant_Navigation_Page);   /// redirecting to  the 
+
+                    //CLEAR THE VARIABLES USED AFTER LOGGING
+                    password = "";
+                    System.err.println("APP NO @ Man: " + appNo);
+
+                } else {
+                    FacesContext.getCurrentInstance().addMessage(
+                            null,
+                            new FacesMessage(FacesMessage.SEVERITY_FATAL,
+                                    "Wrong Login Credentials! " + "  'USERNAME' or 'PASSWORD' NOT correct!",
+                                    ".Pls, Supply the correct credentials and try again"));
+                }//end of the while-block 
+
+                //RETRIEVE THE NAMES & APP No. OF THE APPLICANT, AFTER A SUCCESSFUL LOGIN 
+                reteiveTheNamesOfTheApplicants();//invoked 
+
+                //RETRIEVE THE Applicant  INFO, AFTER A SUCCESSFUL LOGIN 
+                reteiveInfoForApplicantionPrintout();//invoked 
+
+                //RETRIVE THE PAYMENT STATUS 
+                reteiveTheCompletionStatusForTheApplicants();
+
+            } catch (Exception e) {
+                FacesContext.getCurrentInstance().addMessage(
+                        null,
+                        new FacesMessage(FacesMessage.SEVERITY_FATAL,
+                                "Wrong Login Credentials! " + "  'USERNAME' or 'PASSWORD' NOT correct!",
+                                ".Pls, Supply the correct credentials and try again"));
+            }
+        }//end of the else-block 
 
     }//end of the method
 
@@ -657,7 +740,8 @@ public class ApplicantLoginBEAN extends DAO implements Serializable{
 
         try {
             PreparedStatement psr = this.getCn().prepareStatement("SELECT * FROM application_signup WHERE appno=? ");
-            psr.setString(1, appNo);
+            psr.setString(1, appNo);// for para1
+
             ResultSet rs = psr.executeQuery();
             while (rs.next()) {
                 theRetrievedSurname = rs.getString("surname");
@@ -667,7 +751,6 @@ public class ApplicantLoginBEAN extends DAO implements Serializable{
                 theRetrievedApplicationSession = rs.getString("session");
                 the_retreived_Course_Choice = rs.getString("course_choice");
 
-                
             }//end of while-block
 
         } catch (Exception e) {
@@ -681,8 +764,9 @@ public class ApplicantLoginBEAN extends DAO implements Serializable{
 
         //QUERY TO CHECK FOR SCHOOL 'PAYMENT STATUS' & 'BIO DATA INFO'
         try {
-            PreparedStatement psr = this.getCn().prepareStatement("SELECT paymentDate,gender FROM application_for_admission WHERE appno=? ");
-            psr.setString(1, appNo);
+            PreparedStatement psr = this.getCn().prepareStatement("SELECT paymentDate,gender FROM application_for_admission WHERE appno=?  ");//OR email=?
+            psr.setString(1, appNo);// FOR PARA1
+            // psr.setString(2, the_retreived_email);//FOR PARA2
             ResultSet rs = psr.executeQuery();
             while (rs.next()) {
                 theApplicantPaymentStatus = rs.getString("paymentDate");//Checking the 'paymentDate' column from the 'application_for_admission' table 
@@ -701,8 +785,12 @@ public class ApplicantLoginBEAN extends DAO implements Serializable{
             }//end of while-block
 
             //QUERY TO CHECK FOR SCHOOL 'SCHOOL ATTENDED UPLOAD'
-            PreparedStatement ps = this.getCn().prepareStatement("SELECT sch_name FROM applicant_upload_sch_attended WHERE appno=? ");
-            ps.setString(1, appNo);
+            PreparedStatement ps = this.getCn().prepareStatement("SELECT sch_name FROM applicant_upload_sch_attended WHERE appno=?   ");
+            ps.setString(1, appNo);  //FOR PARA2
+            // ps.setString(2, the_retreived_email);//FOR PARA2
+
+            System.err.println("Thanks Asheer: " + the_retreived_email);
+
             ResultSet rs2 = ps.executeQuery();
             while (rs2.next()) {
                 theApplicantSchAttendedStatus = rs2.getString("sch_name");//Checking the 'sch_name' column from the 'application_for_admission' table 
@@ -714,8 +802,9 @@ public class ApplicantLoginBEAN extends DAO implements Serializable{
             }//end of while-block
 
             //QUERY TO CHECK FOR  applicant 'OLevel Result Upload' 
-            PreparedStatement ps3 = this.getCn().prepareStatement("SELECT exam_type FROM applicant_upload_olevel_result WHERE appno=? ");
-            ps3.setString(1, appNo);
+            PreparedStatement ps3 = this.getCn().prepareStatement("SELECT exam_type FROM applicant_upload_olevel_result WHERE appno=?  ");
+            ps3.setString(1, appNo);//FOR PARA1
+            //  ps3.setString(2, appNo);//FOR PARA2
             ResultSet rs3 = ps3.executeQuery();
             while (rs3.next()) {
                 theApplicantOlevelResultStatus = rs3.getString("exam_type");//Checking the 'exam_type' column from the 'applicant_upload_olevel_result' table 
@@ -738,14 +827,16 @@ public class ApplicantLoginBEAN extends DAO implements Serializable{
         this.Connector();//invoked the db connection instance 
 
         try {
-            PreparedStatement psr = this.getCn().prepareStatement("SELECT * FROM application_for_admission WHERE appno=? ");
-            psr.setString(1, appNo);
+            PreparedStatement psr = this.getCn().prepareStatement("SELECT * FROM application_for_admission WHERE appno=?   ");//OR email=?
+            psr.setString(1, appNo);//for para1
+            // psr.setString(2, appNo);//for para2
+
             ResultSet rs = psr.executeQuery();
             while (rs.next()) {
                 theRetrievedAppNo = rs.getString("appno");
                 theRetrievedApplicationType = rs.getString("app_type");
                 the_retreived_Course_Choice = rs.getString("course_choice");
-                
+
                 the_retreived_Gender = rs.getString("gender");
                 the_retreived_DOB = rs.getString("DOB");
                 the_retreived_PlaceOfBirth = rs.getString("place_of_birth");
@@ -754,14 +845,13 @@ public class ApplicantLoginBEAN extends DAO implements Serializable{
 
                 the_retreived_email = rs.getString("email");
                 the_retreived_phoneno = rs.getString("phoneno");
-               applicant_photo_Image = rs.getBytes("photo");
-              //  InputStream stream;
+                applicant_photo_Image = rs.getBytes("photo");
+                //  InputStream stream;
                 //tream = this.rs.ByteArrayInputStream("");
                 //byte[] imageInByteArray = rs.getBytes("photo");
-            //DefaultStreamedContent(new ByteArrayInputStream(imageInByteArray), "image/png");
-               //applicant_photo_Image_streamedContentVar = (StreamedContent) new DefaultStreamedContent(stream, "application/jpg
-                             // applicant_photo_Image_streamedContentVar =  DefaultStreamedContent(stream, "image/jpeg/png");
- 
+                //DefaultStreamedContent(new ByteArrayInputStream(imageInByteArray), "image/png");
+                //applicant_photo_Image_streamedContentVar = (StreamedContent) new DefaultStreamedContent(stream, "application/jpg
+                // applicant_photo_Image_streamedContentVar =  DefaultStreamedContent(stream, "image/jpeg/png");
 
             }//end of while-block
 
@@ -770,20 +860,21 @@ public class ApplicantLoginBEAN extends DAO implements Serializable{
         }
 
     }//end of the method 
-     public List<ApplicantLoginBEAN> getApplicantSchAttendedInfo() throws Exception {
+
+    public List<ApplicantLoginBEAN> getApplicantSchAttendedInfo() throws Exception {
         retriveAppNoFromUI();//invokes the AppNo method
 
         this.Connector();
 
         List<ApplicantLoginBEAN> app_sch_attended_info = new ArrayList<ApplicantLoginBEAN>();
-        
+
         try {
 
-            ps = this.getCn().prepareStatement("select * from applicant_upload_sch_attended WHERE appno=? order by id ");//AND session=?
+            ps = this.getCn().prepareStatement("select * from applicant_upload_sch_attended WHERE appno=?  order by id ");//AND session=?
             ps.setString(1, theRetrievedAppNo);
 
             rs = ps.executeQuery();
- 
+
             while (rs.next()) {
                 ApplicantLoginBEAN tbl = new ApplicantLoginBEAN();
 
@@ -796,11 +887,10 @@ public class ApplicantLoginBEAN extends DAO implements Serializable{
                 tbl.setCertTitle(rs.getString("cert_title"));
                 //tbl.setAppNo(rs.getString("appno"));
                 //InputStream stream = this.rs.getBinaryStream("cert_upload");
-              // Cert_file = (StreamedContent) new DefaultStreamedContent();
- 
+                // Cert_file = (StreamedContent) new DefaultStreamedContent();
+
                 app_sch_attended_info.add(tbl);
 
-             
             }
 
         } catch (Exception e) {
@@ -812,9 +902,8 @@ public class ApplicantLoginBEAN extends DAO implements Serializable{
         return app_sch_attended_info;
 
     }//end of the 
-     
-     
-       public List<ApplicantLoginBEAN> getApplicant_OLevel_reulst_Info() throws Exception {
+
+    public List<ApplicantLoginBEAN> getApplicant_OLevel_reulst_Info() throws Exception {
         retriveAppNoFromUI();//invokes the AppNo method
 
         this.Connector();
@@ -823,8 +912,9 @@ public class ApplicantLoginBEAN extends DAO implements Serializable{
 
         try {
 
-            ps = this.getCn().prepareStatement("select * from applicant_upload_olevel_result WHERE appno=? order by id ");//AND session=?
+            ps = this.getCn().prepareStatement("select * from applicant_upload_olevel_result WHERE appno=?  order by id ");//OR email=?
             ps.setString(1, theRetrievedAppNo);
+            //ps.setString(2, the_retreived_email);
 
             rs = ps.executeQuery();
 
@@ -866,7 +956,6 @@ public class ApplicantLoginBEAN extends DAO implements Serializable{
                 tbl.setApplicant_subject9(rs.getString("subject9"));
                 tbl.setApplicant_subject9_grade(rs.getString("subject9_grade"));
 
-                 
                 applicant_OLevel_result_info.add(tbl);
 
             }

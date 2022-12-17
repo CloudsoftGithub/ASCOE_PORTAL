@@ -8,11 +8,12 @@ import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
  
 @ManagedBean
-@RequestScoped
+@ViewScoped
 public class CreditUnitRegBEAN extends DAO {
 
     PreparedStatement ps;
@@ -89,7 +90,7 @@ public class CreditUnitRegBEAN extends DAO {
     //RETRIEVING VALUES for 'Session' FROM THE UI
     public void retriveSessionFromUI() {//get the current 'Session' on the UI 
         ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-        session = ec.getRequestParameterMap().get("creditHours_regForm:mysession");
+        session = ec.getRequestParameterMap().get("creditHours_regForm:mysessions");
     }//end of method
     
     public List<String> getintakeSessionInfoMthd() throws Exception {
@@ -129,7 +130,7 @@ public class CreditUnitRegBEAN extends DAO {
         st1.setString(2, session);
 
         ResultSet rs = st1.executeQuery();
-
+        System.out.println("CChecks: "+maxCreditunit +" "+ minCreditunit);
         if (rs.next()) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Credit hours for this session: " + session + ", " + semester + " has been captured. Pls, check your entries!", "thank you!"));
         } else if (maxCreditunit <= 0 || minCreditunit <= 0) {

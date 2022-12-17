@@ -15,6 +15,8 @@
                 document.body.innerHTML = princontent;
                 window.print();
                 document.body.innerHTML = restorepage;
+                
+                
             }
         </script>
         <style type="text/css">
@@ -38,28 +40,31 @@
 
             <b:growl id="msg2" />
 
-            <div class="col-sm-3" style="background: linen" >
+            <div class="col-sm-3" style="background:  #9fb1b1" >
 
                 <b:form>
-                    <b:panel style=" background: lightskyblue">
+                    <b:panel style=" background: #9fb1b1;  height: 592px">
 
-                        <b:flyOutMenu style="font-size:large; background: #d2ddba">
+                        <b:flyOutMenu style="font-size:large; background: red; color: white ">
                             <b:navLink value="Dashboard" outcome="studentDashboard.xhtml" style="background: #d0e7e8; color: white" ></b:navLink>
                             <b:dropMenu value="Course Registration">
                                 <b:navLink value="First Semester-Course Registration" outcome="first_semester_student_course_registration.xhtml" style="background: #d0e7e8; color: white" ></b:navLink>
                                 <b:navLink value="Second Semester-Course Registration" outcome="second_semester_student_course_registration.xhtml" style="background: #d0e7e8; color: white" ></b:navLink>
+                            </b:dropMenu>     
+                            <b:dropMenu value="Print Examination Card" style="font-size: large">
+                                <b:navLink value="PRINT Exam Card" outcome="print_exams_card.xhtml" style="background: #d0e7e8; color: brown; font-size: large" ></b:navLink>
+                            </b:dropMenu>
 
-                            </b:dropMenu>                
-                         </b:flyOutMenu> 
+                        </b:flyOutMenu> 
                     </b:panel>
                 </b:form>
             </div>
 
             <b:form id="studentCourseRegForm" style="background: none; font-family: serif">
 
-                <div id="CoureRegSecondSemesterDIV" class="col-sm-9" style="background: lightskyblue">
+                <div id="CoureRegSecondSemesterDIV" class="col-sm-9" style="background: #9fb1b1; width:850px">
 
-                    <b:messages id="msg"/>
+                    <b:messages id="msg" />
 
                     <h2 style="text-align: center; font-family: sans-serif">Second Semester  Course Registration </h2>
 
@@ -98,8 +103,8 @@
                             </b:row>
 
                             <b:row>
-                                <b:column small-screen="6">
-                                    <b:selectOneMenu id="semester" label="Semester :" value="#{student_course_regBEAN.semester}"  required="true" required-message="Pls, enter semester" tooltip="Pls, enter semester">
+                                <b:column small-screen="6" style="font-size: medium; font-style: normal" >
+                                    <b:selectOneMenu id="semester" label="Semester :" style="font-size: medium; font-style: normal"  value="#{student_course_regBEAN.semester}"  required="true" required-message="Pls, enter semester" tooltip="Pls, enter semester">
                                         <f:selectItem itemLabel="Select Semester" itemValue="" />
                                         <f:selectItem itemLabel="SECOND SEMESTER" itemValue="SECOND SEMESTER" />
                                     </b:selectOneMenu>
@@ -108,8 +113,8 @@
                             </b:row>
 
                             <b:row>
-                                <b:column small-screen="6">
-                                    <b:selectOneMenu id="CourseTitle" label="Course Code &amp; Title: " value="#{student_course_regBEAN.courseTitle}"  required="true" required-message="Pls, select Course_Title" tooltip="Pls, select Course_Title" >
+                                <b:column small-screen="6" style="font-size: medium; font-style: normal" >
+                                    <b:selectOneMenu id="CourseTitle" label="Course Code &amp; Title: " style="font-size: medium; font-style: normal"  value="#{student_course_regBEAN.courseTitle}"  required="true" required-message="Pls, select Course_Title" tooltip="Pls, select Course_Title" >
                                         <f:selectItem itemLabel="Select course" itemValue=""  />
                                         <f:selectItems value="#{student_course_regBEAN.getcoursesMthd()}"  />
                                     </b:selectOneMenu>
@@ -119,24 +124,88 @@
 
                             <b:row style="background:  #bbd4ee">
                                 <b:column  medium-screen="2" >
-                                    <b:commandButton value="Add Course"  style="font-size:  large; font-kerning: normal; color:black; background: lightgreen"  action="#{student_course_regBEAN.studentsCourseRegMethod()}" update="registeredCoursesFirstSemester,msg,msg2" />
+                                    <b:commandButton value="Add Course"  style="font-size:  large; color: white; background: green; border-color: black; border-width: 3px"  action="#{student_course_regBEAN.studentsCourseRegMethod()}" update="registeredCoursesFirstSemester,msg,msg2" />
                                 </b:column>
                                 <b:column  medium-screen="4" >
-                                    <b:commandButton value="View Registered Courses"  process="@this, mysession " immediate="true" style="font-size:  large; font-kerning: normal; color: black; background: #a6a4da" update="registeredCoursesFirstSemester,msg,msg2" />
+                                    <b:commandButton value="View Registered Courses"  process="@this, mysession " immediate="true" style="font-size:  large; color: white; background:  blueviolet; border-color: black; border-width: 3px"  update="studentCourseRegForm,registeredCoursesFirstSemester,msg,msg2" />
                                 </b:column>
                                 <b:column medium-screen="4">
-                                    <button onClick="printContent('CoureRegSecondSemesterDIV')" style="background: #ccccff; color: black; border-color: black; border-width: thick; background:  green; color: white; " look="primary"> Print Course Slip</button>
+                                    <button onClick="printContent('CoureRegSecondSemesterDIVseperated')" style="background: green;  font-size: x-large; font-family: sans-serif; border-color: black; border-width: thick; background:  green; color: white; border-color: black; border-width: 3px " look="success"> Print Course Slip</button>
                                 </b:column>
                                 <br />
                             </b:row>
                         </p:panel>
                     </p:panel>
 
-                    <b:panel>
-                        <div > <h4>Registered Courses - Second Semester</h4> </div>
-                        <div  class="col-sm-9"  >
-                            <h:dataTable  id="registeredCoursesFirstSemester" class=" col-sm-9"  border="6"  style=" font-size: small; width: auto; border-bottom-width: thick;  border-color: black; background: whitesmoke" value="#{viewStudentregisteredCourses.studentRegisteredCoursesSecondSemester}" var="item">
 
+
+                    <br />
+                    <p:separator />
+                </div>
+
+                <div class="col-sm-12" id="CoureRegSecondSemesterDIVseperated" >
+
+                    <br />
+                    <p:spacer />
+                    <div align="center" class="col-sm-12" style="align-self: center; align-items: center;">
+
+                        <b:panel style="align-self: center;  width: auto; color: black; background: white; height: auto; border-width: 2px; border-color: black; width: 1010px ">
+                            <div class="col-sm-12" align="center">
+                                <b:row>
+                                    <b:column small-screen="12" >
+                                        <h:graphicImage name="/img/ASCEOFormHeader2.jpg" alt="Sch Form logo" width="800" height="120"  styleClass="content"/>
+
+                                    </b:column>
+                                    <b:column small-screen="12">
+                                        <p:spacer />
+                                        <h2 align="center"  style=" color: darkgreen; text-transform: uppercase; font-weight: bold; font-family: fantasy"> Course Registration Slip for #{viewStudentregisteredCourses.semester},  #{viewStudentregisteredCourses.session} Session </h2>
+                                    </b:column>
+                                </b:row>
+                            </div>
+
+                            <div class="col-sm-12" align="center">
+                                <b:row>
+                                    <b:column small-screen="6" style=" width: 920px; height: 150px;" >
+                                        <b:panel style="border-color: black; border-width: 3px; background: white; width:920px " >
+                                            <div style="background-color: #809d9f; color: black;">   
+                                                <p:panelGrid columns="2" style="width: 900px; ">
+
+
+                                                    <b:panel style="border-color: black; border-left-width: 4px; width: 350px">
+
+                                                        <h:outputText style="  font-size: medium; font-weight: bold; font-family: fantasy; color: black  " value="Student Matric No: "/>
+                                                        <b:inputText     disabled="true" class="form-control"  style="font-size: medium; font-weight: bold; font-family: fantasy; color: black  " value="#{studentLoginBEAN.matricNo}"  />
+                                                    </b:panel>
+                                                    <b:panel style="border-color: black; border-left-width: 4px;width: 400px"> 
+
+                                                        <h:outputText style="  font-size: medium; font-weight: bold; font-family: fantasy; color: black  " value="Student Name(s): "/>
+                                                        <b:inputText     disabled="true" class="form-control"  style="font-size: medium; font-weight: bold; font-family: fantasy; color: black  " value="#{studentLoginBEAN.fullName.toUpperCase()}"  placeholder="The retrieved AppNo." />
+
+                                                    </b:panel>
+                                                </p:panelGrid>
+                                            </div>
+                                        </b:panel>
+                                    </b:column>  
+                                </b:row>
+                            </div>
+                            <p:spacer />
+                            <p:separator />
+                        </b:panel>
+                    </div>
+                    
+                    
+                    <div class="col-sm-12" align="center">
+                   
+                         <div class="col-sm-12"  > 
+                             <h4 style="font-weight: bold; text-transform: uppercase"> Second Semester Registered Courses</h4> </div>
+                       
+                            <h:dataTable  id="registeredCoursesFirstSemester" binding="#{table}"  border="6"  style="font-family: sans-serif ;font-weight: bold; font-size: small; width: 1000px; border-width: thick;  border-color: black; background: whitesmoke" value="#{viewStudentregisteredCourses.studentRegisteredCoursesSecondSemester}" var="item">
+                                <h:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="SN" ></h:outputText>
+                                    </f:facet>
+                                    #{table.rowIndex+1}
+                                </h:column>
                                 <h:column>
                                     <f:facet name="header">
                                         <h:outputText value="Course Code" ></h:outputText>
@@ -192,18 +261,48 @@
                                 </h:column>
 
                                 <f:facet name="footer">
-                                    TOTAL CREDIT UNIT:  
+                                    TOTAL CREDIT UNIT :  #{viewStudentregisteredCourses.studentRegisteredCoursesSecondSemester.stream().map(item->item.creditunit).sum()}  
                                 </f:facet>
                             </h:dataTable>
-                        </div>
+                    
                         <br />
+ 
+                    </div>
+                    
+                     <div class="col-sm-12" align="center">
+                           <div   style="width: auto; align-self: center; align-items: center " align="center">
+                            <b:panel style=";border-color: black; border-width: 1px; width: 1000px">
 
-                    </b:panel>
 
+                                <p:panelGrid columns="2"  >
+                                    <b:panel style=";border-color: black; border-left-width: 4px; width: auto; ">
+                                        <h4 style="font-weight: normal; color: black">Student's Signature:________________________________________________</h4>
 
-                    <br />
-                    <p:separator />
+                                    </b:panel>
+                                    <b:panel style="border-color: black; border-left-width: 4px; width: auto">
+                                        <h4 style="font-weight: normal; color: black">Date:__________________________________ </h4>
+
+                                    </b:panel>
+
+                                </p:panelGrid>
+
+                                <p:panelGrid columns="2">
+                                    <b:panel style="border-color: black; border-left-width: 4px; width: auto">
+                                        <h4 style="font-weight: normal; color: black">Academic Affairs Signature:________________________________________</h4>
+
+                                    </b:panel>
+                                    <b:panel style="border-color: black; border-left-width: 4px; width: auto">
+                                        <h4 style="font-weight: normal; color: black">Date:__________________________________ </h4>
+
+                                    </b:panel>
+
+                                </p:panelGrid>
+                            </b:panel>
+
+                        </div>
+                     </div>
                 </div>
+
             </b:form>
 
         </b:container>

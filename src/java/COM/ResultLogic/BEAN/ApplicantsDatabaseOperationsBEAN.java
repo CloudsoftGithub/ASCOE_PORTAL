@@ -17,19 +17,19 @@ import java.util.Map;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
-public class ApplicantsDatabaseOperationsBEAN  {
+public class ApplicantsDatabaseOperationsBEAN {
 
     public static Statement stmtObj;
-    public static Connection connObj=null;
+    public static Connection connObj = null;
     public static ResultSet resultSetObj;
     public static PreparedStatement pstmt;
 
     public static Connection getConnection() throws ClassNotFoundException {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            connObj = (Connection) DriverManager.getConnection("jdbc:mysql://node141231-ascoekd.w1-us.cloudjiffy.net/resultlogic", "root", "YLYhho19451");
+          // connObj = (Connection) DriverManager.getConnection("jdbc:mysql://node141231-ascoekd.w1-us.cloudjiffy.net/resultlogic", "root", "YLYhho19451");
 
-           //connObj = DriverManager.getConnection("jdbc:mysql://localhost:3306/resultlogic?user=root&password=ash123");
+            connObj = DriverManager.getConnection("jdbc:mysql://localhost:3306/resultlogic?user=root&password=ash123");
         } catch (SQLException e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error:" + e.getMessage(), ""));
         }
@@ -57,9 +57,9 @@ public class ApplicantsDatabaseOperationsBEAN  {
             }
 
             System.out.println("Total Records Fetched: " + applicantsList.size());
-         } catch (SQLException e) {
+        } catch (SQLException e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error:" + e.getMessage(), ""));
-        }finally {
+        } finally {
             connObj.close();
         }
         return applicantsList;
@@ -124,7 +124,7 @@ public class ApplicantsDatabaseOperationsBEAN  {
 
             }
             sessionMapObj.put("editRecordObj", editRecord);
-         } catch (SQLException e) {
+        } catch (SQLException e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error:" + e.getMessage(), ""));
         } finally {
             connObj.close();
@@ -139,13 +139,12 @@ public class ApplicantsDatabaseOperationsBEAN  {
             pstmt.setInt(1, updateApplicantObj.getId());
             System.err.println("course_admitted:" + updateApplicantObj.getId());
             pstmt.executeUpdate();
- 
 
             //COPYING THE INFORMATION FOR ADMITTED APPLICANT INTO A TABLE CALLED 'ADMISSION_LIST'            
             pstmt = getConnection().prepareStatement(" INSERT INTO admission_list SELECT * FROM application_for_admission WHERE id=? ");
             pstmt.setInt(1, updateApplicantObj.getId());
             pstmt.executeUpdate();
- 
+
         } catch (SQLException e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error:" + e.getMessage(), ""));
         } finally {
@@ -166,18 +165,17 @@ public class ApplicantsDatabaseOperationsBEAN  {
             System.err.println("course_admitted:" + updateApplicantObj.getId());
 
             pstmt.executeUpdate();
-            
 
             //COPYING THE INFORMATION FOR ADMITTED APPLICANT INTO A TABLE CALLED 'ADMISSION_LIST'            
             pstmt = getConnection().prepareStatement(" INSERT INTO admission_list SELECT * FROM application_for_admission WHERE id=? ");
             pstmt.setInt(1, updateApplicantObj.getId());
             pstmt.executeUpdate();
-           
+
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Applicant Admitted into ", updateApplicantObj.getCourse_Choice() + " . "));
 
         } catch (SQLException e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error:" + e.getMessage(), ""));
-        }finally {
+        } finally {
             connObj.close();
         }
 

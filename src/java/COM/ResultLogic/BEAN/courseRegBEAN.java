@@ -8,10 +8,11 @@ import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
- 
+
 @ManagedBean
-@RequestScoped
+@SessionScoped
 public class courseRegBEAN extends DAO {
 
     PreparedStatement ps;
@@ -29,6 +30,9 @@ public class courseRegBEAN extends DAO {
     private String prerequisite;
     private String dateregistered;
     private String doneby;
+    
+        private List<String> courseCategoryList = new ArrayList<>();
+
 
     private List<String> programsSchoolList = new ArrayList<>();
 
@@ -128,6 +132,17 @@ public class courseRegBEAN extends DAO {
         this.programsSchoolList = programsSchoolList;
     }
 
+    public List<String> getCourseCategoryList() {
+        return courseCategoryList;
+    }
+
+    public void setCourseCategoryList(List<String> courseCategoryList) {
+        this.courseCategoryList = courseCategoryList;
+    }
+    
+    
+     
+
     public void courseRegMthd() throws Exception {
         this.Connector(); //invoked 
         String dommyDoneBy = "Admin";
@@ -163,7 +178,7 @@ public class courseRegBEAN extends DAO {
                 int rowCount = ps.executeUpdate();
 
                 if (rowCount > 0) {
-                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "The 'Course Code: ' " + coursecode+ "  With Course Title: "+ coursetitle + " has been enrolled successfully. Thank you.", ""));
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "The 'Course Code: ' " + coursecode + "  With Course Title: " + coursetitle + " has been enrolled successfully. Thank you.", ""));
 
                 }//end of the if-block
 
@@ -171,7 +186,7 @@ public class courseRegBEAN extends DAO {
                 coursecode = "";
                 coursetitle = "";
                 creditunit = 0;
- 
+
             } catch (Exception e) {
                 throw e;
             } finally {
@@ -182,5 +197,9 @@ public class courseRegBEAN extends DAO {
         }
 
     }//end of the method 
+
+   
+
+ 
 }//end of the class
 

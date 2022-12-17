@@ -18,18 +18,18 @@ import javax.servlet.http.HttpSession;
 @ManagedBean
 @SessionScoped
 public class AdminLoginBEAN extends DAO {
-     int rowCount = 0;
+
+    int rowCount = 0;
     PreparedStatement ps;
     ResultSet rs;
-    
-      private int id;
+
+    private int id;
     private String username;
     private String appNo;
-    
+
     private String password;
     private String userType;
 
-    
     private String applicant_exam_no_of_sitting;
     private String applicant_exam_type;
     private String applicant_exam_year;
@@ -61,10 +61,9 @@ public class AdminLoginBEAN extends DAO {
 
     private String applicant_subject9;
     private String applicant_subject9_grade;
-    
-    
+
     private String schoolAttendedName;
-     private String uploadDate;
+    private String uploadDate;
     private String from;
     private String to;
     private String certTitle;
@@ -84,8 +83,7 @@ public class AdminLoginBEAN extends DAO {
     public void setAppNo(String appNo) {
         this.appNo = appNo;
     }
-    
-    
+
     public String getUsername() {
         return username;
     }
@@ -334,8 +332,6 @@ public class AdminLoginBEAN extends DAO {
         this.certTitle = certTitle;
     }
 
-    
-    
     public String adminuserLogin() throws Exception {
 
         this.Connector();
@@ -354,9 +350,12 @@ public class AdminLoginBEAN extends DAO {
             ResultSet rs = st.executeQuery();
             if (rs.next()) // found
             {
+                HttpSession hs = SessionManagement_util.getSession();
+                hs.setAttribute(username, username);
 
                 ExternalContext redcontext = FacesContext.getCurrentInstance().getExternalContext();
                 redcontext.redirect("headerAdminDashboard.xhtml");   /// redirecting to  the 
+ 
             } else {
                 FacesContext.getCurrentInstance().addMessage(
                         null,
@@ -380,7 +379,7 @@ public class AdminLoginBEAN extends DAO {
 
     }//end of method
 
-     public List<AdminLoginBEAN> getApplicant_OLevel_reulst_Info() throws Exception {
+    public List<AdminLoginBEAN> getApplicant_OLevel_reulst_Info() throws Exception {
         //retriveAppNoFromUI();//invokes the AppNo method
 
         this.Connector();
@@ -432,7 +431,6 @@ public class AdminLoginBEAN extends DAO {
                 tbl.setApplicant_subject9(rs.getString("subject9"));
                 tbl.setApplicant_subject9_grade(rs.getString("subject9_grade"));
 
-                 
                 applicant_OLevel_result_info.add(tbl);
 
             }
@@ -446,21 +444,21 @@ public class AdminLoginBEAN extends DAO {
         return applicant_OLevel_result_info;
 
     }//end of the 
-     
-     public List<AdminLoginBEAN> getApplicantSchAttendedInfo() throws Exception {
-       // retriveAppNoFromUI();//invokes the AppNo method
+
+    public List<AdminLoginBEAN> getApplicantSchAttendedInfo() throws Exception {
+        // retriveAppNoFromUI();//invokes the AppNo method
 
         this.Connector();
 
         List<AdminLoginBEAN> app_sch_attended_info = new ArrayList<AdminLoginBEAN>();
-        
+
         try {
 
             ps = this.getCn().prepareStatement("select * from applicant_upload_sch_attended ");//WHERE appno=? order by id 
-           // ps.setString(1, theRetrievedAppNo);
+            // ps.setString(1, theRetrievedAppNo);
 
             rs = ps.executeQuery();
- 
+
             while (rs.next()) {
                 AdminLoginBEAN tbl = new AdminLoginBEAN();
 
@@ -473,11 +471,10 @@ public class AdminLoginBEAN extends DAO {
                 tbl.setCertTitle(rs.getString("cert_title"));
                 //tbl.setAppNo(rs.getString("appno"));
                 //InputStream stream = this.rs.getBinaryStream("cert_upload");
-              // Cert_file = (StreamedContent) new DefaultStreamedContent();
- 
+                // Cert_file = (StreamedContent) new DefaultStreamedContent();
+
                 app_sch_attended_info.add(tbl);
 
-             
             }
 
         } catch (Exception e) {
@@ -489,5 +486,21 @@ public class AdminLoginBEAN extends DAO {
         return app_sch_attended_info;
 
     }//end of the 
-     
+    
+    
+    public String signoutMethod() throws IOException {
+        HttpSession hs = SessionManagement_util.getSession();
+        hs.invalidate();
+        
+        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+        try {
+            FacesContext.getCurrentInstance().getExternalContext().redirect("adminUsersLogin.xhtml");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        this.username = "";
+        this.password = "";
+        return "adminUsersLogin.xhtml";
+    }
+
 }//end of class

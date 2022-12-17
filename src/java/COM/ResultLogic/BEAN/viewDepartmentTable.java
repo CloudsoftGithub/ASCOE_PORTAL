@@ -10,11 +10,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 
 @ManagedBean
-@SessionScoped
+@RequestScoped
 public class viewDepartmentTable extends DAO {
 
     PreparedStatement ps;
@@ -27,6 +30,16 @@ public class viewDepartmentTable extends DAO {
 
     private String dateregistered;
     private String doneBy;
+
+    private List<String> DepartmentCodeList = new ArrayList<>();
+
+    public List<String> getDepartmentCodeList() {
+        return DepartmentCodeList;
+    }
+
+    public void setDepartmentCodeList(List<String> DepartmentCodeList) {
+        this.DepartmentCodeList = DepartmentCodeList;
+    }
 
     public int getId() {
         return id;
@@ -76,14 +89,44 @@ public class viewDepartmentTable extends DAO {
         this.doneBy = doneBy;
     }
 
+    public List<String> getDepartmentsMthd() throws Exception {
+
+        DepartmentCodeList.removeAll(DepartmentCodeList);
+
+        this.Connector();
+
+        try {
+
+            ps = this.getCn().prepareStatement("SELECT code FROM department ");
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                DepartmentCodeList.add(rs.getString("code"));//retrieves all the  ..
+            }//end of while-block
+
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Department Code Error", e.getMessage() + " . Pls, try again"));
+
+        } finally {
+            this.Close();
+        }
+
+        return DepartmentCodeList;
+
+    }//end of method
+
     public List<viewDepartmentTable> getEnrolledDpartment() throws Exception {
+        
+       getDepartmentsMthd();//invoked 
+       
         this.Connector();
 
         List<viewDepartmentTable> depart_info = new ArrayList<viewDepartmentTable>();
 
         try {
 
-            ps = this.getCn().prepareStatement("select * from department ");
+            ps = this.getCn().prepareStatement("select * from department WHERE code=? ");
+            ps.setString(1, code);
             rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -106,6 +149,11 @@ public class viewDepartmentTable extends DAO {
         return depart_info;
 
     }//end of the method
+    
+        public void goViewDepartmentsMthd() throws Exception {
+        getEnrolledDpartment();//invoked
+
+    }//end of the the method 
 
 }//end of the class
 

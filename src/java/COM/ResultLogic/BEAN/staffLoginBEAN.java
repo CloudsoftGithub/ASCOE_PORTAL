@@ -1,6 +1,7 @@
 package COM.ResultLogic.BEAN;
 
 import COM.ResultLogic.DAO.DAO;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,6 +10,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpSession;
 
 @ManagedBean
 @SessionScoped
@@ -78,6 +80,8 @@ public class staffLoginBEAN extends DAO {
             ResultSet rs = st.executeQuery();
             if (rs.next()) // found
             {
+                HttpSession hs = SessionManagement_util.getSession();
+                hs.setAttribute(username, username);
 
                 ExternalContext redcontext = FacesContext.getCurrentInstance().getExternalContext();
                 redcontext.redirect("teachingStaffDashboard.xhtml");   /// redirecting to  the 
@@ -99,5 +103,36 @@ public class staffLoginBEAN extends DAO {
         }
 
     }//end of the method
+    
+    
+   /*
+    
+     public String signoutMethod() throws IOException {
+        HttpSession hs = SessionManagement_util.getSession();
+        hs.invalidate();
+        
+        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+        try {
+            FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        this.username = "";
+        this.password = "";
+        return "index.xhtml";
+    }
+    
+    */
+    
+        public String signoutMethod() throws IOException {
+        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+        try {
+            FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        this.username = "";
+        return "";
+    }
 
 }//eend of the Class

@@ -3,16 +3,18 @@ package COM.ResultLogic.BEAN;
 import COM.ResultLogic.DAO.DAO;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
 @ManagedBean
-@SessionScoped
+@ViewScoped
 public class DataEntryBEAN extends DAO {
 
     PreparedStatement ps;
@@ -317,7 +319,7 @@ public class DataEntryBEAN extends DAO {
             }//end of while-block
 
         } catch (Exception e) {
-             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Intake Session Error", e.getMessage() + " . Pls, try again"));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Intake Session Error", e.getMessage() + " . Pls, try again"));
 
         } finally {
             this.Close();
@@ -521,7 +523,7 @@ public class DataEntryBEAN extends DAO {
 
         this.Connector();//establishes connection.
         TheCounter++;
-
+ 
         retriveSessionFromStudentListUI();
         retriveCourseCodeFromStudentListUI();//invoked
 
@@ -544,7 +546,7 @@ public class DataEntryBEAN extends DAO {
             }
 
         } catch (Exception e) {
-            throw e;
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error in Result-Sheet-Data-Entry " + " Pls, Click on the 'VIEW LIST BUTTON' first after supplying the 'SESSION' and 'COURSE CODE'. And then proceed to Next of previous Button. ", ""));
         } finally {
             this.Close();
         }
@@ -563,39 +565,48 @@ public class DataEntryBEAN extends DAO {
 
         //NOTE: This method is to be invoked within the 'getStudentList' method 
         int count = 0;
-
-        //STEP0: DELETING THE ROWS WITH THE CURRENT SESSION AND COURSE CODE (This enables us to copy new record, so we will NOT have duplicated keys issues)
-        try {
-
-            ps = this.getCn().prepareStatement(" DELETE FROM  result_data_entry WHERE course_code=?  AND session=?  ");
+        //STEP0: CHECK IF THE CURRENT SESSION AND COURSE CODE ARE FOUND IN THE TABLE 'result_data_entry' TABLE. IF FOUND DO NOTHING 
+        /*
+         try {
+            ps = this.getCn().prepareStatement(" SELECT * FROM result_data_entry WHERE course_code=?  AND session=?  ");
             ps.setString(1, coursecode);
             ps.setString(2, session);//represents the 'course code'
+            rs = ps.executeQuery();
 
-            ps.executeUpdate();
+           // if (rs.next()) {//IF FOUND ... do UPDATE THE EXISTING RECORD
 
-        } catch (Exception e) {
-            e.getMessage();
-        } finally {
-            //do nothing
+                // do nothing 
+           // } else {
+
+                //STEP1: DOWNLOADING THE REGISTERED COURSES FROM THE 'student_course_reg' INTO THE 'result_data_entry' FOR DATA ENTRY*
+                //A:
+               
+
+            //}//end of else-block
+        } catch (SQLException e) {
+            throw e;
         }
+         */
 
-        //STEP1: DOWNLOADING THE REGISTERED COURSE FROM THE 'student_course_reg' INTO THE 'result_data_entry' FOR DATA ENTRY*
-        //A:
-        try {
-            ps = this.getCn().prepareStatement(" INSERT INTO result_data_entry (id, matricno, name, session, semester, course_code,credit_unit, total_score, grade_letter, grade_point, total_point, date ) SELECT null, matricno, name, session, semester, course_code,credit_unit,null,null,null,null,null FROM student_course_reg WHERE  session=? AND course_code=? order by matricno DESC ");
+        try { //INSERT INTO result_data_entry (id, matricno, name, session, semester, course_code,credit_unit, total_score, grade_letter, grade_point, total_point, date ) SELECT null, matricno, name, session, semester, course_code,credit_unit,null,null,null,null,null FROM student_course_reg WHERE session='2022/2023' AND course_code='EDU 111' AND matricno NOT IN ( SELECT matricno FROM result_data_entry WHERE session='2022/2023' AND course_code='EDU 111'
+            // ps = this.getCn().prepareStatement(" INSERT INTO result_data_entry (id, matricno, name, session, semester, course_code,credit_unit, total_score, grade_letter, grade_point, total_point, date ) SELECT null, matricno, name, session, semester, course_code,credit_unit,null,null,null,null,null FROM student_course_reg WHERE  session=? AND course_code=? order by matricno DESC ");
+            ps = this.getCn().prepareStatement(" INSERT INTO result_data_entry (id, matricno, name,student_level, session, semester, course_code,credit_unit, total_score, grade_letter, grade_point, total_point, date ) SELECT null, matricno, name, student_level,session, semester, course_code,credit_unit,null,null,null,null,null FROM student_course_reg WHERE session=? AND course_code=? AND matricno NOT IN ( SELECT matricno FROM result_data_entry WHERE session=? AND course_code=?) ");
 
-            //ps = this.getCn().prepareStatement(" INSERT INTO result_data_entry (id, matricno, name, session, semester, course_code,credit_unit, total_score, grade_letter, grade_point, total_point, date ) SELECT id, matricno, name, session, semester, course_code,credit_unit,null,null,null,null,null FROM student_course_reg WHERE  session=? AND course_code=? order by matricno DESC ");
-            ps.setString(1, session);
+            System.err.println("Bismillah, Im in the Method!");
+             ps.setString(1, session);
             ps.setString(2, coursecode);//represents the 'course code'
+            ps.setString(3, session);
+            ps.setString(4, coursecode);//represents the 'course code'
 
             count = ps.executeUpdate();
 
         } catch (Exception e) {
             e.getMessage();
         } finally {
-            this.Close();
+            //this.Close();
         }
-
+         
+        
         //STEP2: 
         //B: CREATING A HELPER TABLE with name of the course and the session 
         createHelperTablePerCourseAndSession();
@@ -623,7 +634,7 @@ public class DataEntryBEAN extends DAO {
         dataEntryTableName = "result_data_entry" + "_" + cosecodePart1 + "_" + cosecodePart2 + "_" + sessionpart1 + "_" + sessionpart2;
 
         try {
-            ps = this.getCn().prepareStatement(" CREATE TABLE IF NOT EXISTS " + dataEntryTableName + " LIKE result_data_entry ");
+            ps = this.getCn().prepareStatement(" CREATE  TABLE IF NOT EXISTS " + dataEntryTableName + " LIKE result_data_entry ");
             ps.executeUpdate();
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error" + " Error: " + e.getMessage(), ""));
@@ -682,7 +693,7 @@ public class DataEntryBEAN extends DAO {
 
         ///B2; INSERTING THE TUPLES INTO THE FRESH temporary table whole COPYING FROM THE 'result_data_entry' table 
         try {
-            ps = this.getCn().prepareStatement(" INSERT INTO " + dataEntryTableName + " (id, matricno, name, session, semester, course_code,credit_unit, total_score, grade_letter, grade_point, total_point, date ) SELECT null, matricno, name, session, semester, course_code,credit_unit,null,null,null,null,null FROM result_data_entry WHERE  session=? AND course_code=? order by matricno ASC ON DUPLICATE KEY UPDATE total_score=VALUES(total_score),grade_letter=VALUES(grade_letter), grade_point=VALUES(grade_point), total_point=VALUES(total_point) ");
+            ps = this.getCn().prepareStatement(" INSERT INTO " + dataEntryTableName + " (id, matricno, name, student_level,session, semester, course_code,credit_unit, total_score, grade_letter, grade_point, total_point, date ) SELECT null, matricno, name,student_level,session, semester, course_code,credit_unit,null,null,null,null,null FROM result_data_entry WHERE  session=? AND course_code=? order by matricno ASC ON DUPLICATE KEY UPDATE total_score=VALUES(total_score),grade_letter=VALUES(grade_letter), grade_point=VALUES(grade_point), total_point=VALUES(total_point) ");
             ps.setString(1, session);
             ps.setString(2, coursecode);//represents the 'course code'
             ps.executeUpdate();

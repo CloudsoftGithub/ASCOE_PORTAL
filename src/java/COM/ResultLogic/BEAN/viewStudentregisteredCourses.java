@@ -7,12 +7,13 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
 @ManagedBean
-@SessionScoped
+@RequestScoped
 public class viewStudentregisteredCourses extends DAO {
 
     PreparedStatement ps;
@@ -178,7 +179,25 @@ public class viewStudentregisteredCourses extends DAO {
         ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
         session = ec.getRequestParameterMap().get("studentCourseRegForm:mysession");
     }//end of method
-
+    
+    //RETRIEVING VALUES for 'Session' FROM THE UI
+    public void retriveMatricNoromUI_in_the_Exams_Card() {//get the current 'matricno' on the UI 
+        ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+        matricno = ec.getRequestParameterMap().get("studentExamsCardPrintingForm:myMatricNo");
+    }//end of method
+    
+ //RETRIEVING VALUES for 'Session' FROM THE UI
+    public void retriveSessionFromUI_in_the_Exams_Card() {//get the current 'Session' on the UI 
+        ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+        session = ec.getRequestParameterMap().get("studentExamsCardPrintingForm:mysession");
+    }//end of method
+    
+    //RETRIEVING VALUES for 'Session' FROM THE UI
+    public void retriveSemesterFromUI_in_the_Exams_Card() {//get the current 'semester' on the UI 
+        ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+        semester = ec.getRequestParameterMap().get("studentExamsCardPrintingForm:semester");
+    }//end of method
+    
     //RETRIEVING VALUES for 'Semester' FROM THE UI
     public void retriveSemesterFromUI() {//get the current 'Semester' on the UI 
         ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
@@ -249,7 +268,7 @@ public class viewStudentregisteredCourses extends DAO {
             }//end of while-block
 
         } catch (Exception e) {
-             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Courses Retrieval Error. ", e.getMessage() + " . Pls, try again"));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Courses Retrieval Error. ", e.getMessage() + " . Pls, try again"));
 
         } finally {
             this.Close();
@@ -257,7 +276,7 @@ public class viewStudentregisteredCourses extends DAO {
 
         return coursesCodeList;
     }//end of the method 
- 
+
     public List<viewStudentregisteredCourses> getStudentRegisteredCoursesFirstSemester() throws Exception {
         retriveMatricNoFromUI();//
         retriveSessionFromUI();//
@@ -359,6 +378,63 @@ public class viewStudentregisteredCourses extends DAO {
         return coursereg_info;
 
     }//end of the method
+
+    public List<viewStudentregisteredCourses> getStudentExamsCard() throws Exception {
+      
+        
+        retriveMatricNoromUI_in_the_Exams_Card();//invoked
+        retriveSessionFromUI_in_the_Exams_Card();//invoked 
+        retriveSemesterFromUI_in_the_Exams_Card();//invoked 
+ 
+        this.Connector();
+
+        List<viewStudentregisteredCourses> coursereg_info = new ArrayList<viewStudentregisteredCourses>();
+
+        try {
+            ps = this.getCn().prepareStatement("select * from student_course_reg WHERE semester=? AND matricno=? AND session=? order by course_code ");//AND session=? 
+            ps.setString(1, semester);
+            ps.setString(2, matricno);
+            ps.setString(3, session);
+
+            System.err.println("Testing myMatric no today:" + matricno);
+            System.err.println("Testing session no today:" + session);
+            System.err.println("Testing semester no today:" + semester);
+
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                viewStudentregisteredCourses tbl = new viewStudentregisteredCourses();
+
+                tbl.setId(rs.getInt("id"));
+                tbl.setMatricno(rs.getString("matricno"));
+                tbl.setSession(rs.getString("session"));
+                tbl.setSemester(rs.getString("semester"));
+
+                tbl.setLevel(rs.getString("student_level"));
+                tbl.setCoursecode(rs.getString("course_code"));
+                tbl.setCoursetitle(rs.getString("course_title"));
+                tbl.setCreditunit(rs.getInt("credit_unit"));
+
+                tbl.setDateregistered(rs.getString("dateregistered"));
+                totatRegiteredCreditUnit += rs.getInt("credit_unit");//Computes the total credits units registered
+                tbl.setTotatRegiteredCreditUnit(totatRegiteredCreditUnit);
+
+                coursereg_info.add(tbl);
+            }
+
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            this.Close();
+        }
+
+        return coursereg_info;
+
+    }//end of the method
+    
+    public void goViewExamsCardMthd() throws Exception{
+        getStudentExamsCard();
+    }//end of the method 
 
     public void sumUpRegisteredCreditUnitInAaSemester(String matrinno, String session, String semester) throws Exception {
 

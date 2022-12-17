@@ -5,11 +5,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 
 @ManagedBean
-@SessionScoped
+@RequestScoped
 public class viewregistered_credit_hours extends DAO {
 
     PreparedStatement ps;
@@ -29,6 +32,7 @@ public class viewregistered_credit_hours extends DAO {
     private String session;
     private int maxCreditHours;
     private int minCreditHours;
+    private List<String> intakeSessionList = new ArrayList<>();
 
     public int getId() {
         return id;
@@ -142,17 +146,55 @@ public class viewregistered_credit_hours extends DAO {
         this.minCreditHours = minCreditHours;
     }
 
+    public List<String> getIntakeSessionList() {
+        return intakeSessionList;
+    }
+
+    public void setIntakeSessionList(List<String> intakeSessionList) {
+        this.intakeSessionList = intakeSessionList;
+    }
+
     
+      public List<String> getintakeSessionInfoMthd() throws Exception {
+         
+        intakeSessionList.removeAll(intakeSessionList);
+
+        this.Connector();
+
+        try {
+
+            ps = this.getCn().prepareStatement("SELECT session FROM intakesessioninfo ");
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                intakeSessionList.add(rs.getString("session"));//retrieves all the sessions  and ADD into the intakeSessionList
+            }//end of while-block
+
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Intake Session Error", e.getMessage() + " . Pls, try again"));
+
+        } finally {
+            this.Close();
+        }
+
+        return intakeSessionList;
+
+    }//end of method
     
     
     public List<viewregistered_credit_hours> getRegisteredCreditHours() throws Exception {
+        getintakeSessionInfoMthd();//invoked 
+        
         this.Connector();
 
         List<viewregistered_credit_hours> coursereg_info = new ArrayList<viewregistered_credit_hours>();
 
         try {
 
-            ps = this.getCn().prepareStatement("select * from credit_unit_reg ");
+            ps = this.getCn().prepareStatement("select * from credit_unit_reg WHERE session=? AND semester=?  ");//
+            ps.setString(1, session);
+            ps.setString(2, semester);
+            
             rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -178,6 +220,11 @@ public class viewregistered_credit_hours extends DAO {
         return coursereg_info;
 
     }//end of the method
+    
+    public void goViewRegisteredCreditUnitMthd() throws Exception{
+        getRegisteredCreditHours();//invoked
+        
+    }//end of the the method 
 
 }//end of the class
 

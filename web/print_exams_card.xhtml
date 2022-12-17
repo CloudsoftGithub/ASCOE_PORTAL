@@ -1,0 +1,280 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>print_exams_card</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+        <script>
+            function printContent(el) {
+                var restorepage = document.body.innerHTML;
+                var princontent = document.getElementById(el).innerHTML;
+                document.body.innerHTML = princontent;
+                window.print();
+                document.body.innerHTML = restorepage;
+
+             
+
+            }
+        </script>
+        <style type="text/css">
+            @page{
+                size: auto;
+                margin: 3mm;
+            }
+        </style>
+    </h:head>
+    <h:body style="background: none">
+
+        <div>
+            <b:form>
+                <ui:include src="headerStudents.xhtml"/>
+            </b:form>
+        </div>
+
+        <p:spacer height="90px" />
+
+        <b:container fluid="false">
+
+            <b:growl id="msg2" />
+
+            <div  class="col-sm-3" style="background: #809d9f" >
+
+                <b:form>
+                    <b:panel style=" background: #9fb1b1; height: 423px">
+
+                        <b:flyOutMenu style="font-size:large; background: red; color: white ">
+                            <b:navLink value="Dashboard" outcome="studentDashboard.xhtml" style="background: #d0e7e8; color: white;font-size: x-large;" ></b:navLink>
+                            <b:dropMenu value="Course Registration" style="font-size:  large">
+                                <b:navLink value="First Semester-Course Registration" outcome="first_semester_student_course_registration.xhtml" style="background: #d0e7e8; color: white" ></b:navLink>
+                                <b:navLink value="Second Semester-Course Registration" outcome="second_semester_student_course_registration.xhtml" style="background: #d0e7e8; color: white" ></b:navLink>
+                            </b:dropMenu>       
+                            <b:dropMenu value="Print Examination Card" style="font-size: large">
+                                <b:navLink value="PRINT Exam Card" outcome="print_exams_card.xhtml" style="background: #d0e7e8; color: brown; font-size: large" ></b:navLink>
+                            </b:dropMenu>
+
+                        </b:flyOutMenu> 
+                    </b:panel>
+                </b:form>
+            </div>
+
+            <b:form id="studentExamsCardPrintingForm" style="background: bl; font-family: serif">
+
+                <div id="ExamsCardDIV" class="col-sm-9" style="background: #809d9f; width:850px">
+
+                    <b:messages id="msg"/>
+
+                    <h2 style="text-align: center; font-family: sans-serif; background: wheat">Examination Card Printout </h2>
+
+                    <p:panel   style=" font-size: medium; background: white; " >
+
+                        <p:panel id="course_regPanel"   style="font-family: 'Kanit', sans-serif; color: black;background: #a6a4da " >
+
+                            <b:row >
+                                <b:column medium-screen="6">
+                                    <h:outputText value="Full Name: " style="font-size: medium; " />
+                                    <h:inputText id="myFullname"  class="col-xs-6 form-control text-uppercase"   value="#{studentLoginBEAN.fullName}" style="background: lightyellow; font-size: medium; font-style: normal"/>  
+                                </b:column>
+                            </b:row>
+                            <b:row >
+                                <b:column small-screen="6">
+                                    <h:outputText value="Matric No: " style="font-size: medium;" />
+                                    <h:inputText id="myMatricNo" class="col-xs-6 form-control text-uppercase"  value="#{studentLoginBEAN.matricNo}" style="background: lightyellow; font-size: medium;font-style: normal"/>  
+                                </b:column>
+                            </b:row>
+                            <b:row >
+
+                                <b:column small-screen="6">
+                                    <h:outputText value="Level:  " style="font-size: medium;" />
+                                    <h:inputText  id="myLevel"  class="col-xs-8 form-control text-uppercase" value="#{studentLoginBEAN.myStudentLevel}" style="background: lightyellow; font-size: medium;font-style: normal"/>  
+                                </b:column>
+                            </b:row>
+                            <br />
+                            <b:row>
+                                <b:column   small-screen="6">
+                                    <h:outputText value="Session: " style="font-size: medium; font-style: normal" />
+                                    <h:selectOneMenu label="Session :" class="form-control" id="mysession" style="font-size: large; background: white; color: black "   value="#{student_course_regBEAN.session}"  required="true" requiredMessage="Pls, supply session.">
+                                        <f:selectItem itemLabel="Select Session" itemValue=""  />
+                                        <f:selectItems  value="#{student_course_regBEAN.sessionInfoForStudentRegMthd}"  />
+                                    </h:selectOneMenu> 
+                                </b:column>
+                            </b:row>
+
+                            <b:row>
+                                <b:column small-screen="6" style="font-size: medium; font-style: normal">
+                                    <h:outputText value="Semester: " style="font-size: medium; font-style: normal" />
+                                    <h:selectOneMenu id="semester" label="Semester :" class="form-control" value="#{student_course_regBEAN.semester}" style="font-size: large; font-style: normal; color: black" required="true" requiredMessage="Pls, select semester" >
+                                        <f:selectItem itemLabel="Select Semester" itemValue="" />
+                                        <f:selectItem itemLabel="FIRST SEMESTER" itemValue="FIRST SEMESTER" />
+                                        <f:selectItem itemLabel="SECOND SEMESTER" itemValue="SECOND SEMESTER" />
+                                    </h:selectOneMenu>
+                                </b:column>
+
+                            </b:row>
+                            <br />
+                            <div class="col-sm-12">
+                                <b:row style="background:  whitesmoke" >
+
+                                    <b:column  small-screen="6" >
+                                        <b:commandButton value="View Exams Card" action="#{viewStudentregisteredCourses.goViewExamsCardMthd()}"  style="font-size:  large; color: white; background: red;  border-width: 4px; border-color: black" update="studentExamsCardPrintingForm,examSplipInfo,msg,msg2" />
+                                    </b:column>
+                                    <b:column  small-screen="6">
+                                     
+                                        <button onClick="printContent('examsCardPrintoutDIV')" style="background: black; color: black; border-color: black; border-width: 4px; background:  red; color: white; font-size: large; vertical-align: baseline" > Print Exams Card</button>
+                                    </b:column>
+                                    <br />
+                                </b:row>
+                            </div>
+
+                        </p:panel>
+                    </p:panel>
+
+                </div>
+
+                <div class="col-sm-12" id="examsCardPrintoutDIV" style="background: white; width: auto" align="center">
+                    <p:separator />
+                    <p:spacer />
+                    <b:panel>
+                        <br /> <br />
+                        <div align="center" class="col-sm-12" style="align-self: center; align-items: center;">
+
+                            <b:panel style="align-self: center;  width: auto; color: black; background: white; height: auto; border-width: 2px; border-color: black; width: 900px ">
+                                <div class="col-sm-12" align="center">
+                                    <b:row>
+                                        <b:column small-screen="12" >
+                                            <h:graphicImage name="/img/ASCEOFormHeader2.jpg" alt="Sch Form logo" width="800" height="120"  styleClass="content"/>
+
+                                        </b:column>
+                                        <b:column small-screen="12">
+                                            <p:spacer />
+                                            <h3 align="center"  style=" color: darkgreen; text-transform: uppercase; font-weight: bold; font-family: fantasy"> Examination Slip for #{viewStudentregisteredCourses.semester},  #{viewStudentregisteredCourses.session} Session </h3>
+                                        </b:column>
+                                    </b:row>
+                                </div>
+
+
+                                <div class="col-sm-12 " align="left"  >
+
+                                    <b:row>
+                                        <b:column small-screen="6" style=" width: 850px; height: 150px;" >
+                                            <b:panel style="border-color: black; border-width: 3px; background: white; width: 820px " >
+                                                <div style="background-color: #809d9f; color: black;">   
+                                                    <p:panelGrid columns="2" style="width: 810; ">
+
+
+                                                        <b:panel style="border-color: black; border-left-width: 4px; width: 350px">
+
+                                                            <h:outputText style="  font-size: medium; font-weight: bold; font-family: fantasy; color: black  " value="Student Matric No: "/>
+                                                            <b:inputText     disabled="true" class="form-control"  style="font-size: medium; font-weight: bold; font-family: fantasy; color: black  " value="#{studentLoginBEAN.matricNo}"  />
+                                                        </b:panel>
+                                                        <b:panel style="border-color: black; border-left-width: 4px;width: 400px"> 
+
+                                                            <h:outputText style="  font-size: medium; font-weight: bold; font-family: fantasy; color: black  " value="Student Name(s): "/>
+                                                            <b:inputText     disabled="true" class="form-control"  style="font-size: medium; font-weight: bold; font-family: fantasy; color: black  " value="#{studentLoginBEAN.fullName.toUpperCase()}"  placeholder="The retrieved AppNo." />
+
+                                                        </b:panel>
+                                                    </p:panelGrid>
+                                                </div>
+                                            </b:panel>
+                                        </b:column>  
+                                    </b:row>
+                                </div>
+                                <p:spacer />
+                                <p:separator />
+                            </b:panel>
+                        </div>
+
+                        <div  class="col-sm-12" align="center"  style="align-self: center; align-items: center">
+
+                            <div  style="align-self: center; align-items: center">
+                                <b:column class="col-sm-12" >
+
+                                    <h:dataTable  id="examSplipInfo"  border="6" binding="#{table}" style="align-self: center; font-family: sans-serif ;font-weight: bold; font-size: small; width: 900px; border-width: thick;  border-color: black; background: whitesmoke; word-wrap: normal" value="#{viewStudentregisteredCourses.studentExamsCard}" var="item">
+                                        <h:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="SN" ></h:outputText>
+                                            </f:facet>
+                                             #{table.rowIndex+1}
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="Course Code" ></h:outputText>
+                                            </f:facet>
+                                            <h:outputText escape="false" value="#{item.coursecode}"></h:outputText> 
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="Course Title" ></h:outputText>
+                                            </f:facet>
+                                            <h:outputText escape="false" value="#{item.coursetitle}"></h:outputText>
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="Credit Unit" ></h:outputText>
+                                            </f:facet>
+                                            <h:outputText escape="false" value="#{item.creditunit}"></h:outputText>
+                                        </h:column>
+
+
+
+                                        <h:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="Invigilator's Signature" ></h:outputText>
+                                            </f:facet>
+                                        </h:column> 
+
+                                        <f:facet name="footer" >
+                                            TOTAL CREDIT UNIT:  #{viewStudentregisteredCourses.studentExamsCard.stream().map(item->item.creditunit).sum()}                                       
+                                        </f:facet>
+ 
+                                    </h:dataTable>
+                                  
+                                </b:column>
+                              
+                            </div>
+ 
+                        </div>
+                        <br />
+                        <p:separator />
+                        <div   style="width: 1000px; align-self: center; align-items: center " align="center">
+                            <b:panel style=";border-color: black; border-width: 2px; width: 900px">
+
+
+                                <p:panelGrid columns="2"  >
+                                    <b:panel style=";border-color: black; border-left-width: 4px; width: auto; ">
+                                        <h4 style="font-weight: normal; color: black">Student's Signature:________________________________________</h4>
+
+                                    </b:panel>
+                                    <b:panel style="border-color: black; border-left-width: 4px; width: auto">
+                                        <h4 style="font-weight: normal; color: black">Date:__________________________________ </h4>
+
+                                    </b:panel>
+
+                                </p:panelGrid>
+
+                                <p:panelGrid columns="2">
+                                    <b:panel style="border-color: black; border-left-width: 4px; width: auto">
+                                        <h4 style="font-weight: normal; color: black">Exams Officer's Signature:________________________________________</h4>
+
+                                    </b:panel>
+                                    <b:panel style="border-color: black; border-left-width: 4px; width: auto">
+                                        <h4 style="font-weight: normal; color: black">Date:__________________________________ </h4>
+
+                                    </b:panel>
+
+                                </p:panelGrid>
+                            </b:panel>
+
+                        </div>
+                    </b:panel>
+                </div>
+            </b:form>
+
+        </b:container>
+    </h:body>
+</html>

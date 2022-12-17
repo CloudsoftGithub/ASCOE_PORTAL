@@ -23,7 +23,7 @@
  
                 <b:messages  id="msg" style="font-size: medium; font-family: sans-serif"  />
                 <b:growl id="msg2" style="font-size: medium; font-family: serif" />
-
+             
 
                 <b:panel style="font-family: 'Kanit', sans-serif; color: black;background: white; border-width: 3px "   title="APPLICATION FOR ADMISSION | Step II ( Scratch Card Details)" look="success" class="col-xs-12">
                     <div style="background: #bceecd; color: black; ">
@@ -39,10 +39,10 @@
                     <div class="col-xs-12">
                         <b:row>
                             <b:column small-screen="5">
-                                <b:inputSecret id="pinno" label="Pin No:" class="form-control" style="font-size: medium; " value="#{applicationPaymentBEAN.pinno}" placeholder="Supply PIN no" required="true" requiredMessage="Pls, supply PIN no!"/>
+                                <b:inputText id="pinno" label="Pin No:" class="form-control" style="font-size: medium; " value="#{applicationPaymentBEAN.pinno}" placeholder="Supply PIN No" required="true" requiredMessage="Pls, supply PIN no!"/>
                             </b:column>
                             <b:column small-screen="5" offset="1">
-                                <b:inputText id="serialno" label="Serial No:" class="form-control" style="font-size: medium; " value="#{applicationPaymentBEAN.serialno}" placeholder="Supply serialno" required="true" requiredMessage="Pls, supply serialno!"/>
+                                <b:inputText id="serialno" label="Serial No:" class="form-control" style="font-size: medium; " value="#{applicationPaymentBEAN.serialno}" placeholder="Supply Serial No" required="true" requiredMessage="Pls, supply serialno!"/>
                             </b:column>
                         </b:row>
                     </div>

@@ -8,6 +8,8 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <h:head>
         <title>staffSignup</title>
+        <link rel="shortcut icon"  href="#{request.contextPath}/resources/img/logo.jpg" type="image/x-icon"/> 
+
         <script data-ad-client="ca-pub-9824241097560337" async='async' src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js">
         </script>
     </h:head>
@@ -26,7 +28,7 @@
             </div>
             <b:growl id="msg2" />
 
- 
+
             <div class="col-sm-12"   style="font-size:  large">
 
                 <b:form id="enrollmentForm" class="col-sm-12"   >
@@ -84,12 +86,10 @@
                                             </b:selectOneMenu>
                                         </b:column>
 
-                                        <b:column medium-screen="5" offset="1" >
-                                            Employment cate:
-                                        </b:column>
+
                                         <b:column medium-screen="5" offset="1">
 
-                                            <p:datePicker label="Employment Date:"   style="background: white; border-width: 1px; border-color: black" value="#{staffSignupBEAN.stffsgnp.employmentDate}" required="true" requiredMessage="Pls, suply employment date "  />
+                                            <b:dateTimePicker label="Employment Date:"  show-time="false"  style="background: white; border-width: 1px; border-color: black" value="#{staffSignupBEAN.stffsgnp.employmentDate}" required="true" requiredMessage="Pls, suply employment date "  />
                                         </b:column>
                                     </b:row>
 

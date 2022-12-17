@@ -18,26 +18,29 @@
     </h:head>
 
 
-    <h:body style="font-size: x-small; background: whitesmoke; font-family: fantasy; color: black;  ">
+    <h:body style="font-size: small; background: whitesmoke; font-family: sans-serif; color: black;  ">
         <b:container>
             <b:form>
-                <b:navBar brand="Result Logic | Adminuser-Dashboard"  brandHref="ProgramsEnrollment.xhtml" fixed="top" inverse="false" style="background: #b1c4d5">
+                <b:navBar brand="Result Logic | Adminuser-Dashboard"  brandHref="ProgramsEnrollment.xhtml" fixed="top" inverse="false" style="background: black">
                     <b:navbarLinks> 
                         <b:navLink value="Sch Enrollment" outcome="faculty-school-enrollment.xhtml" style="  font-style: initial ; color: whitesmoke; "></b:navLink>
                         <b:navLink value="Dept Enrollment" outcome="department-enrollment.xhtml" style="color: black"></b:navLink>
                         <b:navLink value="Prog. Enrollment" outcome="ProgramsEnrollment.xhtml" style="color: black; "></b:navLink>
 
-                        <b:navLink value="Intake-Session-Info"  outcome="intakeSessio_info.xhtml" style="color: black;"></b:navLink>
-                        <b:navLink value="Generate-MatricNo" outcome="generate-matricNo.xhtml" style="color: black"></b:navLink>
+                        <b:navLink value="Intake-Session"  outcome="intakeSessio_info.xhtml" style="color: black;"></b:navLink>
+                        <b:navLink value="Generate_Matric" outcome="MatricNoGeneration_Page.xhtml" style="color: white; background: lightcyan">  </b:navLink>
+
+                        <b:navLink value="View-MatricNo" outcome="view-matricNo.xhtml" style="color: black"></b:navLink>
+
                         <b:navLink value="Course-Reg." outcome="course_registration.xhtml" style="color: black"></b:navLink>
                         <b:navLink value="Credit-Unit-Reg." outcome="credit_unit_registration.xhtml" style="color: black"></b:navLink>
- 
+
                         <b:navLink value="Applicant-List" outcome="view_applicant_list.xhtml" style="color: black">  </b:navLink>
 
-                        <b:commandButton   tooltip="click to signout"    value="Signout" style="  font-size: small;background: #ae22f2; color: white;" action="#{rootUserLoginBEAN.signoutMethod()}"/>
-
+                        <b:commandButton   tooltip="click to signout"    value="Signout" style="  font-size: small;background: #ae22f2; color: white;" action="#{adminLoginBEAN.signoutMethod()}"/>
 
                     </b:navbarLinks>
+
 
                 </b:navBar>
 

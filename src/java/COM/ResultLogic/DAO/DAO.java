@@ -26,11 +26,10 @@ public class DAO implements Serializable {
     public void Connector() throws Exception {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-           // Class.forName("com.mysql.jdbc.Driver");
-            cn = (Connection) DriverManager.getConnection("jdbc:mysql://node141231-ascoekd.w1-us.cloudjiffy.net/resultlogic", "root", "YLYhho19451");
+            // Class.forName("com.mysql.jdbc.Driver");
+           //cn = (Connection) DriverManager.getConnection("jdbc:mysql://node141231-ascoekd.w1-us.cloudjiffy.net/resultlogic", "root", "YLYhho19451");
 
-          //cn = DriverManager.getConnection("jdbc:mysql://localhost:3306/resultlogic?user=root&password=ash123");
-
+             cn = DriverManager.getConnection("jdbc:mysql://localhost:3306/resultlogic?user=root&password=ash123");
         } catch (Exception e) {
             System.out.println("Error in login/Connecting() -->" + e.getMessage());
             throw e;
@@ -46,6 +45,8 @@ public class DAO implements Serializable {
         } catch (Exception e) {
             throw e;
         } finally {
+            this.cn.close();
+            //this.ps.close();
         }
     }
 }

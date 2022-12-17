@@ -69,10 +69,11 @@
                                 </b:column>
 
                                 <b:column medium-screen="5">
-                                    <b:selectOneMenu id="semester" label="Semester :" value="#{verify_course_registration.semester}"  style="font-size: large; " required="true" required-message="Pls, enter semester" tooltip="Pls, enter semester">
+                                    <b:selectOneMenu id="semester" label="Semester :" ajax="false" value="#{verify_course_registration.semester}"  style="font-size: large; " required="true" required-message="Pls, enter semester" tooltip="Pls, enter semester">
                                         <f:selectItem itemLabel="Select Semester" itemValue="" />
                                         <f:selectItem itemLabel="FIRST SEMESTER" itemValue="FIRST SEMESTER" />
                                         <f:selectItem itemLabel="SECOND SEMESTER" itemValue="SECOND SEMESTER" />
+                                        <p:ajax  update="@this, listofstudentForVefication"  />
                                     </b:selectOneMenu>
                                 </b:column>
 
@@ -160,16 +161,16 @@
 
                             <b:row class="text-center" >
                                 <b:column medium-screen="4">
-                                    
+
                                 </b:column>
-                                
+
                                 <b:column medium-screen="4">
 
                                     <b:commandButton id="verifyButton" value="Approve Course Reg."  action="#{verify_course_registration.verifyCourseRegMthd()}"  look="primary" class="form-control" style="font-size: large;background: #ccccff; color: black; border-color: green; border-width: thick;; height: 120px"  />
 
                                 </b:column>
-                                 <b:column medium-screen="2">
-                                    
+                                <b:column medium-screen="2">
+
                                 </b:column>
 
                             </b:row>

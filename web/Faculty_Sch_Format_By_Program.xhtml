@@ -1,0 +1,418 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Faculty_Sch_Format_By_Program</title>
+        <script>
+            function printContent(el) {
+                var restorepage = document.body.innerHTML;
+                var princontent = document.getElementById(el).innerHTML;
+                document.body.innerHTML = princontent;
+                window.print();
+                document.body.innerHTML = restorepage;
+            }
+        </script>
+        <style type="text/css">
+            @page{
+                size: auto;
+                margin: 3mm;
+            }
+        </style>
+    </h:head>
+    <h:body style="background: #5f7ff7">
+        <div>
+            <b:form>
+                <ui:include src="headerTeachingStaffDashboard.xhtml"/>
+            </b:form>
+        </div>
+
+        <b:container  fluid="false" >
+            <b:growl id="msg" />
+            <div>
+                <p:spacer height="160px" /> <!-- this is a space  -->
+            </div>
+
+            <div class="col-sm12"   style="font-size:  large">
+
+                <b:form id="FacultySchoolResultGenerationForm" class="col-sm12" style="background: white; " >
+
+                    <b:panel   title="Generate Faculty_Sch_Format_By_Program"  style=" align-self: center; font-size: smaller; background: #5f7ff7; color: black; border-width: 4px; border-color: white">
+                        <b:messages  id="msg2" showDetail="true" />
+
+                        <h3 align="left" style="text-align: center; font-family: sans-serif; font-weight: bold; text-transform: uppercase; color: black"> Generate Faculty/School Format Result By Programs(Combinations)</h3>
+                        <p:separator />
+                        <div class="col-sm-12" style="font-size: large">
+                            <b:row>
+
+                                <b:column   small-screen="4">
+                                    <h:outputText value="Session: *" style="font-weight: bold; font-size: large" />
+                                    <h:selectOneMenu label="Session :" class="form-control" id="mysession" style="font-size: large; background: white; color: black "   value="#{compute_gp_gpa_cgpaBEAN.session}"  required="true" requiredMessage="Pls, supply session.">
+                                        <f:selectItem itemLabel="Select Session" itemValue=""  />
+                                        <f:selectItems  value="#{compute_gp_gpa_cgpaBEAN.sessionInfoForStudentRegMthd}"  />
+                                    </h:selectOneMenu> 
+                                </b:column>
+
+                                <b:column small-screen="4"> 
+                                    <b:selectOneMenu id="course_choice"  label="Programs/Combinations"  class="form-control" style="font-size: medium; " value="#{compute_gp_gpa_cgpaBEAN.course_choise}"   required="true" requiredMessage="Pls, supply Program">
+                                        <f:selectItem itemLabel="Select Program" itemValue=""  />
+                                        <f:selectItems value="#{compute_gp_gpa_cgpaBEAN.get_Course_ChoiceMthd()}"/>
+                                    </b:selectOneMenu> 
+                                </b:column>
+
+
+                                <b:column  small-screen="4" >
+                                    <b:selectOneMenu id="semester" class="form-control" label="Semester: " style="font-size: large; background: #f2ece6"  value="#{compute_gp_gpa_cgpaBEAN.semester}"  required="true"  >
+                                        <f:selectItem itemLabel="Select Semester" itemValue=""  />
+                                        <f:selectItem itemLabel="FIRST SEMESTER" itemValue="FIRST SEMESTER"  />
+                                        <f:selectItem itemLabel="SECOND SEMESTER" itemValue="SECOND SEMESTER"  />
+                                    </b:selectOneMenu>
+
+                                </b:column>
+                            </b:row>
+
+                        </div>
+                        <div class="col-sm-12">
+                            <b:row>
+                                <b:column   small-screen="4"> 
+                                    <h:outputText value="Level: *"  style="font-weight: bold; font-size: large"/>
+                                    <h:selectOneMenu id="myLevel" class="form-control" label="Level: " style="font-size: large; background: #f2ece6; font-weight: bold;"  value="#{compute_gp_gpa_cgpaBEAN.level}"   required="true"  >
+                                        <f:selectItem itemLabel="Select Level" itemValue=""  />
+                                        <f:selectItem itemLabel="NCE I" itemValue="NCE I"  />
+                                        <f:selectItem itemLabel="NCE II" itemValue="NCE II"  />
+                                        <f:selectItem itemLabel="NCE III" itemValue="NCE III"  />
+                                    </h:selectOneMenu>
+                                </b:column>
+
+                                <b:column   small-screen="4"> 
+                                    <!-- Just a Space  -->
+                                </b:column>
+                                <b:column   small-screen="4" >  
+                                    <div align="right">
+                                        <b:commandButton value="Generate Result" look="primary" class="form-control"  process="@this, mysession, course_choice, semester, myLevel " style="background: #809d9f; color: black; border-color: black; border-width: thick;width: 220px; height: 60px" action="#{compute_gp_gpa_cgpaBEAN.generateGPandGPA_Faculty_Sch_Format_By_ProgramMthd()}"  update="FacultySchoolResultGenerationForm, mysession,course_choice, semester,myLevel,msg,msg2,listofstudentGPandGPAPerSemester,listofstudentCGPAInfo" />
+                                    </div>
+                                </b:column >
+                            </b:row>
+
+                        </div>
+
+                    </b:panel>
+
+                    <div id="MasterStudentResultHeaderDIV" class="col-sm-12">
+
+                        <br />
+                        <p:spacer />
+                        <div align="center" class="col-sm-12" style="align-self: center; align-items: center;">
+
+                            <b:panel style="align-self: center; color: black; background: white; height: auto; border-width: 2px; border-color: black; width: 1010px ">
+                                <div class="col-sm-12" align="center">
+                                    <b:row>
+                                        <b:column small-screen="12" >
+                                            <h:graphicImage name="/img/ASCEOFormHeader2.jpg" alt="Sch Form logo" width="800" height="120"  styleClass="content"/>
+
+                                        </b:column>
+                                        <b:column small-screen="12">
+                                            <h2 style=" color: black; text-transform: uppercase; font-weight: bold; font-family: fantasy"> School Result Format </h2>
+                                            <h4 align="center"  style=" color: background; text-transform: uppercase; font-weight: bold; font-family: fantasy; "> Department of #{compute_gp_gpa_cgpaBEAN.theRetrievedDepartment}  #{compute_gp_gpa_cgpaBEAN.semester},  #{compute_gp_gpa_cgpaBEAN.session} Session </h4>
+                                            <h4 align="center"  style=" color: background; text-transform: uppercase; font-weight: bold; font-family: fantasy"> (  #{compute_gp_gpa_cgpaBEAN.course_App_Tile} #{compute_gp_gpa_cgpaBEAN.course_choise} )  </h4>
+                                            <h4 align="center"  style=" color: background; text-transform: uppercase; font-weight: bold; font-family: fantasy">    #{compute_gp_gpa_cgpaBEAN.level} Results  </h4>
+                                        </b:column>
+                                    </b:row>
+                                </div>
+
+
+                                <div class="col-sm-12" id="MasterStudentResultDIV" style="font-size: small; background: white">
+                                    <b:form>
+
+                                        <b:dataTable id="resultswithDatatable"  style="background:  #b3cee1; font-size: small; border-bottom-width: thick ;border-color: #0033ff; border-width: 4px ;border-color: black;" value="#{compute_gp_gpa_cgpaBEAN.studentsResult}" var="item">
+                                            <f:facet name="header">
+                                                <h:outputText class="text-uppercase" value="Student Results with Row Scores" />
+                                            </f:facet>
+
+                                            <b:column > 
+                                                <f:facet name="header">
+                                                    <h:outputText value="Id" ></h:outputText>
+                                                </f:facet>
+                                                <h:outputText  escape="false" value="#{item.id}"></h:outputText>
+                                            </b:column>
+                                            <b:column style="background: ">
+                                                <f:facet name="header">
+                                                    <h:outputText value="Matric No" ></h:outputText>
+                                                </f:facet>
+                                                <h:outputText escape="false" value="#{item.matricno}"></h:outputText>
+                                            </b:column>
+
+                                            <b:column > 
+                                                <f:facet name="header">
+                                                    <h:outputText value="Name of Students" ></h:outputText>
+                                                </f:facet>
+                                                <h:outputText  escape="false" value="#{item.studentname}"></h:outputText>
+                                            </b:column>
+                                            <b:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value="Session" ></h:outputText>
+                                                </f:facet>
+                                                <h:outputText escape="false" value="#{item.session}"></h:outputText>
+                                            </b:column>
+
+                                            <b:column >
+                                                <f:facet name="header">
+                                                    <h:outputText value="Semester " ></h:outputText>
+                                                </f:facet>
+                                                <h:outputText escape="false" style="width: 250px"  value="#{item.semester}"></h:outputText>
+                                            </b:column>
+                                            <b:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value="Course Code" ></h:outputText>
+                                                </f:facet>
+                                                <h:outputText escape="false" value="#{item.coursecode}"></h:outputText> 
+                                            </b:column>
+                                            <b:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value="Credit Unit" ></h:outputText>
+                                                </f:facet>
+                                                <h:outputText escape="false" value="#{item.creditunit}"></h:outputText> 
+                                            </b:column>
+
+                                            <b:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value="Total Score" ></h:outputText>
+                                                </f:facet>
+                                                <h:outputText escape="false" value="#{item.total}"></h:outputText>
+                                            </b:column>
+
+
+                                            <b:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value="Grade Letter " ></h:outputText>
+                                                </f:facet>
+                                                <h:outputText escape="false" value="#{item.gradeLetter}"></h:outputText>
+                                            </b:column>
+
+                                        </b:dataTable>
+
+                                        <div>
+                                            <b:row>
+                                                <b:column medium-screen="4">
+                                                    <!-- Just a space-->
+                                                </b:column>
+                                                <b:column medium-screen="4">
+                                                    <button onClick="printContent('MasterStudentResultHeaderDIV')" style="background: green;  font-size: x-large; font-family: sans-serif; border-color: black; border-width: thick; background:  green; color: white; border-color: black; border-width: 3px " look="success"> Print Result </button>
+                                                </b:column>
+                                                <b:column medium-screen="4">
+                                                    <!-- Just a space-->
+                                                </b:column>
+                                            </b:row>
+                                        </div>
+                                    </b:form>
+
+                                </div>
+
+                            </b:panel>
+                        </div>
+                        <div class="col-sm-12" id="listofstudentGPandGPADIV" style="font-size: small">
+
+                            <h3>SEMESTER: GP and GPA</h3>
+                            <b:dataTable id="listofstudentGPandGPAPerSemester"   style="background: #809d9f; font-size: small; border-bottom-width: thick ;border-color: #0033ff;" value="#{compute_gp_gpa_cgpaBEAN.studentGPandGPAPerProgramAndSemester}" var="item">
+                                <f:facet name="header">
+                                    <h:outputText class="text-uppercase" value="Result Data Entry Sheet" />
+                                </f:facet>
+                                <b:column > 
+                                    <f:facet name="header">
+                                        <h:outputText value="id" ></h:outputText>
+                                    </f:facet>
+                                    <h:outputText  escape="false" value="#{item.id}"></h:outputText>
+                                </b:column>
+                                <b:column style="background: ">
+                                    <f:facet name="header">
+                                        <h:outputText value="Matric No" ></h:outputText>
+                                    </f:facet>
+                                    <h:outputText escape="false" value="#{item.matricno}"></h:outputText>
+                                </b:column>
+
+                                <b:column style="width: 900px"> 
+                                    <f:facet name="header">
+                                        <h:outputText value="Name of Students" ></h:outputText>
+                                    </f:facet>
+                                    <h:outputText  escape="false" value="#{item.studentname}"></h:outputText>
+                                </b:column>
+                                <b:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Session" ></h:outputText>
+                                    </f:facet>
+                                    <h:outputText escape="false" value="#{item.session}"></h:outputText>
+                                </b:column>
+
+                                <b:column style="width: 300px">
+                                    <f:facet name="header">
+                                        <h:outputText style="width: 20px" value="Semester " ></h:outputText>
+                                    </f:facet>
+                                    <h:outputText escape="false" value="#{item.semester}"></h:outputText>
+                                </b:column>
+
+                                <b:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Total Credit Unit" ></h:outputText>
+                                    </f:facet>
+                                    <h:outputText escape="false" value="#{item.total_credit_unit}"></h:outputText> 
+                                </b:column>
+
+                                <b:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Total Grade Point" ></h:outputText>
+                                    </f:facet>
+                                    <h:outputText escape="false" value="#{item.total_grade_point}"></h:outputText>
+                                </b:column>
+
+
+                                <b:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Grade Point Average " ></h:outputText>
+                                    </f:facet>
+                                    <h:outputText escape="false" value="#{item.grade_point_average}"></h:outputText>
+                                </b:column>
+
+                                <b:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Remark " ></h:outputText>
+                                    </f:facet>
+                                    <h:outputText escape="false" value="#{item.remarks}"></h:outputText>
+                                </b:column>
+                                <b:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Date" ></h:outputText>
+                                    </f:facet>
+                                    <h:outputText escape="false" value="#{item.dateregistered}"></h:outputText>
+                                </b:column>
+                            </b:dataTable>
+
+                           
+
+                            <br />
+                            <br />
+                        </div>
+
+
+                    </div> 
+ 
+
+                    <p:separator />
+
+                    <div style="background: #d4d0e7"> 
+                        <h2 style="text-align: center; font-family: sans-serif"> Compute GP, GPA and Remarks</h2>
+                    </div>
+
+
+
+
+                    <b:panel   title="Compute CGPA -Panel"  style=" align-self: center; font-size: smaller; background: #b7c094">
+                        <p:messages  id="msg_for_compute_CGPA" showDetail="true" closable="true" />
+
+                        <div class="col-sm-12" style="font-size: large">
+                            <b:row>
+                                <b:column  small-screen="4" >
+
+                                    <!-- 
+                                      <h:outputText value="Session: *"  style="font-family: sans-serif; font-size: large"/> <br />
+                                      <h:selectOneMenu id="mysession" class="form-control" style="font-size: large; background: #f2ece6 " label="Session:" value="#{compute_gp_gpa_cgpaBEAN.session}" required="true" requiredMessage="Pls, supply session" >
+                                          <f:selectItem itemLabel="Select Session" itemValue=""  />
+                                          <f:selectItems value="#{compute_gp_gpa_cgpaBEAN.sessionInfoForStudentRegMthd}"  />
+  
+                                      </h:selectOneMenu> 
+                                    -->
+                                    <br />   
+
+                                </b:column>
+                                <b:column  small-screen="4" >
+
+                                </b:column>
+
+                                <b:column   small-screen="4">  
+                                    <b:commandButton value="Compute CGPA" look="primary" class="form-control"  action="#{compute_gp_gpa_cgpaBEAN.computeCGPAMthd()}" style="background: #3d29b7; color:  whitesmoke; border-color: black; border-width: thick;width: 220px; height: 60px"  update="listofstudentCGPAInfo,msg_for_compute_CGPA" />
+                                    <p:spacer />
+                                </b:column >
+
+                            </b:row>
+                        </div>
+
+                        <b:dataTable id="listofstudentCGPAInfo"   style="background: #b3cee1; font-size: small; border-bottom-width: thick ;border-color: #0033ff;" value="#{compute_gp_gpa_cgpaBEAN.studentCGPA}" var="item">
+                            <f:facet name="header">
+                                <h:outputText class="text-uppercase" value="Result Data Entry Sheet" />
+                            </f:facet>
+                            <b:column > 
+                                <f:facet name="header">
+                                    <h:outputText value="id" ></h:outputText>
+                                </f:facet>
+                                <h:outputText  escape="false" value="#{item.id}"></h:outputText>
+                            </b:column>
+                            <b:column style="background: ">
+                                <f:facet name="header">
+                                    <h:outputText value="Matric No" ></h:outputText>
+                                </f:facet>
+                                <h:outputText escape="false" value="#{item.matricno}"></h:outputText>
+                            </b:column>
+
+                            <b:column style="width: 300px"> 
+                                <f:facet name="header">
+                                    <h:outputText value="Name of Students" ></h:outputText>
+                                </f:facet>
+                                <h:outputText  escape="false" value="#{item.studentname}"></h:outputText>
+                            </b:column>
+                            <b:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Session" ></h:outputText>
+                                </f:facet>
+                                <h:outputText escape="false" value="#{item.session}"></h:outputText>
+                            </b:column>
+
+                            <b:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Total Credit Unit" ></h:outputText>
+                                </f:facet>
+                                <h:outputText escape="false" value="#{item.total_credit_unit}"></h:outputText> 
+                            </b:column>
+
+                            <b:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Total Grade Point" ></h:outputText>
+                                </f:facet>
+                                <h:outputText escape="false" value="#{item.total_grade_point}"></h:outputText>
+                            </b:column>
+
+
+                            <b:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Cummulative Grade Point Average " ></h:outputText>
+                                </f:facet>
+                                <h:outputText escape="false" value="#{item.cummulative_grade_point_average}"></h:outputText>
+                            </b:column>
+
+                            <b:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Remark " ></h:outputText>
+                                </f:facet>
+                                <h:outputText escape="false" value="#{item.remarks}"></h:outputText>
+                            </b:column>
+                            <b:column style="width: 200px">
+                                <f:facet name="header">
+                                    <h:outputText value="Date" ></h:outputText>
+                                </f:facet>
+                                <h:outputText escape="false" value="#{item.dateregistered}"></h:outputText>
+                            </b:column>
+                        </b:dataTable>
+
+                    </b:panel>
+
+
+                </b:form>
+            </div>
+            <br />
+            <br />
+        </b:container>              
+    </h:body>
+</html>
+

@@ -14,6 +14,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import org.primefaces.model.file.UploadedFile;
 
 @ManagedBean
 //@SessionScoped
@@ -25,6 +26,7 @@ public class studentEnrolmentBEAN extends DAO {
     String matricNo = "";
     String generatedMatricNoTableName = "";
 
+    private UploadedFile studentPhoto;
     private String selectedValue;
 
     private List<String> States_TitleList = new ArrayList<>();
@@ -53,6 +55,14 @@ public class studentEnrolmentBEAN extends DAO {
 
     private String email;
     private String houseAddress;
+
+    public UploadedFile getStudentPhoto() {
+        return studentPhoto;
+    }
+
+    public void setStudentPhoto(UploadedFile studentPhoto) {
+        this.studentPhoto = studentPhoto;
+    }
 
     public String getSelectedValue() {
         return selectedValue;
@@ -379,7 +389,7 @@ public class studentEnrolmentBEAN extends DAO {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Signup Error. ", "Invalid Matric no. This matriC no. has been used!"));
             } else if (rs3.next()) {
 
-                try {
+                try {//Step1: Enrollment Insertion 
 
                     PreparedStatement ps = getCn().prepareStatement("INSERT INTO studentreg VALUES(?, ?, ?,?,? ,?,?,?, ?,?,?,?,?, now(), ?,?, ?,?, ?,?)");
                     ps.setString(1, null);
@@ -421,11 +431,35 @@ public class studentEnrolmentBEAN extends DAO {
                         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "You succcessfully signup thank you! ", "you will be redirected!"));
                         ExternalContext redcontext = FacesContext.getCurrentInstance().getExternalContext();
 
+                        //Step1://updating the student FLAG
                         PreparedStatement ps1 = getCn().prepareStatement(" UPDATE studentreg SET flag= ? WHERE username=? ");
                         ps1.setString(1, PostEnrollmentMyflag);
                         ps1.setString(2, username);
                         ps1.executeUpdate();
 
+                        //Step3: INSERTING STUDENT PHOTO INTO THE 'student_photo' TABLE
+                      /*
+                          try {
+                            UploadedFile uploadStudentPhoto = getStudentPhoto();
+
+                            
+                            PreparedStatement ps_student_photo = getCn().prepareStatement("INSERT INTO student_photo VALUES(?, ?, ?, now() )");
+                            ps_student_photo.setString(1, null);
+                            ps_student_photo.setString(2, matricno);
+                            ps_student_photo.setBinaryStream(3, uploadStudentPhoto.getInputStream());//Stude_Photo
+
+                            ps_student_photo.executeUpdate();
+                   
+                            //clears the photo object 
+                            uploadStudentPhoto = null;
+                            
+
+                        } catch (Exception e) {
+                            throw e;
+                        }
+                        */
+
+                        //Step4: redirect to the successful registration page
                         redcontext.redirect("successfulStudentSignup.xhtml");
                     }//end of the if-block
 

@@ -42,9 +42,12 @@
             <b:growl id="msg" />
 
             <div class="col-xs-12"   style="font-size:  large">
-                <div style="background: #d4d0e7">
-                    <h2 align="left" style="text-align: center; font-family: sans-serif"> Compute GP, GPA and Remarks</h2>
+             
+                <p:panel style="background: white">
+                        <div style="background: #d4d0e7">
+                    <h2 align="left" style="text-align: center; font-family: sans-serif"> Compute GP, GPA, CGPA and Remarks</h2>
                 </div>
+                </p:panel>
                 <h:form id="RegistedStudentDownloadForm" class="col-xs-12" style="background: white" >
 
                     <b:panel   title="Compute GP, CGPA -Panel"  style=" align-self: center; font-size: smaller; background: #ccccff">
@@ -116,7 +119,7 @@
 
                             <b:column style="width: 300px">
                                 <f:facet name="header">
-                                    <h:outputText value="Semester " ></h:outputText>
+                                    <h:outputText style="width: 20px" value="Semester " ></h:outputText>
                                 </f:facet>
                                 <h:outputText escape="false" value="#{item.semester}"></h:outputText>
                             </b:column>
@@ -190,9 +193,9 @@
 
                             <b:column style="width: 300px">
                                 <f:facet name="header">
-                                    <h:outputText value="Semester " ></h:outputText>
+                                    <h:outputText  value="Semester " ></h:outputText>
                                 </f:facet>
-                                <h:outputText escape="false" value="#{item.semester}"></h:outputText>
+                                <h:outputText escape="false"  value="#{item.semester}"></h:outputText>
                             </b:column>
 
                             <b:column>
@@ -245,7 +248,7 @@
                 <h:form id="computerCGPAForm" class="col-xs-12" style="background: white" >
 
                     <b:panel   title="Compute CGPA -Panel"  style=" align-self: center; font-size: smaller; background: #b7c094">
-
+                        <p:messages  id="msg_for_compute_CGPA" showDetail="true" closable="true" />
 
                         <div class="col-xs-12" style="font-size: large">
                             <b:row>
@@ -265,7 +268,7 @@
                                 </b:column>
 
                                 <b:column   small-screen="4">  
-                                    <b:commandButton value="Compute CGPA" look="primary" class="form-control" action="#{compute_gp_gpa_cgpaBEAN.computeCGPAMthd()}" style="background: #3d29b7; color:  whitesmoke; border-color: black; border-width: thick;width: 220px; height: 60px"  update="listofstudentCGPAInfo, msg2,msg" />
+                                    <b:commandButton value="Compute CGPA" look="primary" class="form-control"  action="#{compute_gp_gpa_cgpaBEAN.computeCGPAMthd()}" style="background: #3d29b7; color:  whitesmoke; border-color: black; border-width: thick;width: 220px; height: 60px"  update="listofstudentCGPAInfo,msg_for_compute_CGPA" />
                                 </b:column >
 
                             </b:row>
@@ -340,7 +343,7 @@
                     </b:panel>
 
                 </h:form>
- 
+
             </div>
             <br />
             <br />

@@ -64,7 +64,31 @@
                         <p:separator />
 
                         <div  style="background: none">
-                            <b:dataTable  class="col-sm-12" id="Enrolled-Faculty-School" style="background: #ced8dc; font-size: small" value="#{viewProgramsTable.enrolledPrograms}" var="item">
+                              <div class="col-sm-12" style="background: #5f7ff7; color: white">
+
+                                <b:row>
+                                    <b:column small-screen="6">
+                                        <h:outputText value="Program Duration: *"  style="font-weight: bold; font-size: medium" />
+                                        <h:selectOneMenu id="ProgDuration" label="Duration :" class="form-control" style="font-size: large" value="#{viewProgramsTable.programDureation}"  required="true" requiredMessage="Pls, supply Duration">
+                                            <f:selectItem itemLabel="Select Duration" itemValue=""  />
+                                            <f:selectItems value="#{viewProgramsTable.programDurationMthd}"  />
+                                        </h:selectOneMenu> 
+                                    </b:column>
+ 
+                                </b:row>
+                                  <br />
+                            </div>
+
+                            <div class="col-sm-12" style="background: #5f7ff7">
+                                <b:row>
+                                    <b:column small-screen="4" >
+                                        <b:commandButton value="View Programs"  style="font-size: x-large; background: darkslategray; color: white" action="#{viewProgramsTable.goViewEnrolledrogramsMthd()}" process="@this, ProgDuration" update="Enrolled_Faculty_School,mgs" />
+                                    </b:column>
+                                </b:row>
+                                <p:separator />
+                            </div>
+                            
+                            <b:dataTable  class="col-sm-12" id="Enrolled_Faculty_School" style="background: #ced8dc; font-size: small" value="#{viewProgramsTable.getenrolledPrograms()}" var="item">
                                 <f:facet name="header">
                                     <h:outputText value="Registered Units-Combinations" />
                                 </f:facet>

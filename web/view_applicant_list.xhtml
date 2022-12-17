@@ -155,7 +155,7 @@
                                              <b:commandButton  value="Export into MS-Excel Format" style="background: #0033ff; color: whitesmoke; width: auto; height: auto; font-family: sans">
                                                 <p:graphicImage name="/img/excel.jpg" />
                                                 <p:dataExporter  type="xls"  
-                                                                 target="admisionDetails" fileName="Admision_List" />
+                                                                 target="admisionDetails" exportHeader="Admission List" fileName="Admision_List" />
                                             </b:commandButton>
                                      </b:column>
                                 </b:row>
@@ -167,13 +167,13 @@
                                 <b:row>
 
                                     <div class="col-sm-12">
-                                        <p:dataTable  id="admisionDetails" tableStyle="width: auto"   paginator="true" rows="20"  scrollHeight="5" scrollWidth="5" value="#{applicantsBEAN.admissionListMthd()}"  var="item" style=" ;font-size: small ; background: whitesmoke; align-items: center; align-self: center" >
+                                        <p:dataTable  id="admisionDetails" tableStyle="width: auto"   paginator="true" rows="20"  scrollHeight="5" scrollWidth="5" value="#{applicantsBEAN.admissionListMthd()}"  var="item" style="width: auto ;font-size: small ; background: whitesmoke; align-items: center; align-self: center" >
 
                                             <p:column >
                                                 <f:facet name="header">
                                                     <h:outputText value="ID" ></h:outputText>
                                                 </f:facet>
-                                                <h:outputText escape="false" value="#{item.id}" ></h:outputText>
+                                                <h:outputText escape="false"  value="#{item.id}" ></h:outputText>
                                             </p:column>
                                             <p:column>
                                                 <f:facet name="header">

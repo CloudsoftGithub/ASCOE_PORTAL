@@ -12,6 +12,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpSession;
 
 @ManagedBean
 @SessionScoped
@@ -53,9 +54,9 @@ public class rootUserLoginBEAN extends DAO {
             
            Class.forName("com.mysql.cj.jdbc.Driver");
             //Class.forName("com.mysql.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://node141231-ascoekd.w1-us.cloudjiffy.net/resultlogic?user=" + myusername + "&" + "password=" + mypassword);
+            //con = DriverManager.getConnection("jdbc:mysql://node141231-ascoekd.w1-us.cloudjiffy.net/resultlogic?user=" + myusername + "&" + "password=" + mypassword);
 
-            //con = DriverManager.getConnection("jdbc:mysql://localhost:3306/resultlogic?user=" + myusername + "&" + "password=" + mypassword);
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/resultlogic?user=" + myusername + "&" + "password=" + mypassword);
             
             rootLoginFlag++;
             if (rootLoginFlag > 0 && this.username.equalsIgnoreCase("root")) {
@@ -92,7 +93,26 @@ public class rootUserLoginBEAN extends DAO {
         this.username = "";
     }
 
-    public String signoutMethod() throws IOException {
+    /*
+    
+   public String signoutMethod() throws IOException {
+        HttpSession hs = SessionManagement_util.getSession();
+        hs.invalidate();
+        
+        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+        try {
+            FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
+        } catch (Exception e) {
+            e.getMessage();
+        }
+        this.username = "";
+        this.password = "";
+        return "index.xhtml";
+    }
+    
+    */
+    
+     public String signoutMethod() throws IOException {
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
         try {
             FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
@@ -100,6 +120,9 @@ public class rootUserLoginBEAN extends DAO {
             e.printStackTrace();
         }
         this.username = "";
+        this.password = "";
         return "";
     }
+    
+    
 }

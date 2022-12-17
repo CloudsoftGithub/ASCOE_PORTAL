@@ -36,7 +36,7 @@
                         <b:row>
                             <b:column small-screen="6">
                                 <h:outputText value="Intake Session: *"  />
-                                <h:selectOneMenu id="mysession" label="Session :" class="form-control" value="#{creditUnitRegBEAN.session}"  required="true" requiredMessage="Pls, supply intake session">
+                                <h:selectOneMenu id="mysessions" label="Session :" class="form-control" value="#{creditUnitRegBEAN.session}"  required="true" requiredMessage="Pls, supply intake session">
                                     <f:selectItem itemLabel="Select Session" itemValue=""  />
                                     <f:selectItems value="#{matricNo_GenerationBEAN.getintakeSessionInfoMthd()}"  />
                                 </h:selectOneMenu> 
@@ -65,10 +65,10 @@
 
                         <b:row>
                             <b:column small-screen="6" >
-                                <b:commandButton value="Save it!"  style="font-size: x-large" look="success" action="#{creditUnitRegBEAN.credit_unit_RegMthd()}" update="msg,msg2,registeredCreditHours,creditHours_regForm" />
+                                <b:commandButton value="Save it!"  style="font-size: x-large" look="success" action="#{creditUnitRegBEAN.credit_unit_RegMthd()}" process="@this, mysessions,semester ,MaxCreditHours,MinCreditHours" update="msg,msg2,registeredCreditHours,creditHours_regForm" />
                             </b:column>
                             <b:column small-screen="6" >
-                                <b:commandButton value="Delete it!"  style="font-size: x-large; background: red" look="success"  action="#{creditUnitRegBEAN.delete_CreditHours()}" update="registeredCreditHours,msg,msg2" />
+                                <b:commandButton value="Delete it!"  style="font-size: x-large; background: red" look="success"  action="#{creditUnitRegBEAN.delete_CreditHours()}"  process="@this, semester, mysessions" update="registeredCreditHours,msg,msg2" />
                             </b:column>
                         </b:row>
 
@@ -76,6 +76,35 @@
                             <p:spacer height="50px" /> <!-- this is a space  -->
                         </div>
                         <b:panel title="View Registered Credit Hours(Units)" style="background: #b1c6d5">
+                            <div class="col-sm-12" style="background: skyblue">
+
+                                <b:row>
+                                    <b:column small-screen="6">
+                                        <h:outputText value="Intake Session: *"  style="font-weight: bold; font-size: medium" />
+                                        <h:selectOneMenu id="mysessionView" label="Session :" class="form-control" style="font-size: large" value="#{viewregistered_credit_hours.session}"  required="true" requiredMessage="Pls, supply intake session">
+                                            <f:selectItem itemLabel="Select Session" itemValue=""  />
+                                            <f:selectItems value="#{viewregistered_credit_hours.getintakeSessionInfoMthd()}"  />
+                                        </h:selectOneMenu> 
+                                    </b:column>
+
+                                    <b:column small-screen="6">
+                                        <b:selectOneMenu id="semesterView" label="Semester :" value="#{viewregistered_credit_hours.semester}"  required="true" required-message="Pls, enter semester" tooltip="Pls, enter semester">
+                                            <f:selectItem itemLabel="Select Semester" itemValue="" />
+                                            <f:selectItem itemLabel="FIRST SEMESTER" itemValue="FIRST SEMESTER" />
+                                            <f:selectItem itemLabel="SECOND SEMESTER" itemValue="SECOND SEMESTER" />
+                                        </b:selectOneMenu>
+                                    </b:column>
+                                </b:row>
+                            </div>
+
+                            <div class="col-sm-12" style="background: skyblue">
+                                <b:row>
+                                    <b:column small-screen="4" >
+                                        <b:commandButton value="View Credit Units"  style="font-size: x-large; background: darkslategray; color: white" action="#{viewregistered_credit_hours.goViewRegisteredCreditUnitMthd()}" process="@this, semesterView, mysessionView" update="registeredCreditHours,msg,msg" />
+                                    </b:column>
+                                </b:row>
+                                <p:separator />
+                            </div>
 
                             <div  style="background: none">
                                 <b:dataTable  id="registeredCreditHours"  class="col-sm-12" style="background: whitesmoke; font-size: medium; color: black" value="#{viewregistered_credit_hours.registeredCreditHours}" var="item">

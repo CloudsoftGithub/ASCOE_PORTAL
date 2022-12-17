@@ -35,7 +35,6 @@ public class applicationPaymentBEAN extends DAO {
     private String the_retreived_regDate;
 
     private String the_ApplicationNumber;
-    
 
     public String getAppType() {
         return appType;
@@ -183,7 +182,7 @@ public class applicationPaymentBEAN extends DAO {
 
     public void processApplicantionPayment() throws ClassNotFoundException, Exception {
         retriveAppNoFor_OLevel_ResultFromUI();//invoked
-        
+
         Class.forName("com.mysql.cj.jdbc.Driver");
         //Class.forName("com.mysql.jdbc.Driver");
         this.Connector();//invoked the mysql connection instance 
@@ -191,10 +190,9 @@ public class applicationPaymentBEAN extends DAO {
         String PreEnrollmentMyflag = "preUsed";
         String PostEnrollmentMyflag = "used";
         String myStatus = "active";
-       // appNo = the_ApplicationNumber;
-       
-       
-System.out.println("checks: "+ the_ApplicationNumber);
+        // appNo = the_ApplicationNumber;
+
+        System.out.println("checks: " + the_ApplicationNumber);
 
         /////////CONFIRMING that the scratch card pins and serial exist 
         PreparedStatement st = getCn().prepareStatement("SELECT PinNo,SerialNo FROM admission_scratchcard WHERE SerialNo=? AND PinNo=?");
@@ -230,7 +228,7 @@ System.out.println("checks: "+ the_ApplicationNumber);
         } catch (Exception e) {
             throw e;
         } finally {
-            this.Close();//
+            this.Close();//            
         }
 
     }//end of the method 
@@ -240,7 +238,8 @@ System.out.println("checks: "+ the_ApplicationNumber);
         //Class.forName("com.mysql.jdbc.Driver");
         this.Connector();//invoked the mysql connection instance
 
-        //RETRIEVING THE SIGNUP DETAILS I.E APPNO AND PASSWORD (generated)
+   
+             //RETRIEVING THE SIGNUP DETAILS I.E APPNO AND PASSWORD (generated)
         PreparedStatement psr = this.getCn().prepareStatement("SELECT app_type,appno,course_choice,surname,orther,email,session,phoneno,regDate FROM application_signup WHERE appno=? ");
         psr.setString(1, the_ApplicationNumber);
         ResultSet rs = psr.executeQuery();
@@ -254,7 +253,10 @@ System.out.println("checks: "+ the_ApplicationNumber);
             the_retreived_session = rs.getString("session");
             the_retreived_phoneno = rs.getString("phoneno");
             the_retreived_regDate = rs.getString("regDate");
-        }//end of while-block
+        }
+        psr.close();
+        rs.close();
+//end of while-block
 
     }//end of the method 
 
@@ -331,7 +333,7 @@ System.out.println("checks: "+ the_ApplicationNumber);
                 rowCount = rowCount + 1;
 
                 if (rowCount > 0) {
-                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Payment  is succeful for: " + the_retreived_ApplicationType.toUpperCase() + " " + the_retreived_Course_Choice.toUpperCase(), ". Please, log into your dashboard and complete STEP 3 - The 'Bio Data Form'. "));
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Payment  is succeful for: " + the_retreived_ApplicationType.toUpperCase() + " " + the_retreived_Course_Choice.toUpperCase(), ". Please, log into your dashboard AGAIN and complete STEP 3 - The 'Bio Data Form'. "));
                     ExternalContext redcontext = FacesContext.getCurrentInstance().getExternalContext();
 
                     //UPDATING THE 'FLAG' from 'PreEnrollment' to 'PostEnrollment'
